@@ -75,5 +75,18 @@ class UsuariosController extends Controller
     	return view('vusuarios.show', ['usuario'=>$usuario]);
     }
 
-
+    public function destroy($id)
+    {
+        $usuario = Usuarios::findOrFail($id);
+        if($usuario->delete()){
+            return response()->json([
+                'respuesta'=>1
+            ]);
+        }
+        else{
+            return response()->json([
+                'respuesta'=>0
+            ]);
+        }
+    }
 }
