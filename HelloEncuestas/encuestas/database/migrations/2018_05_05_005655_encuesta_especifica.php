@@ -19,7 +19,7 @@ class EncuestaEspecifica extends Migration
             $table->date('fecha_inicio');
             $table->date('fecha_fin');
             $table->string('sede');
-            $table->string('marca');
+            $table->integer('marca');
             $table->string('evento');
             $table->tinyInteger('abierto');
             //$table->integer('id_usu')->unsigned();

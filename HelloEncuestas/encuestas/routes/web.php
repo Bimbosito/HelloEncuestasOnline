@@ -11,6 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('EncuestaEspecifica.create');
-});
+Route::get('/', 'EncuestaEspecificaController@index');
+Route::post('guardarEspecifica', 'EncuestaEspecificaController@guardar')->name('guardarEspecifica');
+Route::resource('encuestaEspecifica', 'EncuestaEspecificaController');
+

@@ -4,10 +4,12 @@
 	<title>Encuesta especifica</title>
 	<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/bootstrap.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/datepicker.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/datatable.css')}}">
 	<link href="{{asset ('assets/css/star-rating.css')}}" rel="stylesheet">
 	<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <script type="text/javascript" src="{{ asset('assets/js/jquery.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/datatable.js')}}"></script>
 	<script type="text/javascript" src="{{ asset('assets/js/bootstrap.js')}}"></script>
 	<script type="text/javascript" src="{{ asset('assets/js/star-rating.js')}}"></script>
 	<script type="text/javascript" src="{{ asset('assets/js/bootstrap-datepicker.js')}}"></script>
@@ -47,250 +49,51 @@
 			</div>
 			<div class="col-lg-9 col-md-9 col-xs-9">
 				<div class="row">
-					<div class="col-xs-12">
+					<div class="col-xs-12 col-md-1 col-lg-1">
+
+					</div>
+					<div class="col-xs-12 col-md-10 col-lg-10">
+						<table class="table table-bordered" id="encuestas" cellspacing="0" width="100%">
+							<thead>
+								<tr>
+									<th>Encuesta</th>
+									<th>Fecha de Inicio</th>
+									<th>Fecha de Fin</th>
+									<th>Sede</th>
+									<th>Evento</th>
+									<th>Marca</th>
+									<th>Acción</th>
+								</tr>
+							</thead>
+							<tbody>
+								@foreach($encuestas as $e)
+								<tr>
+									<td>{{$e->encu}}</td>
+									<td>{{$e->fecha_inicio}}</td>
+									<td>{{$e->fecha_fin}}</td>
+									<td>{{$e->sede}}</td>
+									<td>{{$e->evento}}</td>
+									<td>{{$e->marca}}</td>
+									<td>
+										<a href="{{URL::action('EncuestaEspecificaController@show', $e->id_esp)}}" title="Ver Encuesta"><span class="glyphicon glyphicon-eye-open"></span></a>&nbsp;&nbsp;
+										<a href="{{URL::action('EncuestaEspecificaController@destroy', $e->id_esp)}}" title="Eliminar Encuesta"><span class="glyphicon glyphicon-trash"></span></a>&nbsp;&nbsp;
+									</td>
+								</tr>
+								@endforeach
+							</tbody>
+						</table>
+						<br><br><br><br><br><br><br><br>
 						<div class="row">
-							<form enctype="multipart/form-data" id="formulario" action="javascript:guardarEncuesta();" method="POST">
-								<input type="hidden" name="_token" value="{{ csrf_token() }}">
-								<div class="row">
-									<div class="col-xs-12">
-										<div class="alert alert-default" role="alert">
-											<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-											<span class="sr-only">Error:</span>
-											Tu cuenta es básica, solo podrás generar una encuesta. ¿No tienes cuenta <strong>Premium</strong> o <strong>Empresarial</strong>? <a href="#">Click aquí para comprar</a>.
-										</div>
-									</div>
-									<div class="col-xs-12">
-										<div class="alert alert-danger" role="alert">
-											<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-											<span class="sr-only">Error:</span>
-											Los campos marcados con (*) son campos obligatorios
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-lg-3 col-md-3 col-xs-12">
-										<div class="form-group">
-											<label for="global">Seleccionar Encuesta Global:</label>
-											<select class="form-control" id="global" name="global">
-												<option value="">--Selecciona Encuesta--</option>
-											</select>
-										</div>
-									</div>
-								</div>
-								<br>
-								<div class="row">
-									<div class="col-lg-3 col-md-3 col-xs-12">
-										<div class="form-group">
-											<label for="sede">Sede:</label>
-											<input type="text" class="form-control" id="sede" name="sede" placeholder="Ingrese sede">
-										</div>
-									</div>
-									<div class="col-lg-3 col-md-3 col-xs-12">
-										<div class="form-group">
-											<label for="eventos">Eventos:</label>
-											<input type="text" class="form-control" id="eventos" name="eventos" placeholder="Ingrese eventos">
-										</div>
-									</div>
-									<div class="col-lg-3 col-md-3 col-xs-12">
-										<div class="form-group">
-											<label for="global">Marca:</label>
-											<select class="form-control" id="marca" name="marca">
-												<option value="">--Marca--</option>
-												@foreach($marcas as $m)
-												<option value="{{$m->id_mar}}">{{$m->nombre}}</option>
-												@endforeach
-											</select>
-										</div>
-									</div>
-								</div>
-								<br><br>
-								<div class="row">
-									<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-										<div class="form-group">
-											<input type="radio" id="tipopu" name="abierto" value="1" checked> <label><strong>Pública</strong></label>
-										</div>
-									
-										<div class="form-group">
-											<input type="radio" id="tipopr" name="abierto" value="0"> <label><strong>Privada</strong></label>
-										</div>
-									</div>
-									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-										<div class="panel panel-default">
-											<div class="panel-footer">
-												<p>
-													Las encuestas públicas pueden ser contestadad 'n' cantidad de veces con el mismo correo, la privada solo puede ser contestada con el mismo correo 1 vez.
-												</p>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-xs-12">
-										<h3><strong>Nueva Encuesta</strong></h3>
-										<br><br>
-										<div class="row">
-											<div class="col-lg-6 col-md-6 col-xs-12">
-												<div class="form-group">
-													<label for="nombre">Nombre de la encuesta:</label><span style="color: red; font-size: 14px;">*</span>
-													<input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingrese Nombre de la Encuesta" required>
-												</div>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-lg-3 col-md-3 col-xs-12">
-												<div class="form-group">
-													<label for="inicio">Fecha de inicio:</label><span style="color: red; font-size: 14px;">*</span>
-													<input type="text" class="form-control fecha" id="inicio" name="inicio" placeholder="Inicia el día...">
-												</div>
-											</div>
-											<div class="col-lg-3 col-md-3 col-xs-12">
-												<div class="form-group">
-													<label for="fin">Fecha de Fin:</label><span style="color: red; font-size: 14px;">*</span>
-													<input type="text" class="form-control fecha" id="fin" name="fin" placeholder="Termina el día...">
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-xs-12">
-										<div class="row">
-											<div class="col-lg-3 col-md-3 col-xs-12">
-												<h3><strong>Registro</strong></h3>
-											</div>
-											<br>
-											<div class="col-lg-3 col-md-3 col-xs-12">
-												<input type="checkbox" id="registro" checked data-toggle="toggle">
-											</div>
-										</div>
-										<br>
-										<div id="contenido">
-											<div class="row">
-												<br>
-												<div class="col-xs-5"><input type="text" class="form-control" id="dato1" name="dato1" placeholder="Agrega Campo para Registro" required></div>
-												<div class="col-xs-1"><button type="button" class="btn btn-success" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="agregarRegistro();"><center><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></center></button></div>
-											</div>
-										</div>
-										<input type="hidden" id="cuantosR" name="cuantosR" value="1">
-										<input type="hidden" id="cuantosP" name="cuantosP" value="1">
-										<input type="hidden" id="cuantosO" name="cuantosO" value="1">
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-xs-12">
-										<h3><strong>Selecciona tus preguntas</strong></h3>
-										<br><br>
-										<div class="row">
-											<div class="col-lg-6 col-md-6 col-xs-12">
-												<div class="form-group">
-													<label for="tipoPre">Tipo de pregunta:</label>
-													<select class="form-control" id="tipoPre" name="tipoPre">
-														<option value="">--Tipo de pregunta--</option>
-														<option value="1">Respuesta Larga</option>
-														<option value="2">Respuesta Corta</option>
-														<option value="3">Opción Múltiple</option>
-														<option value="4">Opción Única</option>
-														<option value="5">Valoración</option>
-														<option value="6">Opción Múltiple con Respuesta Abierta</option>
-														<option value="7">Opción Única con Respuesta Abierta</option>
-													</select>
-												</div>
-											</div>
-										</div>
-										<br><br>
-										<div id="preguntas">
-											
-										</div>
-										<div class="row">
-											<div class="col-lg-3 col-md-3 col-xs-12">
-												<button type="button" class="btn btn-success" onclick="hacerPregunta();"><center><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar Pregunta</center></button>
-											</div>
-										</div>
-									</div>
-								</div>
-								<br><br><br><br>
-								<div class="row">
-									<div class="col-lg-4 col-md-4 col-xs-12">
-										<button type="button" class="btn btn-success" data-toggle="modal" onclick="modalg();"><span class="glyphicon glyphicon-saved"></span> Guardar Encuesta</button>
-									</div>
-									<div class="col-lg-4 col-md-4 col-xs-12">
-										<button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-arrow-left"></span> Regresar</button>
-									</div>
-									<div class="col-lg-4 col-md-4 col-xs-12">
-										<button type="reset" class="btn btn-info"><span class="glyphicon glyphicon-refresh"></span> Reiniciar Formulario</button>
-									</div>
-								</div>
-								<div class="modal fade" id="modal-guardar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-									<div class="modal-dialog" role="document">
-										<div class="modal-content">
-											<div class="modal-body">
-												<center>
-													<img src="{{asset('assets/images/signo.png')}}">
-													<h3><strong>¿Desea guardar la encuesta?</strong></h3>
-													<p>
-														Una vez hecha la encuesta, no se podrá modificar.
-													</p>
-												</center>
-											</div>
-											<div class="modal-footer">
-												<div class="row">
-													<div class="col-xs-6" align="left">
-														<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-													</div>
-													<div class="col-xs-6">
-														<button type="submit" class="btn btn-warning">Guardar</button>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="modal fade" id="modal-exito" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-									<div class="modal-dialog" role="document">
-										<div class="modal-content">
-											<div class="modal-body">
-												<center>
-													<img src="{{asset('assets/images/singo1.png')}}">
-													<h3><strong>Éxito</strong></h3>
-													<p>
-														Tu encuesta se ha guardado exitosamente.
-													</p>
-												</center>
-											</div>
-											<div class="modal-footer">
-												<div class="row">
-													<div class="col-xs-6" align="left">
-														<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="modal fade" id="modal-error" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-									<div class="modal-dialog" role="document">
-										<div class="modal-content">
-											<div class="modal-body">
-												<center>
-													<img src="{{asset('assets/images/signo2.png')}}">
-													<h3><strong>Error</strong></h3>
-													<p>
-														Hubo un problema al guardar tu encuesta.
-													</p>
-												</center>
-											</div>
-											<div class="modal-footer">
-												<div class="row">
-													<div class="col-xs-6" align="left">
-														<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</form>
+							<div class="col-lg-6 col-md-6 col-xs-12" align="left">
+								<a href="{{URL::action('EncuestaEspecificaController@create', $e->id_esp)}}"><button type="button" class="btn btn-success"><span class="glyphicon glyphicon-list"></span> Crear Encuesta</button></a>
+							</div>
+							<div class="col-lg-6 col-md-6 col-xs-12" align="right">
+								<a href="javascript:window.history.back();"><button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-arrow-left"></span> Regresar a la página anterior</button></a>
+							</div>
 						</div>
+					</div>
+					<div class="col-xs-12 col-md-1 col-lg-1">
+
 					</div>
 				</div>
 			</div>
@@ -303,6 +106,35 @@
 		    language: 'SP',
 		    startDate: '-3d'
 		});
+
+		$('#encuestas').DataTable({
+                         "dom": 'T<"clear">lfrtip',
+                         "tableTools": {
+                             "sRowSelect": "multi",
+                             "aButtons": [
+                                 {
+                                     "sExtends": "select_none",
+                                     "sButtonText": "Borrar selección"
+                                 }]
+                         },
+                         "pagingType": "simple_numbers",
+//Actualizo las etiquetas de mi tabla para mostrarlas en español
+                         "language": {
+                             "lengthMenu": "Mostrar _MENU_ registros por página.",
+                             "zeroRecords": "No se encontró registro.",
+                             "info": "  _START_ de _END_ (_TOTAL_ registros totales).",
+                             "infoEmpty": "0 de 0 de 0 registros",
+                             "infoFiltered": "(Encontrado de _MAX_ registros)",
+                             "search": "Buscar: ",
+                             "processing": "Procesando la información",
+                             "paginate": {
+                                 "first": " |< ",
+                                 "previous": "Ant.",
+                                 "next": "Sig.",
+                                 "last": " >| "
+                             }
+                         }
+                     });
 	</script>
 	<script type="text/javascript">
 		

@@ -17,7 +17,7 @@ class PreguntasEspecifica extends Model
     ];
 
     public function encuestaEspecifica(){
-    	return $this->belongsTo('App\EncuestaEspecifica')
+    	return $this->belongsTo('App\EncuestaEspecifica');
     }
 
     public function opcionMultipleEspecifica(){

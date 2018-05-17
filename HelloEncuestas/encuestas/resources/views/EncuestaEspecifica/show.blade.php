@@ -56,14 +56,23 @@
 										<div class="alert alert-default" role="alert">
 											<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
 											<span class="sr-only">Error:</span>
-											Tu cuenta es básica, solo podrás generar una encuesta. ¿No tienes cuenta <strong>Premium</strong> o <strong>Empresarial</strong>? <a href="#">Click aquí para comprar</a>.
+											Tu cuenta es básica, por lo que no podrás editar tu encuesta. ¿No tienes cuenta <strong>Premium</strong> o <strong>Empresarial</strong>? <a href="#">Click aquí para comprar</a>.
 										</div>
 									</div>
 									<div class="col-xs-12">
-										<div class="alert alert-danger" role="alert">
+										<div class="alert alert-warning" role="alert">
 											<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
 											<span class="sr-only">Error:</span>
-											Los campos marcados con (*) son campos obligatorios
+											<table class="table table-bordered">
+												<thead>
+													<tr>
+														<th><span class="glyphicon glyphicon-link"></span></th>
+														<th>http://127.0.0.1:8000/encuestaEspecifica/{{$encuesta->id_esp}}</th>
+														<th><a href="http://127.0.0.1:8000/encuestaEspecifica/{{$encuesta->id_esp}}"><span class="glyphicon glyphicon-envelope"></span></a></th>
+														<th><span class="glyphicon glyphicon-option-horizontal"></span></th>
+													</tr>
+												</thead>
+											</table>
 										</div>
 									</div>
 								</div>
@@ -82,13 +91,13 @@
 									<div class="col-lg-3 col-md-3 col-xs-12">
 										<div class="form-group">
 											<label for="sede">Sede:</label>
-											<input type="text" class="form-control" id="sede" name="sede" placeholder="Ingrese sede">
+											<input type="text" class="form-control" id="sede" name="sede" value="{{$encuesta->sede}}" readonly>
 										</div>
 									</div>
 									<div class="col-lg-3 col-md-3 col-xs-12">
 										<div class="form-group">
 											<label for="eventos">Eventos:</label>
-											<input type="text" class="form-control" id="eventos" name="eventos" placeholder="Ingrese eventos">
+											<input type="text" class="form-control" id="eventos" name="eventos" value="{{$encuesta->evento}}" readonly>
 										</div>
 									</div>
 									<div class="col-lg-3 col-md-3 col-xs-12">
@@ -97,7 +106,11 @@
 											<select class="form-control" id="marca" name="marca">
 												<option value="">--Marca--</option>
 												@foreach($marcas as $m)
+												@if($encuesta->marca == $m->id_mar)
+												<option value="{{$m->id_mar}}" selected>{{$m->nombre}}</option>
+												@else
 												<option value="{{$m->id_mar}}">{{$m->nombre}}</option>
+												@endif
 												@endforeach
 											</select>
 										</div>
@@ -132,7 +145,7 @@
 											<div class="col-lg-6 col-md-6 col-xs-12">
 												<div class="form-group">
 													<label for="nombre">Nombre de la encuesta:</label><span style="color: red; font-size: 14px;">*</span>
-													<input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingrese Nombre de la Encuesta" required>
+													<input type="text" class="form-control" id="nombre" name="nombre" value="{{$encuesta->nombre}}" readonly>
 												</div>
 											</div>
 										</div>
@@ -140,13 +153,13 @@
 											<div class="col-lg-3 col-md-3 col-xs-12">
 												<div class="form-group">
 													<label for="inicio">Fecha de inicio:</label><span style="color: red; font-size: 14px;">*</span>
-													<input type="text" class="form-control fecha" id="inicio" name="inicio" placeholder="Inicia el día...">
+													<input type="text" class="form-control fecha" id="inicio" name="inicio" value="{{$encuesta->fecha_inicio}}" readonly>
 												</div>
 											</div>
 											<div class="col-lg-3 col-md-3 col-xs-12">
 												<div class="form-group">
 													<label for="fin">Fecha de Fin:</label><span style="color: red; font-size: 14px;">*</span>
-													<input type="text" class="form-control fecha" id="fin" name="fin" placeholder="Termina el día...">
+													<input type="text" class="form-control fecha" id="fin" name="fin" value="{{$encuesta->fecha_fin}}" readonly>
 												</div>
 											</div>
 										</div>
@@ -159,59 +172,71 @@
 												<h3><strong>Registro</strong></h3>
 											</div>
 											<br>
-											<div class="col-lg-3 col-md-3 col-xs-12">
-												<input type="checkbox" id="registro" checked data-toggle="toggle">
-											</div>
 										</div>
 										<br>
-										<div id="contenido">
+										<div>
+											@foreach($registro as $r)
 											<div class="row">
 												<br>
-												<div class="col-xs-5"><input type="text" class="form-control" id="dato1" name="dato1" placeholder="Agrega Campo para Registro" required></div>
-												<div class="col-xs-1"><button type="button" class="btn btn-success" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="agregarRegistro();"><center><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></center></button></div>
+												<div class="col-xs-12 col-md-3 col-lg-3"><label for="{{$r->campo}}">{{$r->campo}}</label></div>
+												<div class="col-xs-12 col-md-9 col-lg-9"><input type="text" class="form-control" id="{{$r->campo}}" name="$r->campo" placeholder="Ingresa tu {{$r->campo}}"><input type="hidden" name="r{{$r->id_regesp}}" value="{{$r->id_regesp}}"></div>
 											</div>
+											@endforeach
 										</div>
-										<input type="hidden" id="cuantosR" name="cuantosR" value="1">
-										<input type="hidden" id="cuantosP" name="cuantosP" value="1">
-										<input type="hidden" id="cuantosO" name="cuantosO" value="1">
 									</div>
 								</div>
 								<div class="row">
 									<div class="col-xs-12">
-										<h3><strong>Selecciona tus preguntas</strong></h3>
-										<br><br>
-										<div class="row">
-											<div class="col-lg-6 col-md-6 col-xs-12">
-												<div class="form-group">
-													<label for="tipoPre">Tipo de pregunta:</label>
-													<select class="form-control" id="tipoPre" name="tipoPre">
-														<option value="">--Tipo de pregunta--</option>
-														<option value="1">Respuesta Larga</option>
-														<option value="2">Respuesta Corta</option>
-														<option value="3">Opción Múltiple</option>
-														<option value="4">Opción Única</option>
-														<option value="5">Valoración</option>
-														<option value="6">Opción Múltiple con Respuesta Abierta</option>
-														<option value="7">Opción Única con Respuesta Abierta</option>
-													</select>
+										<h3><strong>Preguntas</strong></h3>
+										<div>
+											@foreach($preguntas as $p)
+											<div class="row">
+												<div class="col-xs-12">
+													<div class="form-group">
+														<label for="pre{{$p->id_pesp}}">{{$p->pregunta}}</label>
+														@if($p->tipo == 1)
+														<textarea class="form-control" id="pre{{$p->id_pesp}}" name="pre{{$p->id_pesp}}"></textarea>
+														@elseif($p->tipo == 2)
+														<input type="text" id="pre{{$p->id_pesp}}" name="pre{{$p->id_pesp}}">
+														@elseif($p->tipo == 3)
+															@foreach($opciones as $o)
+															@if($o->id_pesp == $p->id_pesp)
+															<input type="checkbox" id="opc{{$o->id_res}}" name="opc{{$o->id_res}}" value="{{$o->id_res}}"> <label><strong>{{$o->respuestas}}</strong></label>
+															@endif
+															@endforeach
+														@elseif($p->tipo == 4)
+															@foreach($opciones as $o)
+															@if($o->id_pesp == $p->id_pesp)
+															<input type="radio" id="opc{{$o->id_res}}" name="opc{{$p->id_pesp}}" value="{{$o->id_res}}"> <label><strong>{{$o->respuestas}}</strong></label>
+															@endif
+															@endforeach
+														@elseif($p->tipo == 5)
+														@elseif($p->tipo == 6)
+															@foreach($opciones as $o)
+															@if($o->id_pesp == $p->id_pesp)
+															<input type="checkbox" id="opc{{$o->id_res}}" name="opc{{$o->id_res}}" value="{{$o->id_res}}"> <label><strong>{{$o->respuestas}}</strong></label>
+															@endif
+															@endforeach
+															<textarea class="form-control" id="pre{{$p->id_pesp}}" name="pre{{$p->id_pesp}}"></textarea>
+														@elseif($p->tipo == 7)
+															@foreach($opciones as $o)
+															@if($o->id_pesp == $p->id_pesp)
+															<input type="radio" id="opc{{$o->id_res}}" name="opc{{$p->id_pesp}}" value="{{$o->id_res}}"> <label><strong>{{$o->respuestas}}</strong></label>
+															@endif
+															@endforeach
+															<textarea class="form-control" id="pre{{$p->id_pesp}}" name="pre{{$p->id_pesp}}"></textarea>
+														@endif
+													</div>
 												</div>
 											</div>
-										</div>
-										<br><br>
-										<div id="preguntas">
-											
-										</div>
-										<div class="row">
-											<div class="col-lg-3 col-md-3 col-xs-12">
-												<button type="button" class="btn btn-success" onclick="hacerPregunta();"><center><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar Pregunta</center></button>
-											</div>
+											@endforeach
 										</div>
 									</div>
 								</div>
 								<br><br><br><br>
 								<div class="row">
 									<div class="col-lg-4 col-md-4 col-xs-12">
-										<button type="button" class="btn btn-success" data-toggle="modal" onclick="modalg();"><span class="glyphicon glyphicon-saved"></span> Guardar Encuesta</button>
+										<button type="button" class="btn btn-success" data-toggle="modal" onclick="modalg();"><span class="glyphicon glyphicon-saved"></span> Listo</button>
 									</div>
 									<div class="col-lg-4 col-md-4 col-xs-12">
 										<button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-arrow-left"></span> Regresar</button>
