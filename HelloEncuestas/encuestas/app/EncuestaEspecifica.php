@@ -15,6 +15,7 @@ class EncuestaEspecifica extends Model
     	'fecha_inicio',
     	'fecha_fin',
     	'abierto',
+        'borrado',
     	'sede',
     	'ciudad',
     	'evento',

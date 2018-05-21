@@ -22,6 +22,7 @@ class EncuestaGlobal extends Migration
             $table->integer('marca');
             $table->string('evento');
             $table->tinyInteger('abierto');
+            $table->tinyInteger('borrado');
             $table->integer('id_usu')->unsigned();
             $table->foreign('id_usu')->references('id_usu')->on('usuarios');
             $table->timestamps();

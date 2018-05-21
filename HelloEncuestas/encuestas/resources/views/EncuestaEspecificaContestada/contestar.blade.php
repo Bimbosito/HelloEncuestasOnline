@@ -49,71 +49,47 @@
 				<div class="row">
 					<div class="col-xs-12">
 						<div class="row">
-							<form enctype="multipart/form-data" id="formulario" action="/encuestaEspecifica/{{$encuesta->id_esp}}" method="POST">
-								<input type="hidden" name="_method" value="DELETE">
+							<form enctype="multipart/form-data" id="formulario" action="javascript:contestar();" method="POST">
 								<input type="hidden" name="_token" value="{{ csrf_token() }}">
 								<div class="row">
 									<div class="col-xs-12">
-										<div class="alert alert-default" role="alert">
-											<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-											<span class="sr-only">Error:</span>
-											Tu cuenta es básica, por lo que no podrás editar tu encuesta. ¿No tienes cuenta <strong>Premium</strong> o <strong>Empresarial</strong>? <a href="#">Click aquí para comprar</a>.
-										</div>
-									</div>
-									<div class="col-xs-12">
-										<div class="alert alert-warning" role="alert">
-											<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-											<span class="sr-only">Error:</span>
-											<table class="table table-bordered">
-												<thead>
-													<tr>
-														<th><span class="glyphicon glyphicon-link"></span></th>
-														<th>http://127.0.0.1:8000/encuestaEspecifica/{{$encuesta->id_esp}}</th>
-														<th><a href="http://127.0.0.1:8000/encuestaEspecifica/{{$encuesta->id_esp}}"><span class="glyphicon glyphicon-envelope"></span></a></th>
-														<th><span class="glyphicon glyphicon-option-horizontal"></span></th>
-													</tr>
-												</thead>
-											</table>
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-lg-3 col-md-3 col-xs-12">
-										<div class="form-group">
-											<label for="global">Seleccionar Encuesta Global:</label>
-											<select class="form-control" id="global" name="global">
-												<option value="">--Selecciona Encuesta--</option>
-											</select>
+										<h2><strong>Encuesta {{$encuesta->nombre}}</strong></h2>
+										<input type="hidden" id="numEncuesta" name="numEncuesta" value="{{$encuesta->id_esp}}">
+										<br><br>
+										<div class="row">
+											<div class="col-lg-3 col-md-3 col-xs-12">
+												<div class="form-group">
+													<label for="inicio">Fecha de inicio: {{$encuesta->fecha_inicio}}</label>
+												</div>
+											</div>
+											<div class="col-lg-3 col-md-3 col-xs-12">
+												<div class="form-group">
+													<label for="fin">Fecha de Fin: {{$encuesta->fecha_fin}}</label>
+												</div>
+											</div>
 										</div>
 									</div>
 								</div>
 								<br>
 								<div class="row">
+									<h3><strong>Datos de la encuesta:</strong></h3>
 									<div class="col-lg-3 col-md-3 col-xs-12">
 										<div class="form-group">
-											<label for="sede">Sede:</label>
-											<input type="text" class="form-control" id="sede" name="sede" value="{{$encuesta->sede}}" readonly>
+											<label for="sede">Sede: {{$encuesta->sede}}</label>
 										</div>
 									</div>
 									<div class="col-lg-3 col-md-3 col-xs-12">
 										<div class="form-group">
-											<label for="eventos">Eventos:</label>
-											<input type="text" class="form-control" id="eventos" name="eventos" value="{{$encuesta->evento}}" readonly>
+											<label for="eventos">Evento: {{$encuesta->evento}}</label>
 										</div>
 									</div>
 									<div class="col-lg-3 col-md-3 col-xs-12">
 										<div class="form-group">
-											<label for="global">Marca:</label>
-											<select class="form-control" id="marca" name="marca">
-												<option value="">--Marca--</option>
-												@foreach($marcas as $m)
-												@if($encuesta->marca == $m->id_mar)
-												<option value="{{$m->id_mar}}" selected>{{$m->nombre}}</option>
-												@else
-												<option value="{{$m->id_mar}}">{{$m->nombre}}</option>
-												@endif
-												@endforeach
-											</select>
+											@foreach($marcas as $m)
+											@if($encuesta->marca == $m->id_mar)
+											<label for="global">Marca: {{$m->nombre}}</label>
+											@endif
+											@endforeach
 										</div>
 									</div>
 								</div>
@@ -136,50 +112,13 @@
 											@endif
 										</div>
 									</div>
-									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-										<div class="panel panel-default">
-											<div class="panel-footer">
-												<p>
-													Las encuestas públicas pueden ser contestadad 'n' cantidad de veces con el mismo correo, la privada solo puede ser contestada con el mismo correo 1 vez.
-												</p>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-xs-12">
-										<h3><strong>Nueva Encuesta</strong></h3>
-										<br><br>
-										<div class="row">
-											<div class="col-lg-6 col-md-6 col-xs-12">
-												<div class="form-group">
-													<label for="nombre">Nombre de la encuesta:</label><span style="color: red; font-size: 14px;">*</span>
-													<input type="text" class="form-control" id="nombre" name="nombre" value="{{$encuesta->nombre}}" readonly>
-												</div>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-lg-3 col-md-3 col-xs-12">
-												<div class="form-group">
-													<label for="inicio">Fecha de inicio:</label><span style="color: red; font-size: 14px;">*</span>
-													<input type="text" class="form-control fecha" id="inicio" name="inicio" value="{{$encuesta->fecha_inicio}}" readonly>
-												</div>
-											</div>
-											<div class="col-lg-3 col-md-3 col-xs-12">
-												<div class="form-group">
-													<label for="fin">Fecha de Fin:</label><span style="color: red; font-size: 14px;">*</span>
-													<input type="text" class="form-control fecha" id="fin" name="fin" value="{{$encuesta->fecha_fin}}" readonly>
-												</div>
-											</div>
-										</div>
-									</div>
 								</div>
 								<div class="row">
 									<div class="col-xs-12">
 										<div class="row">
-											<div class="col-lg-3 col-md-3 col-xs-12">
 												<h3><strong>Registro</strong></h3>
-											</div>
+
+												<h4><strong>Completa tu información de registro</strong></h4>
 											<br>
 										</div>
 										<br>
@@ -188,7 +127,7 @@
 											<div class="row">
 												<br>
 												<div class="col-xs-12 col-md-3 col-lg-3"><label for="{{$r->campo}}">{{$r->campo}}</label></div>
-												<div class="col-xs-12 col-md-9 col-lg-9"><input type="text" class="form-control" id="{{$r->campo}}" name="$r->campo" placeholder="Ingresa tu {{$r->campo}}"><input type="hidden" name="r{{$r->id_regesp}}" value="{{$r->id_regesp}}"></div>
+												<div class="col-xs-12 col-md-9 col-lg-9"><input type="text" class="form-control" id="r_{{$r->id_regesp}}" name="r_{{$r->id_regesp}}" placeholder="Ingresa tu {{$r->campo}}"><input type="hidden" id="n_{{$r->id_regesp}}" name="n_{{$r->id_regesp}}" value="{{$r->id_regesp}}"></div>
 											</div>
 											@endforeach
 										</div>

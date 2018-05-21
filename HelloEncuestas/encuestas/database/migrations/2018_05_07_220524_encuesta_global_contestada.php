@@ -15,8 +15,6 @@ class EncuestaGlobalContestada extends Migration
     {
         Schema::create('encuesta_global_contestada', function (Blueprint $table) {
             $table->increments('id_gcon');
-            $table->string('nombre')->nullable();
-            $table->string('apellidos')->nullable();
             $table->integer('id_glo')->unsigned();
             $table->timestamps();
             $table->foreign('id_glo')->references('id_glo')->on('encuesta_global');

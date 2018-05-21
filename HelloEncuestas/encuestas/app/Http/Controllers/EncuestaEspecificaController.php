@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\RedirectResponse;
 use App\Sede;
 use App\Ciudad;
 use App\RegistroEspecifica;
@@ -16,12 +17,13 @@ class EncuestaEspecificaController extends Controller
 {
     public function index()
     {
-        Session::put('usu', 1);
+        Session::put('usu', 2);
 
         $encuestas = DB::table('encuesta_especifica as e')
         ->join('marca as m', 'e.marca', '=', 'm.id_mar')
         ->select('e.*', 'm.*', 'e.nombre as encu', 'm.nombre as marca')
         ->where('e.id_usu', '=', Session::get('usu'))
+        ->where('borrado', '=', 0)
         ->get();
 
     	return view('EncuestaEspecifica.index', ['encuestas'=>$encuestas]);
@@ -48,6 +50,7 @@ class EncuestaEspecificaController extends Controller
     	$encuesta->marca = $request->get('marca');
     	$encuesta->evento = $request->get('eventos');
     	$encuesta->abierto = $request->get('abierto');
+        $encuesta->borrado = 0;
     	$encuesta->id_usu = Session::get('usu');
     	if($encuesta->save()){
             $cuantosR = (int)$request->get('cuantosR');
@@ -59,9 +62,9 @@ class EncuestaEspecificaController extends Controller
     		$bandera = 0;
             $texto = "";
             while($r <= $cuantosR){
-                if($request->get('campo'.$p) != ""){
+                if($request->get('campo'.$r) != ""){
                     $registro =  new RegistroEspecifica;
-                    $registro->campo = $request->get('campo'.$p);
+                    $registro->campo = $request->get('campo'.$r);
                     $registro->id_esp = $encuesta->id_esp;
                     $registro->save();
                 }
@@ -87,6 +90,7 @@ class EncuestaEspecificaController extends Controller
                                 }
                                 $o++;
                             }
+                            $o = 0;
                         }
                     }
                     else{
@@ -208,17 +212,9 @@ class EncuestaEspecificaController extends Controller
     public function destroy($id)
     {
         $encuesta = EncuestaEspecifica::findOrFail($id);
-        $enciesta->abierto = 0;
+        $encuesta->borrado = 1;
         if($encuesta->update()){
-        	return response()->json([
-		    	'respuesta'=>1 //Exito
-		    ]);
-    	}
-
-    	else{
-    		return response()->json([
-		    	'respuesta'=>0 //Error al guardar
-		    ]);
+        	return redirect()->action('EncuestaEspecificaController@index');
     	}
     }
 
@@ -231,6 +227,15 @@ class EncuestaEspecificaController extends Controller
     	return response()->json($opciones);
     }
 
+    public function eliminar(Request $request)
+    {
+        $encuesta = EncuestaEspecifica::findOrFail($id);
+        $encuesta->borrado = 1;
+        if($encuesta->update()){
+            return redirect()->action('EncuestaEspecificaController@index');
+        }
+    }
+
     public function guardar(Request $request)
     {
         $encuesta = new EncuestaEspecifica;
@@ -241,6 +246,7 @@ class EncuestaEspecificaController extends Controller
         $encuesta->marca = $request->get('marca');
         $encuesta->evento = $request->get('eventos');
         $encuesta->abierto = $request->get('abierto');
+        $encuesta->borrado = 0;
         $encuesta->id_usu = Session::get('usu');
         if($encuesta->save()){
             $cuantosR = (int)$request->get('cuantosR');
@@ -262,6 +268,7 @@ class EncuestaEspecificaController extends Controller
             }
             while($p <= $cuantosP){
                 if($request->get('pregunta'.$p) != "") {
+                    $o = 1;
                     $pregunta = new PreguntasEspecifica;
                     $pregunta->pregunta = $request->get('pregunta'.$p);
                     $pregunta->tipo = $request->get('tip'.$p);

@@ -15,8 +15,6 @@ class EncuestaEspecificaContestada extends Migration
     {
         Schema::create('encuesta_especifica_contestada', function (Blueprint $table) {
             $table->increments('id_econ');
-            $table->string('nombre')->nullable();
-            $table->string('apellidos')->nullable();
             $table->integer('id_esp')->unsigned();
             $table->timestamps();
             $table->foreign('id_esp')->references('id_esp')->on('encuesta_especifica');

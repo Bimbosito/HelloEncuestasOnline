@@ -345,7 +345,7 @@
 				//console.log('si');
 				$("#contenido").append(cadena);
 				nextinput++;
-				$("cuantosR").val(nextinput);
+				$("#cuantosR").val(nextinput);
 			}
 			else{
 				//console.log('no');
@@ -364,6 +364,7 @@
 						'</div>';
 
 			$("#contenido").append(cadena2);
+			$("#cuantosR").val(nextinput);
 		}
 
 		function borrarRegistro(num) {
@@ -383,23 +384,23 @@
 									
 			switch(tipo){
 				case "1":
-					alert("Es abierta o cerrada")
+					//alert("Es abierta o cerrada")
 					
 					pregunta += '<input type="hidden" id="tip'+p+'" name="tip'+p+'" value="'+tipo+'">';
 					break;
 
 				case "2":
-					alert("Es abierta o cerrada")
+					//alert("Es abierta o cerrada")
 					
 					pregunta += '<input type="hidden" id="tip'+p+'" name="tip'+p+'" value="'+tipo+'">';
 					break;
 
 				case "3":
-					alert("Es multiple")
+					//alert("Es multiple")
 					opc++;
-					pregunta += '<div class="row" id="mul'+p+opc+'"><div class="col-xs-5"><input type="text" class="form-control" placeholder="Opción" type="text" id="opcion'+p+opc+'"></div><div class="col-xs-1"><button type="button" class="btn btn-danger" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="borrarOpcion('+p+','+opc+');"><center><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></center></button></div><br></div>';
+					pregunta += '<div class="row" id="mul'+p+opc+'"><div class="col-xs-5"><input type="text" class="form-control" placeholder="Opción" type="text" id="opcion'+p+opc+'" name ="opcion'+p+opc+'"></div><div class="col-xs-1"><button type="button" class="btn btn-danger" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="borrarOpcion('+p+','+opc+');"><center><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></center></button></div><br></div>';
 					opc++;
-					pregunta += '<div class="row" id="mul'+p+opc+'"><div class="col-xs-5"><input type="text" class="form-control" placeholder="Opción" type="text" id="opcion'+p+opc+'"></div><div class="col-xs-1"><button type="button" class="btn btn-danger" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="borrarOpcion('+p+','+opc+');"><center><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></center></button></div><br></div>';
+					pregunta += '<div class="row" id="mul'+p+opc+'"><div class="col-xs-5"><input type="text" class="form-control" placeholder="Opción" type="text" id="opcion'+p+opc+'" name ="opcion'+p+opc+'"></div><div class="col-xs-1"><button type="button" class="btn btn-danger" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="borrarOpcion('+p+','+opc+');"><center><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></center></button></div><br></div>';
 					
 					pregunta += '<div id="opi'+p+'"></div>';
 					pregunta += '<button type="button" class="btn btn-link" onclick="agregarOpcion('+p+', '+opc+');"><center><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar Opción</center></button>'
@@ -407,11 +408,11 @@
 					break;
 
 				case "4":
-					alert("Es multiple")
+					//alert("Es multiple")
 					opc++;
-					pregunta += '<div class="row" id="mul'+p+opc+'"><div class="col-xs-5"><input type="text" class="form-control" placeholder="Opción" type="text" id="opcion'+p+opc+'"></div><div class="col-xs-1"><button type="button" class="btn btn-danger" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="borrarOpcion('+p+','+opc+');"><center><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></center></button></div><br></div>';
+					pregunta += '<div class="row" id="mul'+p+opc+'"><div class="col-xs-5"><input type="text" class="form-control" placeholder="Opción" type="text" id="opcion'+p+opc+'" name ="opcion'+p+opc+'"></div><div class="col-xs-1"><button type="button" class="btn btn-danger" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="borrarOpcion('+p+','+opc+');"><center><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></center></button></div><br></div>';
 					opc++;
-					pregunta += '<div class="row" id="mul'+p+opc+'"><div class="col-xs-5"><input type="text" class="form-control" placeholder="Opción" type="text" id="opcion'+p+opc+'"></div><div class="col-xs-1"><button type="button" class="btn btn-danger" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="borrarOpcion('+p+','+opc+');"><center><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></center></button></div><br></div>';
+					pregunta += '<div class="row" id="mul'+p+opc+'"><div class="col-xs-5"><input type="text" class="form-control" placeholder="Opción" type="text" id="opcion'+p+opc+'" name ="opcion'+p+opc+'"></div><div class="col-xs-1"><button type="button" class="btn btn-danger" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="borrarOpcion('+p+','+opc+');"><center><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></center></button></div><br></div>';
 					
 					pregunta += '<div id="opi'+p+'"></div>';
 					pregunta += '<button type="button" class="btn btn-link" onclick="agregarOpcion('+p+', '+opc+');"><center><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar Opción</center></button>'
@@ -419,11 +420,11 @@
 					break;
 
 				case "6":
-					alert("Es multiple")
+					//alert("Es multiple")
 					opc++;
-					pregunta += '<div class="row" id="mul'+p+opc+'"><div class="col-xs-5"><input type="text" class="form-control" placeholder="Opción" type="text" id="opcion'+p+opc+'"></div><div class="col-xs-1"><button type="button" class="btn btn-danger" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="borrarOpcion('+p+','+opc+');"><center><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></center></button></div></div>';
+					pregunta += '<div class="row" id="mul'+p+opc+'"><div class="col-xs-5"><input type="text" class="form-control" placeholder="Opción" type="text" id="opcion'+p+opc+'" name ="opcion'+p+opc+'"></div><div class="col-xs-1"><button type="button" class="btn btn-danger" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="borrarOpcion('+p+','+opc+');"><center><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></center></button></div></div>';
 					opc++;
-					pregunta += '<div class="row" id="mul'+p+opc+'"><div class="col-xs-5"><input type="text" class="form-control" placeholder="Opción" type="text" id="opcion'+p+opc+'"></div><div class="col-xs-1"><button type="button" class="btn btn-danger" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="borrarOpcion('+p+','+opc+');"><center><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></center></button></div></div>';
+					pregunta += '<div class="row" id="mul'+p+opc+'"><div class="col-xs-5"><input type="text" class="form-control" placeholder="Opción" type="text" id="opcion'+p+opc+'" name ="opcion'+p+opc+'"></div><div class="col-xs-1"><button type="button" class="btn btn-danger" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="borrarOpcion('+p+','+opc+');"><center><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></center></button></div></div>';
 					
 					pregunta += '<div id="opi'+p+'"></div>';
 					pregunta += '<button type="button" class="btn btn-link" onclick="agregarOpcion('+p+', '+opc+');"><center><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar Opción</center></button>'
@@ -431,11 +432,11 @@
 					break;
 
 				case "7":
-					alert("Es multiple")
+					//alert("Es multiple")
 					opc++;
-					pregunta += '<div class="row" id="mul'+p+opc+'"><div class="col-xs-5"><input type="text" class="form-control" placeholder="Opción" type="text" id="opcion'+p+opc+'"></div><div class="col-xs-1"><button type="button" class="btn btn-danger" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="borrarOpcion('+p+','+opc+');"><center><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></center></button></div></div>';
+					pregunta += '<div class="row" id="mul'+p+opc+'"><div class="col-xs-5"><input type="text" class="form-control" placeholder="Opción" type="text" id="opcion'+p+opc+'" name ="opcion'+p+opc+'"></div><div class="col-xs-1"><button type="button" class="btn btn-danger" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="borrarOpcion('+p+','+opc+');"><center><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></center></button></div></div>';
 					opc++;
-					pregunta += '<div class="row" id="mul'+p+opc+'"><div class="col-xs-5"><input type="text" class="form-control" placeholder="Opción" type="text" id="opcion'+p+opc+'"></div><div class="col-xs-1"><button type="button" class="btn btn-danger" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="borrarOpcion('+p+','+opc+');"><center><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></center></button></div></div>';
+					pregunta += '<div class="row" id="mul'+p+opc+'"><div class="col-xs-5"><input type="text" class="form-control" placeholder="Opción" type="text" id="opcion'+p+opc+'" name ="opcion'+p+opc+'"></div><div class="col-xs-1"><button type="button" class="btn btn-danger" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="borrarOpcion('+p+','+opc+');"><center><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></center></button></div></div>';
 					
 					pregunta += '<div id="opi'+p+'"></div>';
 					pregunta += '<button type="button" class="btn btn-link" onclick="agregarOpcion('+p+', '+opc+');"><center><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar Opción</center></button>'
@@ -463,7 +464,7 @@
 
 		function agregarOpcion(pe, op) {
 			opc++;
-			var sen = '<div class="row" id="mul'+pe+opc+'"><div class="col-xs-5"><input type="text" class="form-control" placeholder="Opción" type="text" id="opcion'+pe+opc+'"></div><div class="col-xs-1"><button type="button" class="btn btn-danger" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="borrarOpcion('+pe+','+opc+');"><center><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></center></button></div><br></div>';
+			var sen = '<div class="row" id="mul'+pe+opc+'"><div class="col-xs-5"><input type="text" class="form-control" placeholder="Opción" type="text" id="opcion'+pe+opc+'" name ="opcion'+pe+opc+'"></div><div class="col-xs-1"><button type="button" class="btn btn-danger" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="borrarOpcion('+pe+','+opc+');"><center><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></center></button></div><br></div>';
 			
 			$("#cuantosO").val(opc);
 			$("#opi"+pe).append(sen);
