@@ -200,7 +200,7 @@
 											<div class="modal-body">
 												<center>
 													<img src="{{asset('assets/images/signo.png')}}">
-													<h3><strong>¿Está seguro de que desea borrar la encuesta?</strong></h3>
+													<h3><strong>¿Desea mandar sus respuestas de esta encuesta en este momento?</strong></h3>
 													
 												</center>
 											</div>
@@ -225,7 +225,7 @@
 													<img src="{{asset('assets/images/singo1.png')}}">
 													<h3><strong>Éxito</strong></h3>
 													<p>
-														Tu encuesta se ha guardado exitosamente.
+														Has contestado la encuesta exitosamente.
 													</p>
 												</center>
 											</div>
@@ -247,7 +247,7 @@
 													<img src="{{asset('assets/images/signo2.png')}}">
 													<h3><strong>Error</strong></h3>
 													<p>
-														Hubo un problema al guardar tu encuesta.
+														Hubo un problema al contestar la encuesta.
 													</p>
 												</center>
 											</div>
@@ -302,161 +302,14 @@
 
 	</script>
 	<script type="text/javascript">
-		var nextinput = 1;
-		var opc = 0;
-		var p = 0;
-		var cadena = '<div class="row"><br>'+
-						'<div class="col-xs-5"><input type="text" class="form-control" id="dato1" name="dato1" placeholder="Agrega Campo para Registro" required></div>'+
-							'<div class="col-xs-1"><button type="button" class="btn btn-success" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="agregarRegistro();"><center><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></center></button></div>'+
-						'</div>';
-
-		var cadena2 = "";
-
-		$("#registro").change(function(){
-			if($(this).prop('checked')){
-				//console.log('si');
-				$("#contenido").append(cadena);
-				nextinput++;
-				$("cuantosR").val(nextinput);
-			}
-			else{
-				//console.log('no');
-				$("#contenido").html("");
-				nextinput = 1;
-				$("#cuantosR").val(nextinput);
-			}
-		});
-
-		function agregarRegistro() {
-			nextinput++;
-			cadena2 = '<div class="row" id="hola'+nextinput+'"><br>'+
-						'<div class="col-xs-5"><input type="text" class="form-control" id="dato'+nextinput+'" name="dato'+nextinput+'" placeholder="Agrega Campo para Registro"></div>'+
-							'<div class="col-xs-1"><button type="button" class="btn btn-success" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="agregarRegistro();"><center><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></center></button></div>'+
-							'<div class="col-xs-1"><button type="button" class="btn btn-danger" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="borrarRegistro('+nextinput+');"><center><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></center></button></div>'+
-						'</div>';
-
-			$("#contenido").append(cadena2);
-		}
-
-		function borrarRegistro(num) {
-			document.getElementById('contenido').removeChild(document.getElementById('hola'+num));
-		}
-
-		function hacerPregunta(){
-
-			p++;
-			var tipo = $('#tipoPre').val();
-			var pregunta = '<div class="row" id="preg'+p+'">'+
-								'<div class="col-xs-12">'+
-									'<div class="form-group"><div class="col-xs-11" style="padding: 0;">'+
-										'<input type="text" class="form-control" id="pregunta'+p+'" name="pregunta'+p+'" placeholder="¿Qué deséas preguntar? No olvides signos de puntuación ni ortografía."></div><div class="col-xs-1"><button type="button" class="btn btn-danger" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="borrarPregunta('+p+');"><center><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></center></button></div></div><br>';
-
-			pregunta += '<input type="checkbox" id="obli'+p+'" name="obli'+p+'" value="1"> <label><strong>Esta pregunta es obligatoria de responder.</strong></label><br>';
-									
-			switch(tipo){
-				case "1":
-					alert("Es abierta o cerrada")
-					
-					pregunta += '<input type="hidden" id="tip'+p+'" name="tip'+p+'" value="'+tipo+'">';
-					break;
-
-				case "2":
-					alert("Es abierta o cerrada")
-					
-					pregunta += '<input type="hidden" id="tip'+p+'" name="tip'+p+'" value="'+tipo+'">';
-					break;
-
-				case "3":
-					alert("Es multiple")
-					opc++;
-					pregunta += '<div class="row" id="mul'+p+opc+'"><div class="col-xs-5"><input type="text" class="form-control" placeholder="Opción" type="text" id="opcion'+p+opc+'"></div><div class="col-xs-1"><button type="button" class="btn btn-danger" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="borrarOpcion('+p+','+opc+');"><center><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></center></button></div><br></div>';
-					opc++;
-					pregunta += '<div class="row" id="mul'+p+opc+'"><div class="col-xs-5"><input type="text" class="form-control" placeholder="Opción" type="text" id="opcion'+p+opc+'"></div><div class="col-xs-1"><button type="button" class="btn btn-danger" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="borrarOpcion('+p+','+opc+');"><center><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></center></button></div><br></div>';
-					
-					pregunta += '<div id="opi'+p+'"></div>';
-					pregunta += '<button type="button" class="btn btn-link" onclick="agregarOpcion('+p+', '+opc+');"><center><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar Opción</center></button>'
-					pregunta += '<input type="hidden" id="tip'+p+'" name="tip'+p+'" value="'+tipo+'">';
-					break;
-
-				case "4":
-					alert("Es multiple")
-					opc++;
-					pregunta += '<div class="row" id="mul'+p+opc+'"><div class="col-xs-5"><input type="text" class="form-control" placeholder="Opción" type="text" id="opcion'+p+opc+'"></div><div class="col-xs-1"><button type="button" class="btn btn-danger" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="borrarOpcion('+p+','+opc+');"><center><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></center></button></div><br></div>';
-					opc++;
-					pregunta += '<div class="row" id="mul'+p+opc+'"><div class="col-xs-5"><input type="text" class="form-control" placeholder="Opción" type="text" id="opcion'+p+opc+'"></div><div class="col-xs-1"><button type="button" class="btn btn-danger" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="borrarOpcion('+p+','+opc+');"><center><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></center></button></div><br></div>';
-					
-					pregunta += '<div id="opi'+p+'"></div>';
-					pregunta += '<button type="button" class="btn btn-link" onclick="agregarOpcion('+p+', '+opc+');"><center><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar Opción</center></button>'
-					pregunta += '<input type="hidden" id="tip'+p+'" name="tip'+p+'" value="'+tipo+'">';
-					break;
-
-				case "6":
-					alert("Es multiple")
-					opc++;
-					pregunta += '<div class="row" id="mul'+p+opc+'"><div class="col-xs-5"><input type="text" class="form-control" placeholder="Opción" type="text" id="opcion'+p+opc+'"></div><div class="col-xs-1"><button type="button" class="btn btn-danger" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="borrarOpcion('+p+','+opc+');"><center><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></center></button></div></div>';
-					opc++;
-					pregunta += '<div class="row" id="mul'+p+opc+'"><div class="col-xs-5"><input type="text" class="form-control" placeholder="Opción" type="text" id="opcion'+p+opc+'"></div><div class="col-xs-1"><button type="button" class="btn btn-danger" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="borrarOpcion('+p+','+opc+');"><center><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></center></button></div></div>';
-					
-					pregunta += '<div id="opi'+p+'"></div>';
-					pregunta += '<button type="button" class="btn btn-link" onclick="agregarOpcion('+p+', '+opc+');"><center><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar Opción</center></button>'
-					pregunta += '<input type="hidden" id="tip'+p+'" name="tip'+p+'" value="'+tipo+'">';
-					break;
-
-				case "7":
-					alert("Es multiple")
-					opc++;
-					pregunta += '<div class="row" id="mul'+p+opc+'"><div class="col-xs-5"><input type="text" class="form-control" placeholder="Opción" type="text" id="opcion'+p+opc+'"></div><div class="col-xs-1"><button type="button" class="btn btn-danger" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="borrarOpcion('+p+','+opc+');"><center><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></center></button></div></div>';
-					opc++;
-					pregunta += '<div class="row" id="mul'+p+opc+'"><div class="col-xs-5"><input type="text" class="form-control" placeholder="Opción" type="text" id="opcion'+p+opc+'"></div><div class="col-xs-1"><button type="button" class="btn btn-danger" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="borrarOpcion('+p+','+opc+');"><center><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></center></button></div></div>';
-					
-					pregunta += '<div id="opi'+p+'"></div>';
-					pregunta += '<button type="button" class="btn btn-link" onclick="agregarOpcion('+p+', '+opc+');"><center><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar Opción</center></button>'
-					pregunta += '<input type="hidden" id="tip'+p+'" name="tip'+p+'" value="'+tipo+'">';
-					break;
-
-				case 5:
-					
-					pregunta += '<input type="hidden" id="tip'+p+'" name="tip'+p+'" value="'+tipo+'">';
-					break;
-
-				default:
-					pregunta = "";
-					p--;
-			}
-
-			pregunta += '</div>'+
-								'</div>'+
-							'<br><br></div>';
-
-			$("#cuantosP").val(p);
-			$("#cuantosO").val(opc);
-			$("#preguntas").append(pregunta);
-		}
-
-		function agregarOpcion(pe, op) {
-			opc++;
-			var sen = '<div class="row" id="mul'+pe+opc+'"><div class="col-xs-5"><input type="text" class="form-control" placeholder="Opción" type="text" id="opcion'+pe+opc+'"></div><div class="col-xs-1"><button type="button" class="btn btn-danger" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="borrarOpcion('+pe+','+opc+');"><center><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></center></button></div><br></div>';
-			
-			$("#cuantosO").val(opc);
-			$("#opi"+pe).append(sen);
-		}
-
-		function borrarOpcion(pe, op) {
-			document.getElementById('opi'+pe).removeChild(document.getElementById('mul'+pe+op));
-		}
-
-		function borrarPregunta(pr) {
-			document.getElementById("preguntas").removeChild(document.getElementById("preg"+pr));
-		}
-
 		function modalg(){
 			$("#modal-guardar").modal('show');
 		}
 
-		function guardarEncuesta(){
+		function contestar(){
 			var form = new FormData(document.getElementById('formulario'));
 			$.ajax({
-				url: '/guardarEspecifica',
+				url: '/guardarContestada',
 				type: 'post',
 				data: form,
 				processData: false,

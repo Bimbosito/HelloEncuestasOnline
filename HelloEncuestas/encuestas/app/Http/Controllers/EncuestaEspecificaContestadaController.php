@@ -55,33 +55,81 @@ class EncuestaEspecificaContestadaController extends Controller
 
     		foreach ($preguntas as $p) {
     			$respuestas = new RespuestasEspecifica;
+    			$cadena = "";
     			switch ($p->tipo){
     				case 1:
-    					$respuestas->respuesta = $request->get('pre'.$p->id_pesp)
+    					$respuestas->respuesta = $request->get('pre'.$p->id_pesp);
+    					$respuestas->id_pesp = $p->id_pesp;
+    					$respuestas->id_econ = $contestada->id_econ;
+    					$respuestas->save();
+    					
     					break;
 
     				case 2:
-    					# code...
+    					$respuestas->respuesta = $request->get('pre'.$p->id_pesp);
+    					$respuestas->id_pesp = $p->id_pesp;
+    					$respuestas->id_econ = $contestada->id_econ;
+    					$respuestas->save();
+
     					break;
 
-    				case 3
-    					# code...
+    				case 3:
+    					$opciones = DB::table('opcion_multiple_especifica')
+    					->where('id_pesp', '=', $p->id_pesp)
+    					->get();
+
+    					foreach($opciones as $o){
+    						if($request->has('opc'.$o->id_res)){
+    							$cadena.=$request->get('opc'.$o->id_res).';';
+    						}
+    					}
+
+    					$respuestas->respuesta = substr($cadena, 0, -1);
+    					$respuestas->id_pesp = $p->id_pesp;
+    					$respuestas->id_econ = $contestada->id_econ;
+    					$respuestas->save();
+
     					break;
 
     				case 4:
-    					# code...
+    					$respuestas->respuesta = $request->get('opc'.$p->id_pesp);
+    					$respuestas->id_pesp = $p->id_pesp;
+    					$respuestas->id_econ = $contestada->id_econ;
+    					$respuestas->save();
+
     					break;
 
     				case 5:
-    					# code...
+    					$respuestas->respuesta = $request->get('pre'.$p->id_pesp);
+    					$respuestas->id_pesp = $p->id_pesp;
+    					$respuestas->id_econ = $contestada->id_econ;
+    					$respuestas->save();
+
     					break;
 
     				case 6:
-    					# code...
+    					$opciones = DB::table('opcion_multiple_especifica')
+    					->where('id_pesp', '=', $p->id_pesp)
+    					->get();
+
+    					foreach($opciones as $o){
+    						if($request->has('opc'.$o->id_res)){
+    							$cadena.=$request->get('opc'.$o->id_res).';';
+    						}
+    					}
+
+    					$respuestas->respuesta = $cadena.$request->get('pre'.$p->id_pesp);
+    					$respuestas->id_pesp = $p->id_pesp;
+    					$respuestas->id_econ = $contestada->id_econ;
+    					$respuestas->save();
     					break;
 
     				case 7:
-    					# code...
+    					$respuestas->respuesta = $request->get('opc'.$p->id_pesp).$request->get('pre'.$p->id_pesp);
+    					$respuestas->id_pesp = $p->id_pesp;
+    					$respuestas->id_econ = $contestada->id_econ;
+    					$respuestas->save();
+
     					break;
     				
     				default:
@@ -115,5 +163,139 @@ class EncuestaEspecificaContestadaController extends Controller
         ->get();
 
         return view('EncuestaEspecificaContestada.contestar', ['encuesta'=>$encuesta, 'marcas'=>$marcas, 'preguntas'=>$preguntas, 'registro'=>$registro, 'opciones'=>$opciones]);
+    }
+
+    public function graficas(Request $request)
+    {
+    	$resultados = DB::table('encuesta_especifica_contestada as ec')
+    	->join('respuestas_especifica as re', 'ec.id_econ', '=', 're.id_econ')
+    	->join('preguntas_especifica as pe', 're.id_pesp', '=', 'pe.id_pesp')
+    	->select('ec.id_econ', 'pregunta', 'respuesta')
+    	->where('ec.id_econ', '=', $request->get('id'))
+    	->get();
+
+    	$registos = DB::table('encuesta_especifica_contestada as ec')
+    	->join('registro_especifica as reg', 'ec.id_econ', '=', 'reg.id_econ')
+    	->where('ec.id_econ', '=', $request->get('id'))
+    	->get();
+
+    	$encuesta = DB::table('encuesta_especifica_contestada as ec')
+    	->join('encuesta_especifica as e', 'ec.id_esp', 'e.id_esp')
+    	->where('id_econ', '=', $request->get('id'))
+    	->get();
+
+    	return view('EncuestaEspecificaContestada.graficas', ['resultados'=>$resultados, 'registros'=>$registros, 'encuesta'=>$encuesta]);
+
+    }
+
+    public function guardar(Request $request)
+    {
+    	$contestada = new EncuestaEspecificaContestada;
+    	$contestada->id_esp = $request->get('numEncuesta');
+    	if($contestada->save()){
+    		$registros = DB::table('registro_especifica')
+    		->where('id_esp', '=', $request->get('numEncuesta'))
+    		->get();
+
+    		foreach($registros as $r) {
+    			$formulario = new RegistroEspecificaContestado;
+    			$formulario->texto = $request->get('r_'.$r->id_regesp);
+    			$formulario->id_regesp = $request->get('n_'.$r->id_regesp);
+    			$formulario->id_econ = $contestada->id_econ;
+    			$formulario->save();
+    		}
+
+    		$preguntas = DB::table('preguntas_especifica')
+    		->where('id_esp', '=', $request->get('numEncuesta'))
+    		->get();
+
+    		foreach ($preguntas as $p) {
+    			$respuestas = new RespuestasEspecifica;
+    			$cadena = "";
+    			switch ($p->tipo){
+    				case 1:
+    					$respuestas->respuesta = $request->get('pre'.$p->id_pesp);
+    					$respuestas->id_pesp = $p->id_pesp;
+    					$respuestas->id_econ = $contestada->id_econ;
+    					$respuestas->save();
+    					
+    					break;
+
+    				case 2:
+    					$respuestas->respuesta = $request->get('pre'.$p->id_pesp);
+    					$respuestas->id_pesp = $p->id_pesp;
+    					$respuestas->id_econ = $contestada->id_econ;
+    					$respuestas->save();
+
+    					break;
+
+    				case 3:
+    					$opciones = DB::table('opcion_multiple_especifica')
+    					->where('id_pesp', '=', $p->id_pesp)
+    					->get();
+
+    					foreach($opciones as $o){
+    						if($request->has('opc'.$o->id_res)){
+    							$cadena.=$request->get('opc'.$o->id_res).';';
+    						}
+    					}
+
+    					$respuestas->respuesta = substr($cadena, 0, -1);
+    					$respuestas->id_pesp = $p->id_pesp;
+    					$respuestas->id_econ = $contestada->id_econ;
+    					$respuestas->save();
+
+    					break;
+
+    				case 4:
+    					$respuestas->respuesta = $request->get('opc'.$p->id_pesp);
+    					$respuestas->id_pesp = $p->id_pesp;
+    					$respuestas->id_econ = $contestada->id_econ;
+    					$respuestas->save();
+
+    					break;
+
+    				case 5:
+    					$respuestas->respuesta = $request->get('pre'.$p->id_pesp);
+    					$respuestas->id_pesp = $p->id_pesp;
+    					$respuestas->id_econ = $contestada->id_econ;
+    					$respuestas->save();
+
+    					break;
+
+    				case 6:
+    					$opciones = DB::table('opcion_multiple_especifica')
+    					->where('id_pesp', '=', $p->id_pesp)
+    					->get();
+
+    					foreach($opciones as $o){
+    						if($request->has('opc'.$o->id_res)){
+    							$cadena.=$request->get('opc'.$o->id_res).';';
+    						}
+    					}
+
+    					$respuestas->respuesta = $cadena.$request->get('pre'.$p->id_pesp);
+    					$respuestas->id_pesp = $p->id_pesp;
+    					$respuestas->id_econ = $contestada->id_econ;
+    					$respuestas->save();
+    					break;
+
+    				case 7:
+    					$respuestas->respuesta = $request->get('opc'.$p->id_pesp).$request->get('pre'.$p->id_pesp);
+    					$respuestas->id_pesp = $p->id_pesp;
+    					$respuestas->id_econ = $contestada->id_econ;
+    					$respuestas->save();
+
+    					break;
+    				
+    				default:
+    					# code...
+    					break;
+    			}
+    		}
+    	}
+    	else{
+
+    	}
     }
 }

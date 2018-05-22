@@ -14,6 +14,7 @@
 Route::get('/', 'EncuestaEspecificaController@index');
 Route::post('eliminarEspecifica', 'EncuestaEspecificaController@eliminar')->name('eliminarEspecifica');
 Route::post('guardarEspecifica', 'EncuestaEspecificaController@guardar')->name('guardarEspecifica');
+Route::post('guardarContestada', 'EncuestaEspecificaContestadaController@guardar')->name('guardarContestada');
 Route::resource('encuestaEspecifica', 'EncuestaEspecificaController');
 Route::resource('encuestaEspecificaContestada', 'EncuestaEspecificaContestadaController');
 
