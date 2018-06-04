@@ -20,16 +20,42 @@ class EncuestaEspecificaContestadaController extends Controller
 {
 	public function index()
     {
-        Session::put('usu', 2);
-
         $encuestas = DB::table('encuesta_especifica as e')
+        ->join('encuesta_especifica_contestada as ec', 'e.id_esp', '=', 'ec.id_esp')
         ->join('marca as m', 'e.marca', '=', 'm.id_mar')
-        ->select('e.*', 'm.*', 'e.nombre as encu', 'm.nombre as marca')
+        ->select(DB::raw('e.*, m.*, e.nombre as encu,  count(ec.id_esp) as cuantos'))
         ->where('e.id_usu', '=', Session::get('usu'))
         ->where('borrado', '=', 0)
+        ->groupBy('ec.id_esp')
         ->get();
 
-    	return view('EncuestaEspecifica.index', ['encuestas'=>$encuestas]);
+    	return view('EncuestaEspecificaContestada.index', ['encuestas'=>$encuestas]);
+    }
+
+    public function edit($id)
+    {
+        $resultados = DB::table('encuesta_especifica as e')
+        ->join('encuesta_especifica_contestada as ec', 'e.id_esp', '=', 'ec.id_esp')
+    	->join('respuestas_especifica as re', 'ec.id_econ', '=', 're.id_econ')
+    	->join('preguntas_especifica as pe', 're.id_pesp', '=', 'pe.id_pesp')
+    	->select('e.nombre', 'pe.id_pesp','pregunta', 'respuesta')
+    	->where('e.id_esp', '=', $id)
+    	->get();
+
+    	$preguntas = DB::table('preguntas_especifica')
+    	->where('id_esp', '=', $id)
+    	->get();
+
+    	$respuestas = DB::table('opcion_multiple_especifica')
+    	->get();
+
+    	$registros = DB::table('encuesta_especifica_contestada as ec')
+    	->join('registro_especifica_contestado as reg', 'ec.id_econ', '=', 'reg.id_econ')
+    	->join('registro_especifica as re', 'reg.id_regesp', '=', 're.id_regesp')
+    	->where('ec.id_econ', '=', $id)
+    	->get();
+
+    	return view('EncuestaEspecificaContestada.resultados', ['resultados'=>$resultados, 'registros'=>$registros, 'preguntas'=>$preguntas, 'respuestas'=>$respuestas]);
     }
 
     public function store(Request $request)

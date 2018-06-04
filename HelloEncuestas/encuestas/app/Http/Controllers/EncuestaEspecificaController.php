@@ -17,8 +17,6 @@ class EncuestaEspecificaController extends Controller
 {
     public function index()
     {
-        Session::put('usu', 2);
-
         $encuestas = DB::table('encuesta_especifica as e')
         ->join('marca as m', 'e.marca', '=', 'm.id_mar')
         ->select('e.*', 'm.*', 'e.nombre as encu', 'm.nombre as marca')
