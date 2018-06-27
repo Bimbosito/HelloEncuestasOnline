@@ -13,7 +13,7 @@
 
 <div class="col-xs-12 col-md-6 col-lg-6">
 
-{!! Form::open(['action' => 'UsuariosController@store' ,'method'=>'POST','files'=>true]) !!}
+{!! Form::open(['route' => 'Usuarios.store' ,'method'=>'POST','files'=>true]) !!}
 
 <div class="form-group">
 	{!! Form::label('nombre','Nombre') !!}

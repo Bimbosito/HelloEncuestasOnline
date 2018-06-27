@@ -36,4 +36,12 @@ class ResetPasswordController extends Controller
     {
         $this->middleware('guest');
     }
+
+    protected $redirectTo = '/admin';
+    protected function resetPassword($user, $password){
+        $user->password = $password;
+        $user->save();
+        Auth::login($user);
+    }
+    
 }

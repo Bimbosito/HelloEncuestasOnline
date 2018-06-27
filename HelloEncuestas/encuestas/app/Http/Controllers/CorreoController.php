@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Mail;
-use Session;
 use App\Usuarios;
 use App\ListaCorreos;
 use App\Correos;
@@ -105,7 +103,7 @@ public function correos(Request $request){
 
         }else{
               $email = "email";
-              for($j = 1 ;$j< (int)$request->cCorreos+1;$j++){
+              for($j = 1 ;$j< (int)$request->Correos+1;$j++){
                       $email = "email".$j;
                       if($request->$email != null)
                       Self::send($request->$email);

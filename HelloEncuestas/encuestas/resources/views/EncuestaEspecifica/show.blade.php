@@ -147,7 +147,7 @@
 											@foreach($registro as $r)
 											<div class="row">
 												<br>
-												<div class="col-xs-12 col-md-3 col-lg-3"><label for="{{$r->campo}}">{{$r->campo}}</label></div>
+												<div class="col-xs-12 col-md-3 col-lg-3"><label for="{{$r->campo}}"></label></div>
 												<div class="col-xs-12 col-md-9 col-lg-9"><input type="text" class="form-control" id="{{$r->campo}}" name="$r->campo" placeholder="Ingresa tu {{$r->campo}}"><input type="hidden" name="r{{$r->id_regesp}}" value="{{$r->id_regesp}}"></div>
 											</div>
 											@endforeach
@@ -211,8 +211,8 @@
 									<div class="col-lg-6 col-md-6 col-xs-12">
 										<button type="button" class="btn btn-success" data-toggle="modal" onclick="modalg();"><span class="glyphicon glyphicon-trash"></span> Borrar</button>
 									</div>
-									<div class="col-lg-6 col-md-6 col-xs-12">
-										<button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-arrow-left"></span> Regresar</button>
+									<div class="col-lg-6 col-md-6 col-xs-12"><a href="{{URL::action('EncuestaEspecificaController@index')}}">
+										<button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-arrow-left"></span> Regresar</button></a>
 									</div>
 								</div>
 								<div class="modal fade" id="modal-guardar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -221,7 +221,7 @@
 											<div class="modal-body">
 												<center>
 													<img src="{{asset('assets/images/signo.png')}}">
-													<h3><strong>¿Está seguro de que desea borrar la encuesta?</strong></h3>
+													<h3><strong style="color: white">¿Está seguro de que desea borrar la encuesta?</strong></h3>
 													
 												</center>
 											</div>
@@ -231,7 +231,7 @@
 														<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
 													</div>
 													<div class="col-xs-6">
-														<button type="submit" class="btn btn-warning">Eliminar</button>
+														<button style="color: white" type="submit" class="btn btn-warning">Eliminar</button>
 													</div>
 												</div>
 											</div>
@@ -244,7 +244,7 @@
 											<div class="modal-body">
 												<center>
 													<img src="{{asset('assets/images/singo1.png')}}">
-													<h3><strong>Éxito</strong></h3>
+													<h3><strong style="color: white">Éxito</strong></h3>
 													<p>
 														Tu encuesta se ha guardado exitosamente.
 													</p>
@@ -266,8 +266,8 @@
 											<div class="modal-body">
 												<center>
 													<img src="{{asset('assets/images/signo2.png')}}">
-													<h3><strong>Error</strong></h3>
-													<p>
+													<h3><strong style="color: white">Error</strong></h3>
+													<p style="color: white">
 														Hubo un problema al guardar tu encuesta.
 													</p>
 												</center>
@@ -275,7 +275,7 @@
 											<div class="modal-footer">
 												<div class="row">
 													<div class="col-xs-6" align="left">
-														<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+														<button style="color: white" type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
 													</div>
 												</div>
 											</div>

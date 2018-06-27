@@ -30,6 +30,27 @@ body {
   font-family: PoppinsSemiBold;
   src: url('fonts/Poppins/Poppins-SemiBold.ttf');
 }
+.fullscreen-modal .modal-dialog {
+  margin: 0;
+  margin-right: auto;
+  margin-left: auto;
+  width: 100%;
+}
+@media (min-width: 768px) {
+  .fullscreen-modal .modal-dialog {
+    width: 750px;
+  }
+}
+@media (min-width: 992px) {
+  .fullscreen-modal .modal-dialog {
+    width: 970px;
+  }
+}
+@media (min-width: 1200px) {
+  .fullscreen-modal .modal-dialog {
+     width: 1170px;
+  }
+}
 
 .modal-header{     
     min-height: 1px;
@@ -58,39 +79,13 @@ body {
     border-style: none;
 
 }
+.modal-backdrop {
+     border-style: none;
+   background-image: url('img/FODNDO_PRODUCTO.png');
+}
 .close {
-     
-
-}
-
-.fullscreen-modal .modal-dialog {
-  margin: 0;
-  margin-right: auto;
-  margin-left: auto;
-  width: 100%;
-}
-@media (min-width: 768px) {
-  .fullscreen-modal .modal-dialog {
-    width: 750px;
-  }
-}
-@media (min-width: 992px) {
-  .fullscreen-modal .modal-dialog {
-    width: 970px;
-  }
-}
-@media (min-width: 1200px) {
-  .fullscreen-modal .modal-dialog {
-     width: 1170px;
-  }
-}
-
-#wrapper {
-  padding-left: 0;
-  -webkit-transition: all 0.5s ease;
-  -moz-transition: all 0.5s ease;
-  -o-transition: all 0.5s ease;
-  transition: all 0.5s ease;
+    color: gray; 
+    opacity: 1;
 }
 
 #wrapper {

@@ -41,4 +41,16 @@ class HomeController extends Controller
         Session::put('interfaz', 'Paquetes');
         return view('Home.paquetes');
     }
+
+    public function tour()
+    {
+        Session::put('interfaz', 'Tour');
+        return view('Home.tour');
+    }
+
+    public function restorepage()
+    {
+        Session::put('interfaz','emails');
+        return view('emails.restorepage');
+    }
 }

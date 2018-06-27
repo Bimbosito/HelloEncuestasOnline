@@ -120,25 +120,47 @@ class EncuestaEspecificaController extends Controller
 
     public function edit($id)
     {
-    	$encuesta = EncuestaEspecifica::findOrFail($id);
+    	$encuesta = EncuestaEspecifica::find($id);
     	$preguntas = DB::table('preguntas_especifica as pe')
     	->where('id_esp', '=', $id)
     	->get();
+        //-------------------------------------------------
+        $marca = DB::table('marca')
+        ->where('id_usu', '=', Session::get('usu'))
+        ->get();
+        //------------------------------------------------------------------------
 
-    	return view('EncuestaEspecifica.edit', ['encuesta'=>$encuesta, 'preguntas'=>$preguntas]);
+
+        $preguntas = DB::table('preguntas_especifica')
+        ->where('id_esp', '=', $id)
+        ->get();
+
+        $registro = DB::table('registro_especifica')
+        ->where('id_esp', '=', $id)
+        ->get();
+
+        $opciones = DB::table('opcion_multiple_especifica')
+        ->get();
+
+        
+        //------------------------------------------------------
+    	return view('EncuestaEspecifica.edit', ['encuesta'=>$encuesta, 'marca'=>$marca, 'preguntas'=>$preguntas, 'registro'=>$registro, 'opciones'=>$opciones]);
     }
 
     public function update(Request $request, $id)
     {
+
     	$encuesta = EncuestaEspecifica::findOrFail($id);
-    	$encuesta->nombre = $request->get('nombre');
-    	$encuesta->fecha_inicio = $request->get('fechaInicio');
-    	$encuesta->fecha_fin = $request->get('fechaFin');
-    	$encuesta->sede = $request->get('sede');
-    	$encuesta->marca = $request->get('marca');
-    	$encuesta->evento = $request->get('evento');
-    	$encuesta->abierto = 1;
-    	//$encuesta->id_usu = Session::get('usu');
+    	$encuesta->nombre = $request->nombre
+    	$encuesta->fecha_inicio = $request->fechaInicio
+    	$encuesta->fecha_fin = $request->fechaFin
+    	$encuesta->sede = $request->sede
+    	$encuesta->marca = $request->marca
+    	$encuesta->evento = $request->evento
+    	$encuesta->abierto = $request->abierto
+        $encuesta->save();
+
+    	$encuesta->id_usu = Session::get('usu');
     	if($encuesta->update()){
     		$a = 1;
     		$o = 1;

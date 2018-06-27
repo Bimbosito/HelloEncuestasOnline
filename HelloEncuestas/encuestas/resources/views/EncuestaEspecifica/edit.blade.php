@@ -1,4 +1,5 @@
 @extends('layouts.menu')
+@section('tittle', 'Editar Encuesta', $encuesta->nombre)
 @section('content')	
 	<div class="container">
 		<div class="row">
@@ -9,7 +10,7 @@
 				<div class="row">
 					<div class="col-xs-12">
 						<div class="row">
-							<form enctype="multipart/form-data" id="formulario" action="javascript:guardarEncuesta();" method="POST">
+							<form enctype="multipart/form-data" id="formulario" action="javascript:editarEncuesta();" method="POST">
 								<input type="hidden" name="_token" value="{{ csrf_token() }}">
 								<div class="row">
 									<div class="col-xs-12">
@@ -30,6 +31,7 @@
 								<div class="row">
 									<div class="col-lg-3 col-md-3 col-xs-12">
 										<div class="form-group">
+
 											<label for="global">Seleccionar Encuesta Global:</label>
 											<select class="form-control" id="global" name="global">
 												<option value="">--Selecciona Encuesta--</option>
@@ -41,14 +43,14 @@
 								<div class="row">
 									<div class="col-lg-3 col-md-3 col-xs-12">
 										<div class="form-group">
-											<label for="sede">Sede:</label>
-											<input type="text" class="form-control" id="sede" name="sede" placeholder="Ingrese sede">
+											<label  for="sede">Sede:</label>
+											<input type="text" class="form-control" id="sede" name="sede" placeholder="Ingrese sede" value="{{$encuesta->sede}}">
 										</div>
 									</div>
 									<div class="col-lg-3 col-md-3 col-xs-12">
 										<div class="form-group">
 											<label for="eventos">Eventos:</label>
-											<input type="text" class="form-control" id="eventos" name="eventos" placeholder="Ingrese eventos">
+											<input type="text" class="form-control" id="eventos" name="eventos" placeholder="Ingrese eventos" value="{{$encuesta->evento}}">
 										</div>
 									</div>
 									<div class="col-lg-3 col-md-3 col-xs-12">
@@ -56,8 +58,12 @@
 											<label for="global">Marca:</label>
 											<select class="form-control" id="marca" name="marca">
 												<option value="">--Marca--</option>
-												@foreach($marcas as $m)
+												@foreach($marca as $m)
+												@if($m->id_mar==$encuesta->marca)
+												<option value="{{$m->id_mar}}" selected>{{$m->nombre}}</option>
+												@else
 												<option value="{{$m->id_mar}}">{{$m->nombre}}</option>
+												@endif
 												@endforeach
 											</select>
 										</div>
@@ -65,13 +71,21 @@
 								</div>
 								<br><br>
 								<div class="row">
-									<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-										<div class="form-group">
+									<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" >
+										<div class="form-group" >
+											@if($encuesta->abierto==1)
 											<input type="radio" id="tipopu" name="abierto" value="1" checked> <label><strong>Pública</strong></label>
+											@else
+											<input type="radio" id="tipopu" name="abierto" value="1" > <label><strong>Pública</strong></label>
+											@endif
 										</div>
 									
 										<div class="form-group">
-											<input type="radio" id="tipopr" name="abierto" value="0"> <label><strong>Privada</strong></label>
+											@if($encuesta->abierto==1)
+											<input type="radio" id="tipopr" name="abierto" value="0" checked> <label><strong>Privada</strong></label>
+											@else
+											<input type="radio" id="tipopr" name="abierto" value="0" > <label><strong>Privada</strong></label>
+											@endif
 										</div>
 									</div>
 									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
@@ -92,7 +106,7 @@
 											<div class="col-lg-6 col-md-6 col-xs-12">
 												<div class="form-group">
 													<label for="nombre">Nombre de la encuesta:</label><span style="color: red; font-size: 14px;">*</span>
-													<input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingrese Nombre de la Encuesta" required>
+													<input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingrese Nombre de la Encuesta" required value="{{$encuesta->nombre}}">
 												</div>
 											</div>
 										</div>
@@ -100,13 +114,13 @@
 											<div class="col-lg-3 col-md-3 col-xs-12">
 												<div class="form-group">
 													<label for="inicio">Fecha de inicio:</label><span style="color: red; font-size: 14px;">*</span>
-													<input type="text" class="form-control fecha" id="inicio" name="inicio" placeholder="Inicia el día...">
+													<input type="text" class="form-control fecha" id="inicio" name="inicio" placeholder="Inicia el día..." value="{{$encuesta->fecha_inicio}}">
 												</div>
 											</div>
 											<div class="col-lg-3 col-md-3 col-xs-12">
 												<div class="form-group">
 													<label for="fin">Fecha de Fin:</label><span style="color: red; font-size: 14px;">*</span>
-													<input type="text" class="form-control fecha" id="fin" name="fin" placeholder="Termina el día...">
+													<input type="text" class="form-control fecha" id="fin" name="fin" placeholder="Termina el día..." value="{{$encuesta->fecha_fin}}">
 												</div>
 											</div>
 										</div>
@@ -120,12 +134,13 @@
 											</div>
 											<br>
 											<div class="col-lg-3 col-md-3 col-xs-12">
-												<input type="checkbox" id="registro" checked data-toggle="toggle">
+
+												<input type="checkbox" id="registro" checked data-toggle="toggle" value="">
 											</div>
 										</div>
 										<br>
 										<div id="contenido">
-											<div class="row">
+										<div class="row">
 												<br>
 												<div class="col-xs-5"><input type="text" class="form-control" id="dato1" name="dato1" placeholder="Agrega Campo para Registro" required></div>
 												<div class="col-xs-1"><button type="button" class="btn btn-success" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="agregarRegistro();"><center><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></center></button></div>
@@ -135,17 +150,15 @@
 										<input type="hidden" id="cuantosP" name="cuantosP" value="1">
 										<input type="hidden" id="cuantosO" name="cuantosO" value="1">
 									</div>
-								</div>
-								<div class="row">
+								</div>	<div class="row">
 									<div class="col-xs-12">
 										<h3><strong>Selecciona tus preguntas</strong></h3>
 										<br><br>
-										<div class="row">
-											<div class="col-lg-6 col-md-6 col-xs-12">
-												<div class="form-group">
-													<label for="tipoPre">Tipo de pregunta:</label>
-													<select class="form-control" id="tipoPre" name="tipoPre">
-														<option value="">--Tipo de pregunta--</option>
+										
+										<div class="row">										            
+											<select class="form-control" id="tipoPre" name="tipoPre" value="">
+						                <option value="">--Tipo de pregunta--</option>
+
 														<option value="1">Respuesta Larga</option>
 														<option value="2">Respuesta Corta</option>
 														<option value="3">Opción Múltiple</option>
@@ -153,13 +166,56 @@
 														<option value="5">Valoración</option>
 														<option value="6">Opción Múltiple con Respuesta Abierta</option>
 														<option value="7">Opción Única con Respuesta Abierta</option>
+														@foreach($preguntas as $p)
+
+
+								@if($p->tipo==1)
+														<option value="1">Respuesta Larga</option>
+														@elseif($p->tipo==2)
+														<option value="2">Respuesta Corta</option>
+														@elseif($p->tipo==3)
+														<br>
+														@foreach($opciones as $o)
+														@if($o->id_pesp == $p->id_esp)
+														<option value="3">Opción Múltiple</option>
+														@endif
+														@endforeach
+														@elseif($p->tipo == 4)
+															<br>
+															@foreach($opciones as $o)
+															@if($o->id_pesp == $p->id_pesp)
+														<option value="4">Opción Única</option>
+														@endif
+															@endforeach
+														@elseif($p->tipo == 5)
+														@elseif($p->tipo == 6)
+															<br>
+															@foreach($opciones as $o)
+															@if($o->id_pesp == $p->id_pesp)
+														<option value="5">Valoración</option>
+														<option value="6">Opción Múltiple con Respuesta Abierta</option>
+														@endif
+															@endforeach
+															@elseif($p->tipo == 7)
+															<br>
+															@foreach($opciones as $o)
+															@if($o->id_pesp == $p->id_pesp)
+														<option value="7">Opción Única con Respuesta Abierta</option>
+														@endif
+															@endforeach
+															@endif 	
+														@endforeach
 													</select>
-												</div>
-											</div>
-										</div>
-										<br><br>
+
+							    		    </div>
+							    		   
+									    </div>
+									</div>
+								<br>
+								<br>
 										<div id="preguntas">
 											
+										</div>
 										</div>
 										<div class="row">
 											<div class="col-lg-3 col-md-3 col-xs-12">
@@ -171,16 +227,16 @@
 								<br><br><br><br>
 								<div class="row">
 									<div class="col-lg-4 col-md-4 col-xs-12">
-										<button type="button" class="btn btn-success" data-toggle="modal" onclick="modalg();"><span class="glyphicon glyphicon-saved"></span> Guardar Encuesta</button>
+										<button type="button" class="btn btn-success" data-toggle="modal" onclick="modalg();"><span class="glyphicon glyphicon-saved"></span> Actualizar Encuesta</button>
 									</div>
 									<div class="col-lg-4 col-md-4 col-xs-12">
 										<a href="javascript:window.history.back();"><button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-arrow-left"></span> Regresar</button></a>
 									</div>
-									<div class="col-lg-4 col-md-4 col-xs-12">
+									<!--<div class="col-lg-4 col-md-4 col-xs-12">
 										<button type="reset" class="btn btn-info"><span class="glyphicon glyphicon-refresh"></span> Reiniciar Formulario</button>
-									</div>
+									</div>-->
 								</div>
-								<div class="modal fade" id="modal-guardar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+								<div class="modal fade" id="modal-editar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 									<div class="modal-dialog" role="document">
 										<div class="modal-content">
 											<div class="modal-body">
@@ -438,7 +494,7 @@
 		}
 
 		function modalg(){
-			$("#modal-guardar").modal('show');
+			$("#modal-editar").modal('show');
 		}
 
 		function guardarEncuesta(){
@@ -450,11 +506,30 @@
 				processData: false,
 				contentType: false,
 				success: function(data){
-					$("#modal-guardar").modal('hide');
+					$("#modal-editar").modal('hide');
 					$("#modal-exito").modal('show');
 				},
 				error: function(){
-					$("#modal-guardar").modal('hide');
+					$("#modal-editar").modal('hide');
+					$("#modal-error").modal('show');
+				}
+			});
+		}
+			//----
+			function editarEncuesta(){
+			var form = new FormData(document.getElementById('formulario'));
+			$.ajax({
+				url: '/editarEspecifica',
+				type: 'post',
+				data: form,
+				processData: false,
+				contentType: false,
+				success: function(data){
+					$("#modal-editar").modal('hide');
+					$("#modal-exito").modal('show');
+				},
+				error: function(){
+					$("#modal-editar").modal('hide');
 					$("#modal-error").modal('show');
 				}
 			});

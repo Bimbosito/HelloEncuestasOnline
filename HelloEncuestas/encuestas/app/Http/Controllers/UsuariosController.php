@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Mail\RecuperarContrasenaMail;
 use App\Usuarios;
 use Auth;
 use Session;
 use Redirect;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\RedirectResponse;
 class UsuariosController extends Controller
 {
@@ -87,7 +89,7 @@ public function loginuser(Request $request)
 
     public function store(Request $request)
     {
-
+       
       $imageName = "";
 
          if($request->hasFile('image')){
@@ -105,13 +107,43 @@ public function loginuser(Request $request)
     	$usuario->email = $request->get('email');
     	$usuario->contrasena = $request->get('password');
     	$usuario->empresa = $request->get('empresa');
-    	$usuario->logo =   $imageName;
-        $usuario->id_paq = 1;
+    	$usuario->logo = $imageName;
+        $usuario->id_paq = 1;   
         $usuario->save();
-        return view('Home.principal');
+        return redirect('Home.principal');
+         //Mail recuperar 
+
+
 
     }
 
+    public function restoremail(Request $request)
+    {
+
+    $correo=DB::table('usuarios')
+        ->where('email', '=', $request->get('email'))
+        ->get();  
+        if(count($correo) > 0)
+        {
+           
+            $usuario=Usuarios::findOrFail($correo[0]->id_usu);
+             $data = array(
+    'contrasena'=>$usuario->contrasena,
+);
+            Mail::send('emails.restore', $data, function($message) use ($usuario){
+        $message->from('developer.sr@hellomexico.mx','Helle Mexico Team');
+        $message->to($usuario->email)->subject('Mensaje de prueba helloteam');
+    });
+     return view('emails.restorepage');
+        }
+        else
+        {
+             return "view('error')";
+        }
+
+//------------------------------------------------------------------
+    
+    }
     public function edit()
     {
      /*	$usuario = Usuarios::findOrFail($id);
@@ -218,6 +250,32 @@ public function loginuser(Request $request)
             return response()->json([
                 'respuesta'=>0
             ]);
+        }
+    }
+
+    public function recuperar()
+    { 
+        
+            return view('Usuarios.recuperar');
+
+    }
+
+    public function obtener(Request $request)
+    {
+        $correo=DB::table('usuarios')
+        ->where('email', '=', $request->get('email'))
+        ->get();  
+        if(count($correo) > 0)
+        {
+           
+            $usuario=Usuarios::findOrFail($correo[0]->id_usu);
+            Mail::to($request->get('email'))->send(new RecuperarContrasenaMail($usuario));
+            return view('Home.inicio');
+
+        }
+        else
+        {
+             return view('error');
         }
     }
 }

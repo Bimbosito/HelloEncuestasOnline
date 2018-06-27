@@ -1,6 +1,6 @@
 @extends('layouts.menu')
 @section('content')
-	<div class="container-fluid">
+<div class="container-fluid">
 		<div class="row">
 			<div class="col-lg-3 col-md-3 col-xs-3">
 				
@@ -15,24 +15,26 @@
 						<table class="table table-bordered" id="encuestas" cellspacing="0" width="100%">
 							<thead>
 								<tr>
-									<th>Encuesta</th>
+									<th>Nombre</th>
 									<th>Fecha de Inicio</th>
 									<th>Fecha de Fin</th>
 									<th>Sede</th>
-									<th>Evento</th>
 									<th>Marca</th>
+									<th>Evento</th>
+									<th>Abierto</th>
+									<th>Borrado</th>
 									<th>Acción</th>
 								</tr>
 							</thead>
 							<tbody>
-								@foreach($encuestas as $e)
+								@foreach($encuestasg as $g)
 								<tr>
-									<td>{{$e->encu}}</td>
-									<td>{{$e->fecha_inicio}}</td>
-									<td>{{$e->fecha_fin}}</td>
-									<td>{{$e->sede}}</td>
-									<td>{{$e->evento}}</td>
-									<td>{{$e->marca}}</td>
+									<td>{{$g->nombre}}</td>
+									<td>{{$g->fecha_inicio}}</td>
+									<td>{{$g->fecha_fin}}</td>
+									<td>{{$g->sede}}</td>
+									<td>{{$g->marca}}</td>
+									<td>{{$g->evento}}</td>
 									<td>
 										<a href="{{URL::action('EncuestaEspecificaController@show', $e->id_esp)}}" title="Ver Encuesta"><span class="glyphicon glyphicon-eye-open"></span></a>&nbsp;&nbsp;
 										<a href="{{URL::action('EncuestaEspecificaController@destroy', $e->id_esp)}}" title="Eliminar Encuesta"><span class="glyphicon glyphicon-trash"></span></a>&nbsp;&nbsp;

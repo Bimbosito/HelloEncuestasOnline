@@ -11,31 +11,80 @@
 |
 */
 
+Route::get('/', 'ProductController@index')->name('products');
+Route::get('descargar-productos', 'ProductController@excel')->name('products.excel');
+
+Route::get('/', 'ProductController@index')->name('products');
+Route::get('descargar-productos', 'ProductController@pdf')->name('products.pdf');
+
 Route::post('eliminarEspecifica', 'EncuestaEspecificaController@eliminar')->name('eliminarEspecifica');
 Route::post('guardarEspecifica', 'EncuestaEspecificaController@guardar')->name('guardarEspecifica');
+Route::post('editarEspecifica', 'EncuestaEspecificaController@update')->name('editarEspecifica');
 Route::post('guardarContestada', 'EncuestaEspecificaContestadaController@guardar')->name('guardarContestada');
 Route::resource('encuestaEspecifica', 'EncuestaEspecificaController');
 Route::resource('encuestaEspecificaContestada', 'EncuestaEspecificaContestadaController');
+Route::resource('encuestaGlobal', 'EncuestaGlobalController');
 Route::resource('campania', 'CampaniaController');
 Route::resource('marca', 'MarcaController');
 Route::resource('paquete', 'PaqueteController');
 Route::resource('usuarios', 'UsuariosController');
+Route::resource('mail', 'MailController');
+
+
+
+Route::get('sendmail', function(){
+    $data = array(
+    'name'=>"Hellor Mexico",
+);
+
+Mail::send('emails.restore', $data, function($message){
+    
+        $message->from('developer.sr@hellomexico.mx','Helle Mexico Team');
+        $message->to('helloteam.daniell@gmail.com')->subject('Mensaje de prueba helloteam');
+
+    });
+return "se envio el email nigga";
+
+});
+
+Route::get('/','EncuestaGlobalController@idex');
+
+Route::get('/restorepage', [
+    'uses'=>'HomeController@restorepage',
+    'as'=>'Home.restorepage'
+]);
 
 Route::get('/', 'HomeController@index');
+
+Route::get('/tour', [
+    'uses'=>'HomeController@tour',
+    'as'=>'Home.tour'
+]);
+
 
 Route::get('/Producto', [
     'uses'=>'HomeController@productos',
     'as'=>'Home.producto'
 ]);
 
-Route::get('/Paquetes', 'HomeController@paquetes');
+Route::get('/Paquetes', 
+           ['uses'=>'HomeController@paquetes',
+           'as'=>'Home.paquetes'
+           ]);
+
 
 Route::get('Usuarios/crear', [
     'uses' =>'UsuariosController@create',
     'as' => 'Usuarios.crear'
 
 ]);
+//mailrecuperar
+Route::post('Usuarios/restoremail', [
+    'uses' =>'UsuariosController@restoremail',
+    'as' => 'Usuarios.restoremail'
 
+]);
+//end mail
 
 Route::post('Usuarios/store', [
     'uses' =>'UsuariosController@store',
@@ -70,6 +119,11 @@ Route::post('Usuarios/login', [
 
 ]);
 
+Route::post('Usuarios/obtener', [
+    'uses' =>'UsuariosController@obtener',
+    'as' => 'Usuarios.obtener'
+
+]);
 
 
 Route::get('Usuarios/edit', [
@@ -97,6 +151,11 @@ Route::get('Usuarios/Lista_Correos', [
     'uses' =>'CorreoController@lista',
     'as' => 'Usuarios.lista_Correos'
 
+]);
+
+Route::get('Usuarios/recuperar', [
+    'uses'=>'UsuariosController@recuperar',
+    'as'=>'Usuarios.recuperar'
 ]);
 
 
