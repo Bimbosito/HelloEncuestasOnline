@@ -150,31 +150,32 @@ class EncuestaEspecificaController extends Controller
     public function update(Request $request, $id)
     {
 
-    	$encuesta = EncuestaEspecifica::findOrFail($id);
-    	$encuesta->nombre = $request->nombre
-    	$encuesta->fecha_inicio = $request->fechaInicio
-    	$encuesta->fecha_fin = $request->fechaFin
-    	$encuesta->sede = $request->sede
-    	$encuesta->marca = $request->marca
-    	$encuesta->evento = $request->evento
-    	$encuesta->abierto = $request->abierto
+//----------------------------------------------------------------------------
+    	$encuesta = EncuestaEspecifica::find($id);
+    	$encuesta->nombre = $request->nombre;
+    	$encuesta->fecha_inicio = $request->fechaInicio;
+    	$encuesta->fecha_fin = $request->fechaFin;
+    	$encuesta->sede = $request->sede;
+    	$encuesta->marca = $request->marca;
+    	$encuesta->evento = $request->evento;
+    	$encuesta->abierto = $request->abierto;
         $encuesta->save();
 
     	$encuesta->id_usu = Session::get('usu');
-    	if($encuesta->update()){
+    	if($encuesta->save()){
     		$a = 1;
     		$o = 1;
     		$bandera = 0;
     		while ($request->get('pregunta'.$a)!="") {
     			$pregunta = new PreguntasEspecifica;
-    			$pregunta->pregunta = $request->get('pregunta'.$a);
-    			$pregunta->tipo = $request->get('tipo');
+    			$pregunta->pregunta = $request->pregunta.$a;
+    			$pregunta->tipo = $request->tipo;
     			$pregunta->id_esp = $encuesta->id_esp;
     			if($pregunta->save()){
-    				if($request->get('tipo') == 2){
-    					while($request->get('correspondencia'.$o) == $a){
+    				if($request->tipo == 2){
+    					while($request->correspondencia.$o == $a){
     						$opcion = new OpcionMultipleEspecifica;
-    						$opcion->respuestas = $request->get('respuesta'.$o);
+    						$opcion->respuestas = $request->respuesta.$o;
     						$opcion->id_pesp = $pregunta->id_pesp;
     						if(!$opcion->save()){
     							$bandera = 2;

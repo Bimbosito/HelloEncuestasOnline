@@ -19,7 +19,8 @@ Route::get('descargar-productos', 'ProductController@pdf')->name('products.pdf')
 
 Route::post('eliminarEspecifica', 'EncuestaEspecificaController@eliminar')->name('eliminarEspecifica');
 Route::post('guardarEspecifica', 'EncuestaEspecificaController@guardar')->name('guardarEspecifica');
-Route::post('editarEspecifica', 'EncuestaEspecificaController@update')->name('editarEspecifica');
+Route::post('editarEspecifica', 'EncuestaEspecificaController@update');
+Route::get('/edit/{id_esp}', 'EncuestaEspecificaController@edit');
 Route::post('guardarContestada', 'EncuestaEspecificaContestadaController@guardar')->name('guardarContestada');
 Route::resource('encuestaEspecifica', 'EncuestaEspecificaController');
 Route::resource('encuestaEspecificaContestada', 'EncuestaEspecificaContestadaController');

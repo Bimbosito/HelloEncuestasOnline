@@ -21,13 +21,11 @@
 									<th>Sede</th>
 									<th>Marca</th>
 									<th>Evento</th>
-									<th>Abierto</th>
-									<th>Borrado</th>
 									<th>Acción</th>
 								</tr>
 							</thead>
 							<tbody>
-								@foreach($encuestasg as $g)
+								@foreach($encuestas as $g)
 								<tr>
 									<td>{{$g->nombre}}</td>
 									<td>{{$g->fecha_inicio}}</td>
@@ -36,9 +34,9 @@
 									<td>{{$g->marca}}</td>
 									<td>{{$g->evento}}</td>
 									<td>
-										<a href="{{URL::action('EncuestaEspecificaController@show', $e->id_esp)}}" title="Ver Encuesta"><span class="glyphicon glyphicon-eye-open"></span></a>&nbsp;&nbsp;
-										<a href="{{URL::action('EncuestaEspecificaController@destroy', $e->id_esp)}}" title="Eliminar Encuesta"><span class="glyphicon glyphicon-trash"></span></a>&nbsp;&nbsp;
-										<a href="{{URL::action('EncuestaEspecificaController@edit', $e->id_esp)}}" title="Editar Encuesta"><span class="glyphicon  glyphicon-pencil"></span></a>&nbsp;&nbsp;
+										<a href="{{URL::action('EncuestaGlobal@show', $g->id_glo)}}" title="Ver Encuesta"><span class="glyphicon glyphicon-eye-open"></span></a>&nbsp;&nbsp;
+										<a href="{{URL::action('EncuestaGlobalr@destroy', $g->id_glo)}}" title="Eliminar Encuesta"><span class="glyphicon glyphicon-trash"></span></a>&nbsp;&nbsp;
+										<a href="{{URL::action('EncuestaGlobal@edit', $g->id_glo)}}" title="Editar Encuesta"><span class="glyphicon  glyphicon-pencil"></span></a>&nbsp;&nbsp;
 									</td>
 								</tr>
 								@endforeach

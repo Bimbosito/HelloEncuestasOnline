@@ -7,18 +7,18 @@ use Illuminate\Http\RedirectResponse;
 use App\Sede;
 use App\Ciudad;
 use App\RegistroEspecifica;
-use App\EncuestaEspecifica;
+use App\EncuestaGlobal;
 use App\PreguntasEspecifica;
 use App\OpcionMultipleEspecifica;
 
 use Illuminate\Http\Request;
 
-class EncuestaEspecificaController extends Controller
+class EncuestaGlobalController extends Controller
 {
     public function index()
     {
         $encuestas = DB::table('encuesta_global as g')
-        ->join('marca as m', 'e.marca', '=', 'm.id_mar')
+        ->join('marca as m', 'g.marca', '=', 'm.id_mar')
         ->select('g.*', 'm.*', 'g.nombre as encu', 'm.nombre as marca')
         ->where('g.id_glo', '=', Session::get('usu'))
         ->where('borrado', '=', 0)
@@ -61,7 +61,7 @@ class EncuestaEspecificaController extends Controller
             $texto = "";
             while($r <= $cuantosR){
                 if($request->get('campo'.$r) != ""){
-                    $registro =  new RegistroEspecifica;
+                    $registro =  new RegistroGlobal;
                     $registro->campo = $request->get('campo'.$r);
                     $registro->id_esp = $encuesta->id_esp;
                     $registro->save();
@@ -70,17 +70,17 @@ class EncuestaEspecificaController extends Controller
             }
     		while($p <= $cuantosP){
                 if($request->get('pregunta'.$p) != "") {
-                    $pregunta = new PreguntasEspecifica;
+                    $pregunta = new PreguntasGlobal;
                     $pregunta->pregunta = $request->get('pregunta'.$p);
-                    $pregunta->tipo = $request->get('tip'.$p);
-                    $pregunta->id_esp = $encuesta->id_esp;
+                    $pregunta->tipo = $request->get('tipo'.$p);
+                    $pregunta->id_pglo = $encuesta->id_pglo;
                     if($pregunta->save()){
-                        if($request->get('tip'.$p) == 3 || $request->get('tip'.$p) == 4 || $request->get('tip'.$p) == 6 || $request->get('tip'.$p) == 7){
+                        if($request->get('tipo'.$p) == 3 || $request->get('tipo'.$p) == 4 || $request->get('tipo'.$p) == 6 || $request->get('tipo'.$p) == 7){
                             while ($o <= $cuantosO) {
                                 if($request->get('opcion'.$p.$o) != ""){
-                                    $opcion = new OpcionMultipleEspecifica;
+                                    $opcion = new OpcionMultipleGlobal;
                                     $opcion->respuestas = $request->get('opcion'.$p.$o);
-                                    $opcion->id_pesp = $pregunta->id_pesp;
+                                    $opcion->id_rgl = $pregunta->id_rgl;
                                     if(!$opcion->save()){
                                         $bandera = 2;
                                         break;
@@ -120,9 +120,9 @@ class EncuestaEspecificaController extends Controller
 
     public function edit($id)
     {
-    	$encuesta = EncuestaEspecifica::find($id);
-    	$preguntas = DB::table('preguntas_especifica as pe')
-    	->where('id_esp', '=', $id)
+    	$encuesta = EncuestaGlobal::find($id);
+    	$preguntas = DB::table('preguntas_global as pe')
+    	->where('id_glo', '=', $id)
     	->get();
         //-------------------------------------------------
         $marca = DB::table('marca')
@@ -131,32 +131,32 @@ class EncuestaEspecificaController extends Controller
         //------------------------------------------------------------------------
 
 
-        $preguntas = DB::table('preguntas_especifica')
-        ->where('id_esp', '=', $id)
+        $preguntas = DB::table('preguntas_global')
+        ->where('id_pglo', '=', $id)
         ->get();
 
         $registro = DB::table('registro_especifica')
         ->where('id_esp', '=', $id)
         ->get();
 
-        $opciones = DB::table('opcion_multiple_especifica')
+        $opciones = DB::table('opcion_multiple_global')
         ->get();
 
         
         //------------------------------------------------------
-    	return view('EncuestaEspecifica.edit', ['encuesta'=>$encuesta, 'marca'=>$marca, 'preguntas'=>$preguntas, 'registro'=>$registro, 'opciones'=>$opciones]);
+    	return view('EncuestaGlobal.edit', ['encuesta'=>$encuesta, 'marca'=>$marca, 'preguntas'=>$preguntas, 'registro'=>$registro, 'opciones'=>$opciones]);
     }
 
     public function update(Request $request, $id)
     {
-    	$encuesta = EncuestaEspecifica::findOrFail($id);
-    	$encuesta->nombre = $request->get('nombre');
-    	$encuesta->fecha_inicio = $request->get('fechaInicio');
-    	$encuesta->fecha_fin = $request->get('fechaFin');
-    	$encuesta->sede = $request->get('sede');
-    	$encuesta->marca = $request->get('marca');
-    	$encuesta->evento = $request->get('evento');
-    	$encuesta->abierto = $request->get('abierto');
+    	$encuesta = EncuestaGlobal::find($id);
+    	$encuesta->nombre = $request->nombre
+    	$encuesta->fecha_inicio = $request->fechaInicio
+    	$encuesta->fecha_fin = $request->fechaFin
+    	$encuesta->sede = $request->sede
+    	$encuesta->marca = $request->marca
+    	$encuesta->evento = $request->evento
+    	$encuesta->abierto = $request->abierto
         $encuesta->save();
 
     	//$encuesta->id_usu = Session::get('usu');
@@ -165,16 +165,16 @@ class EncuestaEspecificaController extends Controller
     		$o = 1;
     		$bandera = 0;
     		while ($request->get('pregunta'.$a)!="") {
-    			$pregunta = new PreguntasEspecifica;
+    			$pregunta = new PreguntasGlobal;
     			$pregunta->pregunta = $request->get('pregunta'.$a);
     			$pregunta->tipo = $request->get('tipo');
     			$pregunta->id_esp = $encuesta->id_esp;
     			if($pregunta->save()){
     				if($request->get('tipo') == 2){
     					while($request->get('correspondencia'.$o) == $a){
-    						$opcion = new OpcionMultipleEspecifica;
+    						$opcion = new OpcionMultipleGlobal;
     						$opcion->respuestas = $request->get('respuesta'.$o);
-    						$opcion->id_pesp = $pregunta->id_pesp;
+    						$opcion->id_rgl = $pregunta->id_rgl;
     						if(!$opcion->save()){
     							$bandera = 2;
     							break;
@@ -208,10 +208,10 @@ class EncuestaEspecificaController extends Controller
 
     public function show($id)
     {
-        $encuesta = EncuestaEspecifica::findOrFail($id);
+        $encuesta = EncuestaGlobal::findOrFail($id);
 
-        $preguntas = DB::table('preguntas_especifica')
-        ->where('id_esp', '=', $id)
+        $preguntas = DB::table('preguntas_global')
+        ->where('id_pglo', '=', $id)
         ->get();
 
         $registro = DB::table('registro_especifica')
@@ -222,18 +222,18 @@ class EncuestaEspecificaController extends Controller
         ->where('id_usu', '=', Session::get('usu')) 
         ->get();
 
-        $opciones = DB::table('opcion_multiple_especifica')
+        $opciones = DB::table('opcion_multiple_global')
         ->get();
 
-        return view('EncuestaEspecifica.show', ['encuesta'=>$encuesta, 'marcas'=>$marcas, 'preguntas'=>$preguntas, 'registro'=>$registro, 'opciones'=>$opciones]);
+        return view('EncuestaGlobal.show', ['encuesta'=>$encuesta, 'marcas'=>$marcas, 'preguntas'=>$preguntas, 'registro'=>$registro, 'opciones'=>$opciones]);
     }
 
     public function destroy($id)
     {
-        $encuesta = EncuestaEspecifica::findOrFail($id);
+        $encuesta = EncuestaGlobal::findOrFail($id);
         $encuesta->borrado = 1;
         if($encuesta->update()){
-        	return redirect()->action('EncuestaEspecificaController@index');
+        	return redirect()->action('EncuestaGlobalController@index');
     	}
     }
 
@@ -248,16 +248,16 @@ class EncuestaEspecificaController extends Controller
 
     public function eliminar(Request $request)
     {
-        $encuesta = EncuestaEspecifica::findOrFail($id);
+        $encuesta = EncuestaGlobal::findOrFail($id);
         $encuesta->borrado = 1;
         if($encuesta->update()){
-            return redirect()->action('EncuestaEspecificaController@index');
+            return redirect()->action('EncuestaGlobalController@index');
         }
     }
 
     public function guardar(Request $request)
     {
-        $encuesta = new EncuestaEspecifica;
+        $encuesta = new EncuestaGlobal;
         $encuesta->nombre = $request->get('nombre');
         $encuesta->fecha_inicio = $request->get('inicio');
         $encuesta->fecha_fin = $request->get('fin');
@@ -288,17 +288,17 @@ class EncuestaEspecificaController extends Controller
             while($p <= $cuantosP){
                 if($request->get('pregunta'.$p) != "") {
                     $o = 1;
-                    $pregunta = new PreguntasEspecifica;
+                    $pregunta = new PreguntasGlobal;
                     $pregunta->pregunta = $request->get('pregunta'.$p);
-                    $pregunta->tipo = $request->get('tip'.$p);
-                    $pregunta->id_esp = $encuesta->id_esp;
+                    $pregunta->tipo = $request->get('tipo'.$p);
+                    $pregunta->id_pglo = $encuesta->id_pglo;
                     if($pregunta->save()){
-                        if($request->get('tip'.$p) == 3 || $request->get('tip'.$p) == 4 || $request->get('tip'.$p) == 6 || $request->get('tip'.$p) == 7){
+                        if($request->get('tipo'.$p) == 3 || $request->get('tipo'.$p) == 4 || $request->get('tipo'.$p) == 6 || $request->get('tipo'.$p) == 7){
                             while ($o <= $cuantosO) {
                                 if($request->get('opcion'.$p.$o) != ""){
                                     $opcion = new OpcionMultipleEspecifica;
                                     $opcion->respuestas = $request->get('opcion'.$p.$o);
-                                    $opcion->id_pesp = $pregunta->id_pesp;
+                                    $opcion->id_rgl = $pregunta->id_rgl;
                                     if(!$opcion->save()){
                                         $bandera = 2;
                                     }

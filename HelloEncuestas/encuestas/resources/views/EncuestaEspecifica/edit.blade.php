@@ -140,11 +140,15 @@
 										</div>
 										<br>
 										<div id="contenido">
-										<div class="row">
+										
+												@foreach($registro as $r)
+												<div class="row" id="holaR{{$r->id_regesp}}">
 												<br>
-												<div class="col-xs-5"><input type="text" class="form-control" id="dato1" name="dato1" placeholder="Agrega Campo para Registro" required></div>
-												<div class="col-xs-1"><button type="button" class="btn btn-success" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="agregarRegistro();"><center><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></center></button></div>
-											</div>
+												<div class="col-xs-5"><input type="text" class="form-control" id="datoR{{$r->id_regesp}}" value="{{$r->campo}}" name="datoR{{$r->id_regesp}}" placeholder="Agrega Campo para Registro" required></div>
+												<div class="col-xs-1"><button type="button" class="btn btn-danger" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="borrarRegistro('R{{$r->id_regesp}}');"><center><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></center></button></div></div>
+												@endforeach
+												<button type="button" class="btn btn-success" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="agregarRegistro();"><center><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></center></button>
+											
 										</div>
 										<input type="hidden" id="cuantosR" name="cuantosR" value="1">
 										<input type="hidden" id="cuantosP" name="cuantosP" value="1">
@@ -166,10 +170,11 @@
 														<option value="5">Valoración</option>
 														<option value="6">Opción Múltiple con Respuesta Abierta</option>
 														<option value="7">Opción Única con Respuesta Abierta</option>
+													</select>
 														@foreach($preguntas as $p)
+														<select>
 
-
-								@if($p->tipo==1)
+													@if($p->tipo==1)
 														<option value="1">Respuesta Larga</option>
 														@elseif($p->tipo==2)
 														<option value="2">Respuesta Corta</option>
@@ -204,9 +209,38 @@
 														@endif
 															@endforeach
 															@endif 	
-														@endforeach
-													</select>
+															</select>
+															@if($p->tipo==1)
+															<input type="hidden" id="tip'+p+'" name="tip'+p+'" value="'+tipo+'">
+															@elseif($p->tipo==2)
+															<input type="hidden" id="tip'+p+'" name="tip'+p+'" value="'+tipo+'">
+															@elseif($p->tipo==3)
+															<div class="row" id="mul'+p+opc+'"><div class="col-xs-5"><input type="text" class="form-control" placeholder="Opción" type="text" id="opcion'+p+opc+'" name ="opcion'+p+opc+'"></div><div class="col-xs-1"><button type="button" class="btn btn-danger" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="borrarOpcion('+p+','+opc+');"><center><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></center></button></div><br></div>
+															@foreach($opciones as $o)
+															@if($o->id_pesp==$p->id_pesp)
+															<div class="row" id="mul'+p+opc+'"><div class="col-xs-5"><input type="text" class="form-control" placeholder="Opción" type="text" id="opcion'+p+opc+'" name ="opcion'+p+opc+'"></div><div class="col-xs-1"><button type="button" class="btn btn-danger" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="borrarOpcion('+p+','+opc+');"><center><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></center></button></div><br></div>
+															@endif
+															<button type="button" class="btn btn-link" onclick="agregarOpcion('+p+', '+opc+');"><center><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar Opción</center></button>'
+					pregunta += '<input type="hidden" id="tip'+p+'" name="tip'+p+'" value="'+tipo+'">
 
+															@endforeach
+															@if($p->==4)
+															<br>
+															@foreach($opciones as $o)
+															<div class="row" id="mul'+p+opc+'"><div class="col-xs-5"><input type="text" class="form-control" placeholder="Opción" type="text" id="opcion'+p+opc+'" name ="opcion'+p+opc+'"></div><div class="col-xs-1"><button type="button" class="btn btn-danger" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="borrarOpcion('+p+','+opc+');"><center><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></center></button></div><br></div>
+
+															<div class="row" id="mul'+p+opc+'"><div class="col-xs-5"><input type="text" class="form-control" placeholder="Opción" type="text" id="opcion'+p+opc+'" name ="opcion'+p+opc+'"></div><div class="col-xs-1"><button type="button" class="btn btn-danger" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="borrarOpcion('+p+','+opc+');"><center><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></center></button></div><br></div>
+															@if($o->id_pesp == $p->id_pesp)
+															<div id="opi'+p+'"></div>
+
+															<input type="hidden" id="tip'+p+'" name="tip'+p+'" value="'+tipo+'">
+															@endif
+
+
+
+															@endforeach
+															<button type="button" class="btn btn-link" onclick="agregarOpcion('+p+', '+opc+');"><center><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar Opción</center></button>
+														@endforeach
 							    		    </div>
 							    		   
 									    </div>
