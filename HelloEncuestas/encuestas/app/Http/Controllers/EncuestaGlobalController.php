@@ -150,13 +150,13 @@ class EncuestaGlobalController extends Controller
     public function update(Request $request, $id)
     {
     	$encuesta = EncuestaGlobal::find($id);
-    	$encuesta->nombre = $request->nombre
-    	$encuesta->fecha_inicio = $request->fechaInicio
-    	$encuesta->fecha_fin = $request->fechaFin
-    	$encuesta->sede = $request->sede
-    	$encuesta->marca = $request->marca
-    	$encuesta->evento = $request->evento
-    	$encuesta->abierto = $request->abierto
+    	$encuesta->nombre = $request->nombre;
+    	$encuesta->fecha_inicio = $request->fechaInicio;
+    	$encuesta->fecha_fin = $request->fechaFin;
+    	$encuesta->sede = $request->sede;
+    	$encuesta->marca = $request->marca;
+    	$encuesta->evento = $request->evento;
+    	$encuesta->abierto = $request->abierto;
         $encuesta->save();
 
     	//$encuesta->id_usu = Session::get('usu');

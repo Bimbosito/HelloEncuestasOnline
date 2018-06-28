@@ -1,5 +1,4 @@
 @extends('layouts.menu')
-@section('tittle', 'Editar Encuesta', $encuesta->nombre)
 @section('content')	
 	<div class="container">
 		<div class="row">
@@ -210,39 +209,19 @@
 															@endforeach
 															@endif 	
 															</select>
-															@if($p->tipo==1)
-															<input type="hidden" id="tip'+p+'" name="tip'+p+'" value="'+tipo+'">
-															@elseif($p->tipo==2)
-															<input type="hidden" id="tip'+p+'" name="tip'+p+'" value="'+tipo+'">
-															@elseif($p->tipo==3)
-															<div class="row" id="mul'+p+opc+'"><div class="col-xs-5"><input type="text" class="form-control" placeholder="Opción" type="text" id="opcion'+p+opc+'" name ="opcion'+p+opc+'"></div><div class="col-xs-1"><button type="button" class="btn btn-danger" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="borrarOpcion('+p+','+opc+');"><center><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></center></button></div><br></div>
-															@foreach($opciones as $o)
-															@if($o->id_pesp==$p->id_pesp)
-															<div class="row" id="mul'+p+opc+'"><div class="col-xs-5"><input type="text" class="form-control" placeholder="Opción" type="text" id="opcion'+p+opc+'" name ="opcion'+p+opc+'"></div><div class="col-xs-1"><button type="button" class="btn btn-danger" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="borrarOpcion('+p+','+opc+');"><center><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></center></button></div><br></div>
-															@endif
-															<button type="button" class="btn btn-link" onclick="agregarOpcion('+p+', '+opc+');"><center><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar Opción</center></button>'
-					pregunta += '<input type="hidden" id="tip'+p+'" name="tip'+p+'" value="'+tipo+'">
+															@endforeach	
 
+															@foreach($preguntas as $p)
+															<select>
+																@if($p->tipo==1)
+																<input type="hidden" id="tip'+p+'" name="tip'+p+'" value="'+tipo+'">
+																@elseif($p->tipo==2)
+																<input type="hidden" id="tip'+p+'" name="tip'+p+'" value="'+tipo+'">
+																@endif
+															</select>
 															@endforeach
-															@if($p->==4)
-															<br>
-															@foreach($opciones as $o)
-															<div class="row" id="mul'+p+opc+'"><div class="col-xs-5"><input type="text" class="form-control" placeholder="Opción" type="text" id="opcion'+p+opc+'" name ="opcion'+p+opc+'"></div><div class="col-xs-1"><button type="button" class="btn btn-danger" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="borrarOpcion('+p+','+opc+');"><center><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></center></button></div><br></div>
-
-															<div class="row" id="mul'+p+opc+'"><div class="col-xs-5"><input type="text" class="form-control" placeholder="Opción" type="text" id="opcion'+p+opc+'" name ="opcion'+p+opc+'"></div><div class="col-xs-1"><button type="button" class="btn btn-danger" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="borrarOpcion('+p+','+opc+');"><center><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></center></button></div><br></div>
-															@if($o->id_pesp == $p->id_pesp)
-															<div id="opi'+p+'"></div>
-
-															<input type="hidden" id="tip'+p+'" name="tip'+p+'" value="'+tipo+'">
-															@endif
-
-
-
-															@endforeach
-															<button type="button" class="btn btn-link" onclick="agregarOpcion('+p+', '+opc+');"><center><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar Opción</center></button>
-														@endforeach
 							    		    </div>
-							    		   
+							    		  
 									    </div>
 									</div>
 								<br>
