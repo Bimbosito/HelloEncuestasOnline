@@ -80,7 +80,7 @@
 										</div>
 									
 										<div class="form-group">
-											@if($encuesta->abierto==1)
+											@if($encuesta->abierto==0)
 											<input type="radio" id="tipopr" name="abierto" value="0" checked> <label><strong>Privada</strong></label>
 											@else
 											<input type="radio" id="tipopr" name="abierto" value="0" > <label><strong>Privada</strong></label>
@@ -169,9 +169,10 @@
 														<option value="5">Valoración</option>
 														<option value="6">Opción Múltiple con Respuesta Abierta</option>
 														<option value="7">Opción Única con Respuesta Abierta</option>
-													</select>
+													</select><br><br>
+													<select class="form-control" id="tipoPre" name="tipoPre" value=""><br><br>
 														@foreach($preguntas as $p)
-														<select>
+														
 
 													@if($p->tipo==1)
 														<option value="1">Respuesta Larga</option>
@@ -208,17 +209,32 @@
 														@endif
 															@endforeach
 															@endif 	
-															</select>
+															</select ><br>
 															@endforeach	
 
 															@foreach($preguntas as $p)
-															<select>
+															
 																@if($p->tipo==1)
 																<input type="hidden" id="tip'+p+'" name="tip'+p+'" value="'+tipo+'">
 																@elseif($p->tipo==2)
 																<input type="hidden" id="tip'+p+'" name="tip'+p+'" value="'+tipo+'">
+																@elseif($p->tipo==3)
+																<input type="hidden" id="" name="tipP{{$o->id_res}}" value="'+tipo+'">
+																@foreach($opciones as $o)
+																@if($o->id_pesp == $p->id_pesp)
+																	<div class="row" id="tipP{{$o->id_res}}'"><div class="col-xs-5"><input type="text" class="form-control" placeholder="Opcion" type="text" id="opcion'+p+opc+'" name ="opcion'+p+opc+'" value="{{$o->respuestas}}"></div><div class="col-xs-1"><button type="button" class="btn btn-danger" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="borrarOpcion('+p+','+opc+');"><center><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></center></button></div><br></div>
+
+																	
+
+																	<div id="tipP{{$o->id_res}}'"></div>
+																	@endif
+																@endforeach
+															<button type="button" class="btn btn-link" onclick="agregarOpcion('+p+', '+opc+');"><center><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar Opción</center></button>
+															<input type="hidden" id="tip'+p+'" name="tip'+p+'" value="'+tipo+'">
 																@endif
-															</select>
+
+																
+															
 															@endforeach
 							    		    </div>
 							    		  

@@ -110,7 +110,7 @@ public function loginuser(Request $request)
     	$usuario->logo = $imageName;
         $usuario->id_paq = 1;   
         $usuario->save();
-        return redirect('Home.principal');
+        return view('Home.principal');
          //Mail recuperar 
 
 
