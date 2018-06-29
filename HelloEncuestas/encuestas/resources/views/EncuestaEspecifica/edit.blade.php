@@ -175,7 +175,9 @@
 														
 
 													@if($p->tipo==1)
-														<option value="1">Respuesta Larga</option>
+														<option value="1">Respuesta Larga</option><br>
+														
+														
 														@elseif($p->tipo==2)
 														<option value="2">Respuesta Corta</option>
 														@elseif($p->tipo==3)
@@ -212,29 +214,21 @@
 															</select ><br>
 															@endforeach	
 
+
+
 															@foreach($preguntas as $p)
 															
 																@if($p->tipo==1)
-																<input type="hidden" id="tip'+p+'" name="tip'+p+'" value="'+tipo+'">
+																<input type="text" id="tip'+p+'" name="tip'+p+'" value="{{$r->campo}}">
+
 																@elseif($p->tipo==2)
 																<input type="hidden" id="tip'+p+'" name="tip'+p+'" value="'+tipo+'">
 																@elseif($p->tipo==3)
-																<input type="hidden" id="" name="tipP{{$o->id_res}}" value="'+tipo+'">
-																@foreach($opciones as $o)
-																@if($o->id_pesp == $p->id_pesp)
-																	<div class="row" id="tipP{{$o->id_res}}'"><div class="col-xs-5"><input type="text" class="form-control" placeholder="Opcion" type="text" id="opcion'+p+opc+'" name ="opcion'+p+opc+'" value="{{$o->respuestas}}"></div><div class="col-xs-1"><button type="button" class="btn btn-danger" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="borrarOpcion('P{{$o->id_res}}');"><center><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></center></button></div><br></div>
-
-																	
-
-																	<div id="tipP{{$o->id_res}}'"></div>
-																	@endif
-																@endforeach
-															<button type="button" class="btn btn-link" onclick="agregarOpcion('+p+', '+opc+');"><center><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar Opción</center></button>
-															<input type="hidden" id="tip'+p+'" name="tip'+p+'" value="'+tipo+'">
-																@endif
-
+																<input type="hidden" id="tip'+p+'" name="tip'+p+'" value="'+tipo+'">
 																
-															
+
+
+																@endif<!-- Option = 1-->
 															@endforeach
 							    		    </div>
 							    		  
