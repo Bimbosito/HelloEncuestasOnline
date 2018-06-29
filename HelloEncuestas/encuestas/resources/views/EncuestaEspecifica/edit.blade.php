@@ -146,7 +146,7 @@
 												<div class="col-xs-5"><input type="text" class="form-control" id="datoR{{$r->id_regesp}}" value="{{$r->campo}}" name="datoR{{$r->id_regesp}}" placeholder="Agrega Campo para Registro" required></div>
 												<div class="col-xs-1"><button type="button" class="btn btn-danger" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="borrarRegistro('R{{$r->id_regesp}}');"><center><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></center></button></div></div>
 												@endforeach
-												<button type="button" class="btn btn-success" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="agregarRegistro();"><center><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></center></button>
+												<br><button type="button" class="btn btn-success" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="agregarRegistro();"><center><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></center></button>
 											
 										</div>
 										<input type="hidden" id="cuantosR" name="cuantosR" value="1">
@@ -222,7 +222,7 @@
 																<input type="hidden" id="" name="tipP{{$o->id_res}}" value="'+tipo+'">
 																@foreach($opciones as $o)
 																@if($o->id_pesp == $p->id_pesp)
-																	<div class="row" id="tipP{{$o->id_res}}'"><div class="col-xs-5"><input type="text" class="form-control" placeholder="Opcion" type="text" id="opcion'+p+opc+'" name ="opcion'+p+opc+'" value="{{$o->respuestas}}"></div><div class="col-xs-1"><button type="button" class="btn btn-danger" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="borrarOpcion('+p+','+opc+');"><center><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></center></button></div><br></div>
+																	<div class="row" id="tipP{{$o->id_res}}'"><div class="col-xs-5"><input type="text" class="form-control" placeholder="Opcion" type="text" id="opcion'+p+opc+'" name ="opcion'+p+opc+'" value="{{$o->respuestas}}"></div><div class="col-xs-1"><button type="button" class="btn btn-danger" style="padding: 7px; width: 30px;border-radius: 25px; font-size: 10px;" onclick="borrarOpcion('P{{$o->id_res}}');"><center><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></center></button></div><br></div>
 
 																	
 

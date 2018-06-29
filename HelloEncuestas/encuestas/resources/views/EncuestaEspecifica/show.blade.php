@@ -63,8 +63,8 @@
 									</div>
 									<div class="col-lg-3 col-md-3 col-xs-12">
 										<div class="form-group">
-											<label for="global">Marca:</label>
-											<select class="form-control" id="marca" name="marca">
+											<label for="global" readonly>Marca:</label>
+											<select class="form-control" id="marca" name="marca" readonly>
 												<option value="">--Marca--</option>
 												@foreach($marcas as $m)
 												@if($encuesta->marca == $m->id_mar)
