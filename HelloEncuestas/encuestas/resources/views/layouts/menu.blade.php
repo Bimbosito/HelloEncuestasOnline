@@ -99,7 +99,7 @@
 			                </li>
 			                <li role="separator" class="divider"></li>
 			                <li>
-			                    <a href="{{URL::action('EncuestaEspecificaController@index')}}">Gráficas</a>
+			                    <a href="{{URL::action('EncuestaEspecificaContestadaController@index')}}">Gráficas</a>
 			                </li>
 			                <li role="separator" class="divider"></li>
 			                <li>
