@@ -1,5 +1,49 @@
 @extends('layouts.menu')
 @section('content')
+<!--
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['Preguntas', 'Respuestas'],
+         @foreach($preguntas as $p)
+         @if($p->tipo != "1" && $p->tipo != "2")
+         ['{{$p->pregunta}}', '{{$p->id_pesp}}'],
+         @endif
+         @endforeach
+        ]);
+
+        var options = {
+          title: 'Encuestas Contestadas'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+        chart.draw(data, options);
+      }
+    </script>
+  </head>
+  <body>
+  	<div class="container-fluid">
+  		<div class="row">
+  			<div class="col-xs-12 col-md-11 col-lg-11">
+  				<center><div id="piechart" style="width: 900px; height: 500px;"></div></center>
+  			</div>
+  		</div>
+  	</div>    
+  </body>
+
+----------------------------------------------------->
+<head><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+
+</head>
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-lg-3 col-md-3 col-xs-3">
@@ -11,7 +55,8 @@
 						@foreach($preguntas as $p)
 						@if($p->tipo != "1" && $p->tipo != "2")
 						<div class="row">
-							<div class="col-xs-12">
+							<div class="col-xs-5">
+								<label>Encuesta de Satisfaccion</label><br><br>
 								<label>Pregunta: {{$p->pregunta}}</label>
 								<canvas id="graf{{$p->id_pesp}}"></canvas>
 							</div>
@@ -19,9 +64,9 @@
 						@endif
 						@endforeach
 						<div class="row">
-							<div class="col-xs-12">
+							<div class="col-xs-5">
 								<label>Pregunta: Encuesta Básica</label>
-								<canvas id="grafica"></canvas>
+								<canvas id="grafica" width="200" height="200"></canvas>
 							</div>
 						</div>
 					</div>
@@ -33,9 +78,10 @@
 		</div>
 	</div>
 </body>
-	<script type="text/javascript">
+	<script>
 		var cadena = "";
 		var datos = "";
+		var respuestas = "";
 		var datosSeparados = "";
 		var frecuencias = [];
 		$(document).ready(function(){
@@ -66,14 +112,15 @@
 				@endforeach
 				var grafica = $('#graf{{$p->id_pesp}}');
 
-				var myChart = new Chart(grafica, {
+				var grafica = new Chart(grafica, {
 					type: 'doughnut',
 					data: {
-				        labels: respuestas{{$p->id_pesp}},
+				        labels: ['DATO1', 'DATO2', 'DATO3', 'DATO4','DATO5'],
 				        datasets: [{
-				            label: '# of Votes',
+				            label: 'Encuesta Especifica',
 				            data: frecuencias,
-				            backgroundColor: [
+				            lineTension: 0,
+					            backgroundColor: [
 				                'rgba(255, 99, 132, 0.2)',
 				                'rgba(54, 162, 235, 0.2)',
 				                'rgba(255, 206, 86, 0.2)',
@@ -92,6 +139,7 @@
 				            borderWidth: 1
 				        }]
 				    }
+
 				});
 			}
 			@endif
