@@ -115,7 +115,7 @@
 				var grafica = new Chart(grafica, {
 					type: 'doughnut',
 					data: {
-				        labels: ['DATO1', 'DATO2', 'DATO3', 'DATO4','DATO5'],
+				        labels: respuestas{{$p->id_pesp}},
 				        datasets: [{
 				            label: 'Encuesta Especifica',
 				            data: frecuencias,
@@ -139,7 +139,6 @@
 				            borderWidth: 1
 				        }]
 				    }
-
 				});
 			}
 			@endif
