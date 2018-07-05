@@ -1,6 +1,10 @@
 @extends('layouts.menu')
 @section('content')
 
+<<<<<<< HEAD
+=======
+----------------------------------------------------->
+>>>>>>> dc6323e77c90b77cd7eb6db6b8c1b3caa58a12e2
 <head><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
