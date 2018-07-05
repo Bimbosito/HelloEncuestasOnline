@@ -1,43 +1,6 @@
 @extends('layouts.menu')
 @section('content')
-<!--
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
-      google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChart);
 
-      function drawChart() {
-
-        var data = google.visualization.arrayToDataTable([
-          ['Preguntas', 'Respuestas'],
-         @foreach($preguntas as $p)
-         @if($p->tipo != "1" && $p->tipo != "2")
-         ['{{$p->pregunta}}', '{{$p->id_pesp}}'],
-         @endif
-         @endforeach
-        ]);
-
-        var options = {
-          title: 'Encuestas Contestadas'
-        };
-
-        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-
-        chart.draw(data, options);
-      }
-    </script>
-  </head>
-  <body>
-  	<div class="container-fluid">
-  		<div class="row">
-  			<div class="col-xs-12 col-md-11 col-lg-11">
-  				<center><div id="piechart" style="width: 900px; height: 500px;"></div></center>
-  			</div>
-  		</div>
-  	</div>    
-  </body>
-
------------------------------------------------------>
 <head><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
