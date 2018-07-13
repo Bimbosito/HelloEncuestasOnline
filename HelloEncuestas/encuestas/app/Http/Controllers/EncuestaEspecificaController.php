@@ -120,10 +120,14 @@ class EncuestaEspecificaController extends Controller
 
     public function edit($id)
     {
-    	$encuesta = EncuestaEspecifica::find($id);
+        $encuesta = EncuestaEspecifica::find($id);
     	$preguntas = DB::table('preguntas_especifica as pe')
     	->where('id_esp', '=', $id)
-    	->get();
+        ->get();
+        //------------------------------------------------
+        $enc = DB::table('encuesta_especifica as e')
+        ->where('id_esp', '=', $id)
+        ->first();
         //-------------------------------------------------
         $marca = DB::table('marca')
         ->where('id_usu', '=', Session::get('usu'))
@@ -143,17 +147,17 @@ class EncuestaEspecificaController extends Controller
         ->get();
 
         
-        //------------------------------------------------------
-    	return view('EncuestaEspecifica.edit', ['encuesta'=>$encuesta, 'marca'=>$marca, 'preguntas'=>$preguntas, 'registro'=>$registro, 'opciones'=>$opciones]);
+        //----------------------------------------------------------------------------------
+        return view('EncuestaEspecifica.edit', ['encuesta'=>$encuesta, 'marca'=>$marca, 'preguntas'=>$preguntas, 'registro'=>$registro, 'opciones'=>$opciones, 'id'=>$id]);
     }
 
     public function update(Request $request, $id)
     {
 
-//----------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------------------
   
         $encuesta = EncuestaEspecifica::findOrFail($id);
-        $encuesta->nombre = $request->nombre1;
+        $encuesta->nombre = $request->nombre;
         $encuesta->fecha_inicio = $request->fechaInicio;
         $encuesta->fecha_fin = $request->fechaFin;
         $encuesta->sede = $request->sede;
@@ -213,7 +217,7 @@ class EncuestaEspecificaController extends Controller
 
     public function show($id)
     {
-        $encuesta = EncuestaEspecifica::findOrFail($id);
+        $encuesta = EncuestaEspecifica::find($id);
 
         $preguntas = DB::table('preguntas_especifica')
         ->where('id_esp', '=', $id)
@@ -328,6 +332,65 @@ class EncuestaEspecificaController extends Controller
         else{
             $bandera = 3;
             $texto = "Hubo error al guardar las preguntas";
+        }
+
+        if($bandera == 0){
+            return response()->json([
+                'respuesta'=>1 //Exito
+            ]);
+        }
+
+        else{
+            return response()->json([
+                'respuesta'=>0 //Error al guardar
+            ]);
+        }
+    }
+
+    public function actualizar(Request $request) 
+    {
+        $encuesta = EncuestaEspecifica::findOrfail($request->id);
+        $encuesta->nombre = $request->get('nombre');
+        $encuesta->fecha_inicio = $request->get('inicio');
+        $encuesta->fecha_fin = $request->get('fin');
+        $encuesta->sede = $request->get('sede');
+        $encuesta->marca = $request->get('marca');
+        $encuesta->evento = $request->get('eventos');
+        $encuesta->abierto = $request->get('abierto');
+        $encuesta->borrado = 0;
+
+        $encuesta->id_usu = Session::get('usu');
+        if($encuesta->update()){
+            $a = 1;
+            $o = 1;
+            $bandera = 0;
+            while ($request->get('pregunta'.$a)!="") {
+                $pregunta = new PreguntasEspecifica;
+                $pregunta->pregunta = $request->get('pregunta'.$a);
+                $pregunta->tipo = $request->get('tipo');
+                $pregunta->id_esp = $encuesta->id_esp;
+                if($pregunta->save()){
+                    if($request->get('tipo') == 2){
+                        while($request->get('correspondencia'.$o) == $a){
+                            $opcion = new OpcionMultipleEspecifica;
+                            $opcion->respuestas = $request->get('respuesta'.$o);
+                            $opcion->id_pesp = $pregunta->id_pesp;
+                            if(!$opcion->save()){
+                                $bandera = 2;
+                                break;
+                            }
+                        }
+                    }
+                }
+                else{
+                    $bandera = 1;
+                    break;
+                }
+
+            }
+        }
+        else{
+            $bandera = 3;
         }
 
         if($bandera == 0){

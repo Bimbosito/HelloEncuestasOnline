@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8"> 
@@ -42,7 +42,7 @@
     <br/>
     <div class="row">
         <div class="col-md-12">
-            <center><span class="txtLight">¿No tienes cuenta?&nbsp;&nbsp;</span><button id="btnLight" type="button" class="btn btn-light">Registrate</button></center>
+        <center><span class="txtLight">¿No tienes cuenta?&nbsp;&nbsp;</span><a href="{{route('Usuarios.crear')}}"></><button id="btnLight" type="button" class="btn btn-light">Registrate</button></center>
             <center><a href="{{route('Usuarios.recuperar')}}">¿Olvidaste tu Contraseña?</a></center>
         </div><!-- Div Class Register -->
     </div>

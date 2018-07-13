@@ -19,8 +19,8 @@ Route::get('descargar-productos', 'ProductController@pdf')->name('products.pdf')
 
 Route::post('eliminarEspecifica', 'EncuestaEspecificaController@eliminar')->name('eliminarEspecifica');
 Route::post('guardarEspecifica', 'EncuestaEspecificaController@guardar')->name('guardarEspecifica');
-Route::post('editarEspecifica', 'EncuestaEspecificaController@update');
-Route::get('/edit/{id_esp}', 'EncuestaEspecificaController@edit');
+Route::post('actualizarEspecifica', 'EncuestaEspecificaController@actualizar')->name('actualizarEspecifica');
+
 Route::post('guardarContestada', 'EncuestaEspecificaContestadaController@guardar')->name('guardarContestada');
 Route::resource('encuestaEspecifica', 'EncuestaEspecificaController');
 Route::resource('encuestaEspecificaContestada', 'EncuestaEspecificaContestadaController');
@@ -48,12 +48,14 @@ return "se envio el email nigga";
 
 });
 
-Route::get('/','EncuestaGlobalController@idex');
+
+Route::get('/','EncuestaGlobalController@index');
 
 Route::get('/restorepage', [
     'uses'=>'HomeController@restorepage',
     'as'=>'Home.restorepage'
 ]);
+
 
 Route::get('/', 'HomeController@index');
 
@@ -73,7 +75,10 @@ Route::get('/Paquetes',
            'as'=>'Home.paquetes'
            ]);
 
-
+Route::get('EncuestaGlobalController/create', [
+    'uses' =>'EncuestaGlobalController@create',
+    'as' =>'EncuestaGlobal.create'
+]);
 Route::get('Usuarios/crear', [
     'uses' =>'UsuariosController@create',
     'as' => 'Usuarios.crear'

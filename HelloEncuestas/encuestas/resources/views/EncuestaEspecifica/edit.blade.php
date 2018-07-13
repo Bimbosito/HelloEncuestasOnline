@@ -9,8 +9,9 @@
 				<div class="row">
 					<div class="col-xs-12">
 						<div class="row">
-							<form enctype="multipart/form-data" id="formulario" action="javascript:editarEncuesta();" method="POST">
+							<form enctype="multipart/form-data" id="formularioedit" action="javascript:updateEncuesta();" method="PUT">
 								<input type="hidden" name="_token" value="{{ csrf_token() }}">
+								<input type="hidden" id="id" name="id" value="{{ $id }}">
 								<div class="row">
 									<div class="col-xs-12">
 										<div class="alert alert-default" role="alert">
@@ -170,66 +171,64 @@
 														<option value="6">Opción Múltiple con Respuesta Abierta</option>
 														<option value="7">Opción Única con Respuesta Abierta</option>
 													</select><br><br>
-													<select class="form-control" id="tipoPre" name="tipoPre" value=""><br><br>
+													<label>Edita tus preguntas</label><br><br>
 														@foreach($preguntas as $p)
 														
-
 													@if($p->tipo==1)
-														<option value="1">Respuesta Larga</option><br>
-														
-														
+														<br>
+														<div class="col-xs-5"><input type="text" size="35" id="pre{{$p->id_pesp}}'" name="pre{{$p->id_pesp}}" value="{{$p->pregunta}}"></div>
+														<br>
 														@elseif($p->tipo==2)
-														<option value="2">Respuesta Corta</option>
+														<br>
+														<div class="col-xs-5"><input type="text" size="35" id="pre{{$p->id_pesp}}" name="pre{{$p->id_pesp}}'" value="{{$p->pregunta}}"></div>
 														@elseif($p->tipo==3)
 														<br>
+														<label>Opcion Multiple:<br><br>Pregunta: </label><br>
+														<input type="text" size="35" id="pre{{$p->id_pesp}}" name="pre{{$p->id_pesp}}" value="{{$p->pregunta}}"><br>
+														<label>Respuestas: <br><br>
 														@foreach($opciones as $o)
+														
 														@if($o->id_pesp == $p->id_esp)
-														<option value="3">Opción Múltiple</option>
+														
+														<input type="text" size="35" id="{{$p->id_pesp}}" name="{{$p->id_pesp}}" value="{{$o->respuestas}}"><br>
 														@endif
 														@endforeach
 														@elseif($p->tipo == 4)
-															<br>
+															<br><label>Opcion Multiple Unica:<br><br>Pregunta: <br></label><br><br>
+															<div class="col-xs-5"><input type="text" id="pre{{$p->id_pesp}}" name="pre{{$p->id_pesp}}" value="{{$p->pregunta}}"><br><br></div>	
+															<label class="col-lg-2 control-label">Respestas(opciones)</label><br>
 															@foreach($opciones as $o)
 															@if($o->id_pesp == $p->id_pesp)
-														<option value="4">Opción Única</option>
+														<br>	<input type="text" size="35" id="{{$p->id_pesp}}" name="{{$p->id_pesp}}" value="{{$o->respuestas}}"><br>
 														@endif
 															@endforeach
 														@elseif($p->tipo == 5)
+														
+															sda
 														@elseif($p->tipo == 6)
 															<br>
+															<br><label>Opcion Multiple con Respuesta abierta:<br><br>Pregunta: </label><br><br>
+															<input type="text" size="35" id="pre{{$p->id_pesp}}" name="pre{{$p->id_pesp}}" value="{{$p->pregunta}}"><br><br>
+															<label class="col-lg-2 control-label"> Respuestas; </label><br>
 															@foreach($opciones as $o)
 															@if($o->id_pesp == $p->id_pesp)
-														<option value="5">Valoración</option>
-														<option value="6">Opción Múltiple con Respuesta Abierta</option>
+														
+														<input type="text" class="form-control" size="35" id="{{$p->id_pesp}}" name="{{$p->id_pesp}}" value="{{$o->respuestas}}"><br>
 														@endif
 															@endforeach
 															@elseif($p->tipo == 7)
+															<br><label>Opcion unica con Respuesta abierta:<br><br>Pregunta: </label><br><br>
+															<input type="text" size="35" id="pre{{$p->id_pesp}}" name="pre{{$p->id_pesp}}" value="{{$p->pregunta}}"><br><br>
+															<label class="col-lg-2 control-label"> Respuestas; </label><br>
 															<br>
 															@foreach($opciones as $o)
 															@if($o->id_pesp == $p->id_pesp)
-														<option value="7">Opción Única con Respuesta Abierta</option>
+															<input type="text" class="form-control" size="35" id="{{$p->id_pesp}}" name="{{$p->id_pesp}}" value="{{$o->respuestas}}"><br>
 														@endif
 															@endforeach
 															@endif 	
-															</select ><br>
+															<br>
 															@endforeach	
-
-
-
-															@foreach($preguntas as $p)
-															
-																@if($p->tipo==1)
-																<input type="text" id="tip'+p+'" name="tip'+p+'" value="{{$r->campo}}">
-
-																@elseif($p->tipo==2)
-																<input type="hidden" id="tip'+p+'" name="tip'+p+'" value="'+tipo+'">
-																@elseif($p->tipo==3)
-																<input type="hidden" id="tip'+p+'" name="tip'+p+'" value="'+tipo+'">
-																
-
-
-																@endif<!-- Option = 1-->
-															@endforeach
 							    		    </div>
 							    		  
 									    </div>
@@ -521,7 +520,7 @@
 		}
 
 		function guardarEncuesta(){
-			var form = new FormData(document.getElementById('formulario'));
+			var form = new FormData(document.getElementById('formularioedit'));
 			$.ajax({
 				url: '/guardarEspecifica',
 				type: 'post',
@@ -539,10 +538,10 @@
 			});
 		}
 			//----
-			function editarEncuesta(){
-			var form = new FormData(document.getElementById('formulario'));
+			function updateEncuesta(){
+			var form = new FormData(document.getElementById('formularioedit'));
 			$.ajax({
-				url: '/editarEspecifica',
+				url: '/actualizarEspecifica',
 				type: 'post',
 				data: form,
 				processData: false,
