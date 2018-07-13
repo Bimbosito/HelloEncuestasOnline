@@ -361,21 +361,36 @@ class EncuestaEspecificaController extends Controller
 
         $encuesta->id_usu = Session::get('usu');
         if($encuesta->update()){
-            $a = 1;
+            $cuantosR = (int)$request->get('cuantosR');
+            $cuantosP = (int)$request->get('cuantosP');
+            $cuantosO = (int)$request->get('cuantosO');
+           $r = 1;
+            $p = 1;
             $o = 1;
             $bandera = 0;
-            while ($request->get('pregunta'.$a)!="") {
-                $pregunta = new PreguntasEspecifica;
+            $texto = "";
+            while($r <= $cuantosR){
+                if($request->get('dato'.$r) != ""){
+                    $registro = RegistroEspecifica::findOrfail($reques->id_esp);
+                    $registro->campo = $request->get('dato'.$r);
+                    $registro->id_esp = $encuesta->id_esp;
+                    $registro->update();
+                }
+                $r = $r + 1;
+            }
+            
+            while ($request->get('pregunta'.$p)!="") {
+                $pregunta = PreguntasEspecifica::findOrfail($request->id_esp);
                 $pregunta->pregunta = $request->get('pregunta'.$a);
                 $pregunta->tipo = $request->get('tipo');
                 $pregunta->id_esp = $encuesta->id_esp;
-                if($pregunta->save()){
+                if($pregunta->update()){
                     if($request->get('tipo') == 2){
                         while($request->get('correspondencia'.$o) == $a){
-                            $opcion = new OpcionMultipleEspecifica;
+                            $opcion = OpcionMultipleEspecifica::findOrfail($request->id_pesp);
                             $opcion->respuestas = $request->get('respuesta'.$o);
                             $opcion->id_pesp = $pregunta->id_pesp;
-                            if(!$opcion->save()){
+                            if(!$opcion->update()){
                                 $bandera = 2;
                                 break;
                             }

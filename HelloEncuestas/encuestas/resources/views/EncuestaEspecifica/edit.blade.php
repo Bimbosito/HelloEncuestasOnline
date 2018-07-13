@@ -9,7 +9,7 @@
 				<div class="row">
 					<div class="col-xs-12">
 						<div class="row">
-							<form enctype="multipart/form-data" id="formularioedit" action="javascript:updateEncuesta();" method="PUT">
+							<form enctype="multipart/form-data" id="formularioedit" action="javascript:updateEncuesta();" method="POST">
 								<input type="hidden" name="_token" value="{{ csrf_token() }}">
 								<input type="hidden" id="id" name="id" value="{{ $id }}">
 								<div class="row">
