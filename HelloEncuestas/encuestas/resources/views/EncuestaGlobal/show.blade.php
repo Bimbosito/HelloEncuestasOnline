@@ -9,7 +9,7 @@
 				<div class="row">
 					<div class="col-xs-12">
 						<div class="row">
-							<form enctype="multipart/form-data" id="formulario" action="/encuestaGlobal/{{$encuesta->id_esp}}" method="POST">
+							<form enctype="multipart/form-data" id="formulario" action="/encuestaGlobal/{{$encuesta->id_glo}}" method="POST">
 								<input type="hidden" name="_method" value="DELETE">
 								<input type="hidden" name="_token" value="{{ csrf_token() }}">
 								<div class="row">
@@ -28,8 +28,8 @@
 												<thead>
 													<tr>
 														<th><span class="glyphicon glyphicon-link"></span></th>
-														<th>http://127.0.0.1:8000/encuestaEspecifica/{{$encuesta->id_esp}}</th>
-														<th><a href="http://127.0.0.1:8000/encuestaEspecifica/{{$encuesta->id_esp}}"><span class="glyphicon glyphicon-envelope"></span></a></th>
+														<th>http://127.0.0.1:8000/encuestaGlobal/{{$encuesta->id_glo}}</th>
+														<th><a href="http://127.0.0.1:8000/encuestaGlobal/{{$encuesta->id_glo}}"><span class="glyphicon glyphicon-envelope"></span></a></th>
 														<th><span class="glyphicon glyphicon-option-horizontal"></span></th>
 													</tr>
 												</thead>
@@ -148,7 +148,7 @@
 											<div class="row">
 												<br>
 												<div class="col-xs-12 col-md-3 col-lg-3"><label for="{{$r->campo}}"></label></div>
-												<div class="col-xs-12 col-md-9 col-lg-9"><input type="text" class="form-control" id="{{$r->campo}}" name="$r->campo" placeholder="Ingresa tu {{$r->campo}}"><input type="hidden" name="r{{$r->id_regesp}}" value="{{$r->id_regesp}}"></div>
+												<div class="col-xs-12 col-md-9 col-lg-9"><input type="text" class="form-control" id="{{$r->campo}}" name="$r->campo" placeholder="Ingresa tu {{$r->campo}}"><input type="hidden" name="r{{$r->id_regglo}}" value="{{$r->id_regglo}}"></div>
 											</div>
 											@endforeach
 										</div>
@@ -211,7 +211,7 @@
 									<div class="col-lg-6 col-md-6 col-xs-12">
 										<button type="button" class="btn btn-success" data-toggle="modal" onclick="modalg();"><span class="glyphicon glyphicon-trash"></span> Borrar</button>
 									</div>
-									<div class="col-lg-6 col-md-6 col-xs-12"><a href="{{URL::action('EncuestaEspecificaController@index')}}">
+									<div class="col-lg-6 col-md-6 col-xs-12"><a href="{{URL::action('EncuestaGlobalController@index')}}">
 										<button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-arrow-left"></span> Regresar</button></a>
 									</div>
 								</div>

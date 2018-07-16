@@ -21,9 +21,9 @@ Route::post('eliminarEspecifica', 'EncuestaEspecificaController@eliminar')->name
 Route::post('guardarEspecifica', 'EncuestaEspecificaController@guardar')->name('guardarEspecifica');
 Route::post('actualizarEspecifica', 'EncuestaEspecificaController@actualizar')->name('actualizarEspecifica');
 
-Route::post('eliminarGlobal','EncuestaGlocalController@eliminar')->name('eliminarGlobal');
-Route::post('guardarGlobal','EncuestaGlocalController@guardar')->name('guardarGlobal');
-Route::post('actualizarGlobal','EncuestaGlocalController@actualizar')->name('actualizarGlobal');
+Route::post('eliminarGlobal','EncuestaGlobalController@eliminar')->name('eliminarGlobal');
+Route::post('guardarGlobal','EncuestaGlobalController@guardar')->name('guardarGlobal');
+Route::post('actualizarGlobal','EncuestaGlobalController@actualizar')->name('actualizarGlobal');
 
 Route::post('guardarContestada', 'EncuestaEspecificaContestadaController@guardar')->name('guardarContestada');
 Route::resource('encuestaEspecifica', 'EncuestaEspecificaController');

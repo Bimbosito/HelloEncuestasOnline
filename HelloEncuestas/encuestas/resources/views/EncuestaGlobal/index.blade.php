@@ -34,9 +34,9 @@
 									<td>{{$g->marca}}</td>
 									<td>{{$g->evento}}</td>
 									<td>
-										<a href="{{URL::action('EncuestaGlobal@show', $g->id_glo)}}" title="Ver Encuesta"><span class="glyphicon glyphicon-eye-open"></span></a>&nbsp;&nbsp;
-										<a href="{{URL::action('EncuestaGlobalr@destroy', $g->id_glo)}}" title="Eliminar Encuesta"><span class="glyphicon glyphicon-trash"></span></a>&nbsp;&nbsp;
-										<a href="{{URL::action('EncuestaGlobal@edit', $g->id_glo)}}" title="Editar Encuesta"><span class="glyphicon  glyphicon-pencil"></span></a>&nbsp;&nbsp;
+										<a href="{{URL::action('EncuestaGlobalController@show', $g->id_glo)}}" title="Ver Encuesta"><span class="glyphicon glyphicon-eye-open"></span></a>&nbsp;&nbsp;
+										<a href="{{URL::action('EncuestaGlobalController@destroy', $g->id_glo)}}" title="Eliminar Encuesta"><span class="glyphicon glyphicon-trash"></span></a>&nbsp;&nbsp;
+										<a href="{{URL::action('EncuestaGlobalController@edit', $g->id_glo)}}" title="Editar Encuesta"><span class="glyphicon  glyphicon-pencil"></span></a>&nbsp;&nbsp;
 									</td>
 								</tr>
 								@endforeach

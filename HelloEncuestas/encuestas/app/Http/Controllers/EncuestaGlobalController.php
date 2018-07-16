@@ -8,9 +8,6 @@ use App\Sede;
 use App\Ciudad;
 use App\RegistroEspecifica;
 use App\EncuestaGlobal;
-use App\PreguntasEspecifica;
-use App\OpcionMultipleEspecifica;
-use App\RegistroEspecificaContestado;
 use App\EncuestaEspecifica;
 use App\RespuestasEspecifica;
 use App\EncuestaGlobalCompania;
@@ -27,7 +24,7 @@ class EncuestaGlobalController extends Controller
         $encuestas = DB::table('encuesta_global as g')
         ->join('marca as m', 'g.marca', '=', 'm.id_mar')
         ->select('g.*', 'm.*', 'g.nombre as encu', 'm.nombre as marca')
-        ->where('g.id_glo', '=', Session::get('usu'))
+        ->where('g.id_usu', '=', Session::get('usu'))
         ->where('borrado', '=', 0)
         ->get();
 
@@ -246,8 +243,8 @@ class EncuestaGlobalController extends Controller
 
     public function buscarOpciones($pregunta)
     {
-    	$opciones = DB::table('opcion_multiple_especifica')
-    	->where('id_pesp', '=', $pregunta)
+    	$opciones = DB::table('opcion_multiple_global')
+    	->where('id_pglo', '=', $pregunta)
     	->get();
 
     	return response()->json($opciones);
@@ -266,10 +263,8 @@ class EncuestaGlobalController extends Controller
     {
         $encuesta = new EncuestaGlobal;
         $encuesta->nombre = $request->get('nombre');
-        $fecha = explode("-", $request->get('inicio'));
-        $encuesta->fecha_inicio = $fecha[2]."-".$fecha[1]."-".$fecha[0];
-        $fecha2 = explode("-", $request->get('fin'));
-        $encuesta->fecha_fin = $fecha2[2]."-".$fecha2[1]."-".$fecha2[0];
+        $encuesta->fecha_inicio = $request->get('inicio');
+        $encuesta->fecha_fin = $request->get('fin');
         $encuesta->sede = $request->get('sede');
         $encuesta->marca = $request->get('marca');
         $encuesta->evento = $request->get('eventos');
@@ -299,17 +294,16 @@ class EncuestaGlobalController extends Controller
                     $pregunta = new PreguntasGlobal;
                     $pregunta->pregunta = $request->get('pregunta'.$p);
                     $pregunta->tipo = $request->get('tip'.$p);
-                    $pregunta->id_pglo = $encuesta->id_glo;
+                    $pregunta->id_glo = $encuesta->id_glo;
                     if($pregunta->save()){
                         if($request->get('tip'.$p) == 3 || $request->get('tip'.$p) == 4 || $request->get('tip'.$p) == 6 || $request->get('tipo'.$p) == 7){
                             while ($o <= $cuantosO) {
                                 if($request->get('opcion'.$p.$o) != ""){
                                     $opcion = new OpcionMultipleGlobal;
                                     $opcion->respuestas = $request->get('opcion'.$p.$o);
-                                    $opcion->id_rgl = $pregunta->id_pglo;
+                                    $opcion->id_pglo = $pregunta->id_pglo;
                                     if(!$opcion->save()){
                                         $bandera = 2;
-                                        break;
                                     }
                                 }
                                 $o++;

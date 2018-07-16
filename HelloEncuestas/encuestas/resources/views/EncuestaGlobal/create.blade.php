@@ -1,5 +1,6 @@
 @extends('layouts.menu')
 @section('content')	
+<meta name="csrf-token" content="{{ csrf_token() }}">
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-3 col-md-3 col-xs-3">
@@ -442,10 +443,10 @@
 		}
 
 		function guardarglobal(){
-			var form = new FormData(document.getElementById('formulariog'));
+			var form = new FormData(document.getElementById('formulario'));
 			$.ajax({
 				url: '/guardarGlobal',
-				type: 'post',
+				type: 'POST',
 				data: form,
 				processData: false,
 				contentType: false,
