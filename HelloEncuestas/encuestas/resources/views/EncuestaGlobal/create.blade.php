@@ -9,7 +9,7 @@
 				<div class="row">
 					<div class="col-xs-12">
 						<div class="row">
-							<form enctype="multipart/form-data" id="formulario" action="javascript:guardarEncuesta();" method="POST">
+	<form enctype="multipart/form-data" id="formulario" action="javascript:guardarglobal();" method="POST">
 								<input type="hidden" name="_token" value="{{ csrf_token() }}">
 								<div class="row">
 									<div class="col-xs-12">
@@ -27,7 +27,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="row">
+				<!--				<div class="row">
 									<div class="col-lg-3 col-md-3 col-xs-12">
 										<div class="form-group">
 											<label for="global">Seleccionar Encuesta Global:</label>
@@ -35,7 +35,7 @@
 												<option value="">--Selecciona Encuesta--</option>
 											</select>
 										</div>
-									</div>
+									</div>-->
 								</div>
 								<br>
 								<div class="row">
@@ -220,7 +220,7 @@
 											<div class="modal-footer">
 												<div class="row">
 													<div class="col-xs-6" align="left">
-														<a href="{{URL::action('EncuestaEspecificaController@index')}}"> <button type="button" class="btn btn-default">Cerrar</button></a>
+														<a href="{{URL::action('EncuestaGlobalController@index')}}"> <button type="button" class="btn btn-default">Cerrar</button></a>
 													</div>
 												</div>
 											</div>
@@ -402,7 +402,7 @@
 					pregunta += '<input type="hidden" id="tip'+p+'" name="tip'+p+'" value="'+tipo+'">';
 					break;
 
-				case 5:
+				case "5":
 					
 					pregunta += '<input type="hidden" id="tip'+p+'" name="tip'+p+'" value="'+tipo+'">';
 					break;
@@ -441,10 +441,10 @@
 			$("#modal-guardar").modal('show');
 		}
 
-		function guardarEncuesta(){
-			var form = new FormData(document.getElementById('formulario'));
+		function guardarglobal(){
+			var form = new FormData(document.getElementById('formulariog'));
 			$.ajax({
-				url: '/guardarEspecifica',
+				url: '/guardarGlobal',
 				type: 'post',
 				data: form,
 				processData: false,

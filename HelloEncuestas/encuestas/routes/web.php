@@ -21,10 +21,15 @@ Route::post('eliminarEspecifica', 'EncuestaEspecificaController@eliminar')->name
 Route::post('guardarEspecifica', 'EncuestaEspecificaController@guardar')->name('guardarEspecifica');
 Route::post('actualizarEspecifica', 'EncuestaEspecificaController@actualizar')->name('actualizarEspecifica');
 
+Route::post('eliminarGlobal','EncuestaGlocalController@eliminar')->name('eliminarGlobal');
+Route::post('guardarGlobal','EncuestaGlocalController@guardar')->name('guardarGlobal');
+Route::post('actualizarGlobal','EncuestaGlocalController@actualizar')->name('actualizarGlobal');
+
 Route::post('guardarContestada', 'EncuestaEspecificaContestadaController@guardar')->name('guardarContestada');
 Route::resource('encuestaEspecifica', 'EncuestaEspecificaController');
 Route::resource('encuestaEspecificaContestada', 'EncuestaEspecificaContestadaController');
 Route::resource('encuestaGlobal', 'EncuestaGlobalController');
+Route::resource('encuestaGlobalContestada', 'EncuestaGlobalContestadaController');
 Route::resource('campania', 'CampaniaController');
 Route::resource('marca', 'MarcaController');
 Route::resource('paquete', 'PaqueteController');
@@ -75,7 +80,7 @@ Route::get('/Paquetes',
            'as'=>'Home.paquetes'
            ]);
 
-Route::get('EncuestaGlobalController/create', [
+Route::get('/create', [
     'uses' =>'EncuestaGlobalController@create',
     'as' =>'EncuestaGlobal.create'
 ]);

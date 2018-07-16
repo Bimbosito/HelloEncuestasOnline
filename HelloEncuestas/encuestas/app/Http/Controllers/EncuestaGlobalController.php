@@ -10,6 +10,13 @@ use App\RegistroEspecifica;
 use App\EncuestaGlobal;
 use App\PreguntasEspecifica;
 use App\OpcionMultipleEspecifica;
+use App\RegistroEspecificaContestado;
+use App\EncuestaEspecifica;
+use App\RespuestasEspecifica;
+use App\EncuestaGlobalCompania;
+use App\EncuestaGlobalContestada;
+use App\RespuestaGlobal;
+use App\OpcionMultipleGlobal;
 
 use Illuminate\Http\Request;
 
@@ -63,7 +70,7 @@ class EncuestaGlobalController extends Controller
                 if($request->get('campo'.$r) != ""){
                     $registro =  new RegistroGlobal;
                     $registro->campo = $request->get('campo'.$r);
-                    $registro->id_esp = $encuesta->id_esp;
+                    $registro->id_glo = $encuesta->id_glo;
                     $registro->save();
                 }
                 $r = $r + 1;
@@ -73,14 +80,14 @@ class EncuestaGlobalController extends Controller
                     $pregunta = new PreguntasGlobal;
                     $pregunta->pregunta = $request->get('pregunta'.$p);
                     $pregunta->tipo = $request->get('tip'.$p);
-                    $pregunta->id_pglo = $encuesta->id_pglo;
+                    $pregunta->id_pglo = $encuesta->id_glo;
                     if($pregunta->save()){
                         if($request->get('tip'.$p) == 3 || $request->get('tip'.$p) == 4 || $request->get('tip'.$p) == 6 || $request->get('tipo'.$p) == 7){
                             while ($o <= $cuantosO) {
                                 if($request->get('opcion'.$p.$o) != ""){
                                     $opcion = new OpcionMultipleGlobal;
                                     $opcion->respuestas = $request->get('opcion'.$p.$o);
-                                    $opcion->id_rgl = $pregunta->id_rgl;
+                                    $opcion->id_rgl = $pregunta->id_pglo;
                                     if(!$opcion->save()){
                                         $bandera = 2;
                                         break;
@@ -214,8 +221,8 @@ class EncuestaGlobalController extends Controller
         ->where('id_pglo', '=', $id)
         ->get();
 
-        $registro = DB::table('registro_especifica')
-        ->where('id_esp', '=', $id)
+        $registro = DB::table('registro_global')
+        ->where('id_glo', '=', $id)
         ->get();
 
         $marcas = DB::table('marca')
@@ -259,8 +266,10 @@ class EncuestaGlobalController extends Controller
     {
         $encuesta = new EncuestaGlobal;
         $encuesta->nombre = $request->get('nombre');
-        $encuesta->fecha_inicio = $request->get('inicio');
-        $encuesta->fecha_fin = $request->get('fin');
+        $fecha = explode("-", $request->get('inicio'));
+        $encuesta->fecha_inicio = $fecha[2]."-".$fecha[1]."-".$fecha[0];
+        $fecha2 = explode("-", $request->get('fin'));
+        $encuesta->fecha_fin = $fecha2[2]."-".$fecha2[1]."-".$fecha2[0];
         $encuesta->sede = $request->get('sede');
         $encuesta->marca = $request->get('marca');
         $encuesta->evento = $request->get('eventos');
@@ -277,34 +286,35 @@ class EncuestaGlobalController extends Controller
             $bandera = 0;
             $texto = "";
             while($r <= $cuantosR){
-                if($request->get('dato'.$r) != ""){
-                    $registro =  new RegistroEspecifica;
-                    $registro->campo = $request->get('dato'.$r);
-                    $registro->id_esp = $encuesta->id_esp;
+                if($request->get('campo'.$r) != ""){
+                    $registro =  new RegistroGlobal;
+                    $registro->campo = $request->get('campo'.$r);
+                    $registro->id_glo = $encuesta->id_glo;
                     $registro->save();
                 }
                 $r = $r + 1;
             }
             while($p <= $cuantosP){
                 if($request->get('pregunta'.$p) != "") {
-                    $o = 1;
                     $pregunta = new PreguntasGlobal;
                     $pregunta->pregunta = $request->get('pregunta'.$p);
-                    $pregunta->tipo = $request->get('tipo'.$p);
-                    $pregunta->id_pglo = $encuesta->id_pglo;
+                    $pregunta->tipo = $request->get('tip'.$p);
+                    $pregunta->id_pglo = $encuesta->id_glo;
                     if($pregunta->save()){
-                        if($request->get('tipo'.$p) == 3 || $request->get('tipo'.$p) == 4 || $request->get('tipo'.$p) == 6 || $request->get('tipo'.$p) == 7){
+                        if($request->get('tip'.$p) == 3 || $request->get('tip'.$p) == 4 || $request->get('tip'.$p) == 6 || $request->get('tipo'.$p) == 7){
                             while ($o <= $cuantosO) {
                                 if($request->get('opcion'.$p.$o) != ""){
-                                    $opcion = new OpcionMultipleEspecifica;
+                                    $opcion = new OpcionMultipleGlobal;
                                     $opcion->respuestas = $request->get('opcion'.$p.$o);
-                                    $opcion->id_rgl = $pregunta->id_rgl;
+                                    $opcion->id_rgl = $pregunta->id_pglo;
                                     if(!$opcion->save()){
                                         $bandera = 2;
+                                        break;
                                     }
                                 }
                                 $o++;
                             }
+                            $o = 0;
                         }
                     }
                     else{

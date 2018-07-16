@@ -45,7 +45,7 @@
 						<br><br><br><br><br><br><br><br>
 						<div class="row">
 							<div class="col-lg-6 col-md-6 col-xs-12" align="left">
-								<a href="{{URL::action('EncuestaGlobal@create')}}"><button type="button" class="btn btn-success"><span class="glyphicon glyphicon-list"></span> Crear Encuesta</button></a>
+								<a href="{{URL::action('EncuestaGlobalController@create')}}"><button type="button" class="btn btn-success"><span class="glyphicon glyphicon-list"></span> Crear Encuesta</button></a>
 							</div>
 							<div class="col-lg-6 col-md-6 col-xs-12" align="right">
 								<a href="javascript:window.history.back();"><button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-arrow-left"></span> Regresar a la página anterior</button></a>

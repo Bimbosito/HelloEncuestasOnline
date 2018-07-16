@@ -9,7 +9,7 @@
 				<div class="row">
 					<div class="col-xs-12">
 						<div class="row">
-							<form enctype="multipart/form-data" id="formulario" action="/encuestaEspecifica/{{$encuesta->id_esp}}" method="POST">
+							<form enctype="multipart/form-data" id="formulario" action="/encuestaEspecifica/{{$encuesta->id_glo}}" method="POST">
 								<input type="hidden" name="_method" value="DELETE">
 								<input type="hidden" name="_token" value="{{ csrf_token() }}">
 								<div class="row">
@@ -28,8 +28,8 @@
 												<thead>
 													<tr>
 														<th><span class="glyphicon glyphicon-link"></span></th>
-														<th>http://127.0.0.1:8000/encuestaEspecifica/{{$encuesta->id_esp}}</th>
-														<th><a href="http://127.0.0.1:8000/encuestaEspecifica/{{$encuesta->id_esp}}"><span class="glyphicon glyphicon-envelope"></span></a></th>
+														<th>http://127.0.0.1:8000/encuestaEspecifica/{{$encuesta->id_glo}}</th>
+														<th><a href="http://127.0.0.1:8000/encuestaEspecifica/{{$encuesta->id_glo}}"><span class="glyphicon glyphicon-envelope"></span></a></th>
 														<th><span class="glyphicon glyphicon-option-horizontal"></span></th>
 													</tr>
 												</thead>
@@ -70,7 +70,7 @@
 												@if($encuesta->marca == $m->id_mar)
 												<option value="{{$m->id_mar}}" selected>{{$m->nombre}}</option>
 												@else
-												<option value="{{$m->id_mar}}">{{$m->nombre}}</option>
+												<option value="{{$m->id_mar}}" selected>{{$m->nombre}}</option>
 												@endif
 												@endforeach
 											</select>
@@ -148,7 +148,7 @@
 											<div class="row">
 												<br>
 												<div class="col-xs-12 col-md-3 col-lg-3"><label for="{{$r->campo}}"></label></div>
-												<div class="col-xs-12 col-md-9 col-lg-9"><input type="text" class="form-control" id="{{$r->campo}}" name="$r->campo" placeholder="Ingresa tu {{$r->campo}}"><input type="hidden" name="r{{$r->id_regesp}}" value="{{$r->id_regesp}}"></div>
+												<div class="col-xs-12 col-md-9 col-lg-9"><input type="text" class="form-control" id="{{$r->campo}}" name="$r->campo" placeholder="Ingresa tu {{$r->campo}}"><input type="hidden" name="r{{$r->id_regglo}}" value="{{$r->id_regglo}}"></div>
 											</div>
 											@endforeach
 										</div>
@@ -162,42 +162,42 @@
 											<div class="row">
 												<div class="col-xs-12">
 													<div class="form-group">
-														<label for="pre{{$p->id_pesp}}">{{$p->pregunta}}</label>
+														<label for="pre{{$p->id_pglo}}">{{$p->pregunta}}</label>
 														@if($p->tipo == 1)
-														<textarea class="form-control" id="pre{{$p->id_pesp}}" name="pre{{$p->id_pesp}}"></textarea>
+														<textarea class="form-control" id="pre{{$p->id_pglo}}" name="pre{{$p->id_pglo}}"></textarea>
 														@elseif($p->tipo == 2)
-														<input type="text" class="form-control" id="pre{{$p->id_pesp}}" name="pre{{$p->id_pesp}}">
+														<input type="text" class="form-control" id="pre{{$p->id_pglo}}" name="pre{{$p->id_pglo}}">
 														@elseif($p->tipo == 3)
 															<br>
 															@foreach($opciones as $o)
-															@if($o->id_pesp == $p->id_pesp)
-															<input type="checkbox" id="opc{{$o->id_res}}" name="opc{{$o->id_res}}" value="{{$o->id_res}}"> <label><strong>{{$o->respuestas}}</strong></label><br>
+															@if($o->id_pglo == $p->id_pglo)
+															<input type="checkbox" id="opc{{$o->id_rgl}}" name="opc{{$o->id_rgl}}" value="{{$o->id_rgl}}"> <label><strong>{{$o->respuestas}}</strong></label><br>
 															@endif
 															@endforeach
 														@elseif($p->tipo == 4)
 															<br>
 															@foreach($opciones as $o)
-															@if($o->id_pesp == $p->id_pesp)
-															<input type="radio" id="opc{{$o->id_res}}" name="opc{{$p->id_pesp}}" value="{{$o->id_res}}"> <label><strong>{{$o->respuestas}}</strong></label><br>
+															@if($o->id_pglo == $p->id_pglo)
+															<input type="radio" id="opc{{$o->id_rgl}}" name="opc{{$p->id_pglo}}" value="{{$o->id_rgl}}"> <label><strong>{{$o->respuestas}}</strong></label><br>
 															@endif
 															@endforeach
 														@elseif($p->tipo == 5)
 														@elseif($p->tipo == 6)
 															<br>
 															@foreach($opciones as $o)
-															@if($o->id_pesp == $p->id_pesp)
-															<input type="checkbox" id="opc{{$o->id_res}}" name="opc{{$o->id_res}}" value="{{$o->id_res}}"> <label><strong>{{$o->respuestas}}</strong></label><br>
+															@if($o->id_pglo == $p->id_pglo)
+															<input type="checkbox" id="opc{{$o->id_rgl}}" name="opc{{$o->id_rgl}}" value="{{$o->id_rgl}}"> <label><strong>{{$o->respuestas}}</strong></label><br>
 															@endif
 															@endforeach
-															<textarea class="form-control" id="pre{{$p->id_pesp}}" name="pre{{$p->id_pesp}}"></textarea>
+															<textarea class="form-control" id="pre{{$p->id_pglo}}" name="pre{{$p->id_pglo}}"></textarea>
 														@elseif($p->tipo == 7)
 															<br>
 															@foreach($opciones as $o)
-															@if($o->id_pesp == $p->id_pesp)
-															<input type="radio" id="opc{{$o->id_res}}" name="opc{{$p->id_pesp}}" value="{{$o->id_res}}"> <label><strong>{{$o->respuestas}}</strong></label><br>
+															@if($o->id_pglo == $p->id_pglo)
+															<input type="radio" id="opc{{$o->id_rgl}}" name="opc{{$p->id_rgl}}" value="{{$o->id_rgl}}"> <label><strong>{{$o->respuestas}}</strong></label><br>
 															@endif
 															@endforeach
-															<textarea class="form-control" id="pre{{$p->id_pesp}}" name="pre{{$p->id_pesp}}"></textarea>
+															<textarea class="form-control" id="pre{{$p->id_pglo}}" name="pre{{$p->id_pglo}}"></textarea>
 														@endif
 													</div>
 												</div>
