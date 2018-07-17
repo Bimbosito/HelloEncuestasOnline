@@ -371,7 +371,7 @@ class EncuestaEspecificaController extends Controller
             $texto = "";
             while($r <= $cuantosR){
                 if($request->get('dato'.$r) != ""){
-                    $registro = RegistroEspecifica::findOrfail($reques->id_esp);
+                    $registro = RegistroEspecifica::findOrfail($reques->id);
                     $registro->campo = $request->get('dato'.$r);
                     $registro->id_esp = $encuesta->id_esp;
                     $registro->update();
@@ -380,14 +380,14 @@ class EncuestaEspecificaController extends Controller
             }
             
             while ($request->get('pregunta'.$p)!="") {
-                $pregunta = PreguntasEspecifica::findOrfail($request->id_esp);
+                $pregunta = PreguntasEspecifica::findOrfail($request->id);
                 $pregunta->pregunta = $request->get('pregunta'.$a);
                 $pregunta->tipo = $request->get('tipo');
                 $pregunta->id_esp = $encuesta->id_esp;
                 if($pregunta->update()){
                     if($request->get('tipo') == 2){
                         while($request->get('correspondencia'.$o) == $a){
-                            $opcion = OpcionMultipleEspecifica::findOrfail($request->id_pesp);
+                            $opcion = OpcionMultipleEspecifica::findOrfail($request->id);
                             $opcion->respuestas = $request->get('respuesta'.$o);
                             $opcion->id_pesp = $pregunta->id_pesp;
                             if(!$opcion->update()){
