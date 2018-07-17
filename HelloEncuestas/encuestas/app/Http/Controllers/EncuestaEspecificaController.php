@@ -148,7 +148,7 @@ class EncuestaEspecificaController extends Controller
 
         
         //----------------------------------------------------------------------------------
-        return view('EncuestaEspecifica.edit', ['encuesta'=>$encuesta, 'marca'=>$marca, 'preguntas'=>$preguntas, 'registro'=>$registro, 'opciones'=>$opciones, 'id'=>$id]);
+        return view('EncuestaEspecifica.edit', ['encuesta'=>$encuesta, 'marca'=>$marca, 'preguntas'=>$preguntas, 'registro'=>$registro, 'opciones'=>$opciones, 'id'=>$id, 'enc'=>$enc]);
     }
 
     public function update(Request $request, $id)
@@ -318,6 +318,7 @@ class EncuestaEspecificaController extends Controller
                                 }
                                 $o++;
                             }
+                            $o = 0;
                         }
                     }
                     else{

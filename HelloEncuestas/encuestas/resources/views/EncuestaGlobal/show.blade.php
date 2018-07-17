@@ -142,16 +142,18 @@
 											</div>
 											<br>
 										</div>
-										<br>
+										
 										<div>
 											@foreach($registro as $r)
 											<div class="row">
 												<br>
-												<div class="col-xs-12 col-md-3 col-lg-3"><label for="{{$r->campo}}"></label></div>
-												<div class="col-xs-12 col-md-9 col-lg-9"><input type="text" class="form-control" id="{{$r->campo}}" name="$r->campo" placeholder="Ingresa tu {{$r->campo}}"><input type="hidden" name="r{{$r->id_regglo}}" value="{{$r->id_regglo}}"></div>
+												<div class="col-xs-6"><label for="{{$r->campo}}" value="{{$r->campo}}"></label></div>
+												<div class="col-xs-6 col-md-9 col-lg-9">
+													<input type="text" class="form-control" id="{{$r->campo}}" name="$r->campo" placeholder="{{$r->campo}}">
+													<input type="hidden" name="r{{$r->id_regglo}}" value="{{$r->id_regglo}}"></div>
 											</div>
 											@endforeach
-										</div>
+										</div><br>
 									</div>
 								</div>
 								<div class="row">

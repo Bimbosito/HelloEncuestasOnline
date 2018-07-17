@@ -6,13 +6,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\RedirectResponse;
 use App\Sede;
 use App\Ciudad;
-use App\RegistroEspecifica;
+use App\RegistroGlobal;
 use App\EncuestaGlobal;
-use App\EncuestaEspecifica;
-use App\RespuestasEspecifica;
-use App\EncuestaGlobalCompania;
-use App\EncuestaGlobalContestada;
-use App\RespuestaGlobal;
+use App\PreguntasGlobal;
 use App\OpcionMultipleGlobal;
 
 use Illuminate\Http\Request;
@@ -124,7 +120,7 @@ class EncuestaGlobalController extends Controller
 
     public function edit($id)
     {
-    	$encuesta = EncuestaGlobal::find($id);
+    	$encuesta = EncuestaGlobal::findOrfail($id);
     	$preguntas = DB::table('preguntas_global as pe')
     	->where('id_glo', '=', $id)
     	->get();
@@ -133,14 +129,17 @@ class EncuestaGlobalController extends Controller
         ->where('id_usu', '=', Session::get('usu'))
         ->get();
         //------------------------------------------------------------------------
+          $enc = DB::table('encuesta_global')
+        ->where('id_glo', '=', $id)
+        ->first();
 
-
-        $preguntas = DB::table('preguntas_global')
+//-----------------------------------------------------------------------------------
+        $preguntas = DB::table('preguntas_global as preg')
         ->where('id_pglo', '=', $id)
         ->get();
 
-        $registro = DB::table('registro_especifica')
-        ->where('id_esp', '=', $id)
+        $registro = DB::table('registro_global')
+        ->where('id_glo', '=', $id)
         ->get();
 
         $opciones = DB::table('opcion_multiple_global')
@@ -148,7 +147,7 @@ class EncuestaGlobalController extends Controller
 
         
         //------------------------------------------------------
-    	return view('EncuestaGlobal.edit', ['encuesta'=>$encuesta, 'marca'=>$marca, 'preguntas'=>$preguntas, 'registro'=>$registro, 'opciones'=>$opciones]);
+    	return view('EncuestaGlobal.edit', ['encuesta'=>$encuesta, 'marca'=>$marca, 'preguntas'=>$preguntas, 'registro'=>$registro, 'opciones'=>$opciones, 'enc'=>$enc,'id'=>$id]);
     }
 
     public function update(Request $request, $id)
@@ -281,9 +280,9 @@ class EncuestaGlobalController extends Controller
             $bandera = 0;
             $texto = "";
             while($r <= $cuantosR){
-                if($request->get('campo'.$r) != ""){
+                if($request->get('dato'.$r) != ""){
                     $registro =  new RegistroGlobal;
-                    $registro->campo = $request->get('campo'.$r);
+                    $registro->campo = $request->get('dato'.$r);
                     $registro->id_glo = $encuesta->id_glo;
                     $registro->save();
                 }
@@ -291,12 +290,13 @@ class EncuestaGlobalController extends Controller
             }
             while($p <= $cuantosP){
                 if($request->get('pregunta'.$p) != "") {
+                    $o = 1;
                     $pregunta = new PreguntasGlobal;
                     $pregunta->pregunta = $request->get('pregunta'.$p);
                     $pregunta->tipo = $request->get('tip'.$p);
                     $pregunta->id_glo = $encuesta->id_glo;
                     if($pregunta->save()){
-                        if($request->get('tip'.$p) == 3 || $request->get('tip'.$p) == 4 || $request->get('tip'.$p) == 6 || $request->get('tipo'.$p) == 7){
+                        if($request->get('tip'.$p) == 3 || $request->get('tip'.$p) == 4 || $request->get('tip'.$p) == 6 || $request->get('tip'.$p) == 7){
                             while ($o <= $cuantosO) {
                                 if($request->get('opcion'.$p.$o) != ""){
                                     $opcion = new OpcionMultipleGlobal;
@@ -323,6 +323,80 @@ class EncuestaGlobalController extends Controller
         else{
             $bandera = 3;
             $texto = "Hubo error al guardar las preguntas";
+        }
+
+        if($bandera == 0){
+            return response()->json([
+                'respuesta'=>1 //Exito
+            ]);
+        }
+
+        else{
+            return response()->json([
+                'respuesta'=>0 //Error al guardar
+            ]);
+        }
+    }
+
+    public function actualizar(Request $request)
+    {
+        $encuesta = EncuestaGlobal::findOrfail($request->id);
+        $encuesta->nombre = $request->get('nombre');
+        $encuesta->fecha_inicio = $request->get('inicio');
+        $encuesta->fecha_fin = $request->get('fin');
+        $encuesta->sede = $request->get('sede');
+        $encuesta->marca = $request->get('marca');
+        $encuesta->evento = $request->get('eventos');
+        $encuesta->abierto = $request->get('abierto');
+        $encuesta->borrado = 0;
+
+        $encuesta->id_usu = Session::get('usu');
+        if($encuesta->update()){
+            $cuantosR = (int)$request->get('cuantosR');
+            $cuantosP = (int)$request->get('cuantosP');
+            $cuantosO = (int)$request->get('cuantosO');
+            $r = 1;
+            $p = 1;
+            $o = 1;
+            $bandera = 0;
+            $texto = "";
+            while($r <= $cuantosR){
+                if($request->get('dato'.$r) != ""){
+                    $registro = RegistroGlobal::findOrfail($reques->id);
+                    $registro->campo = $request->get('dato'.$r);
+                    $registro->id_glo = $encuesta->id_glo;
+                    $registro->update();
+                }
+                $r = $r + 1;
+            }
+            
+            while ($request->get('pregunta'.$p)!="") {
+                $pregunta = PreguntasGlobal::findOrfail($request->id);
+                $pregunta->pregunta = $request->get('pregunta'.$a);
+                $pregunta->tipo = $request->get('tipo');
+                $pregunta->id_glo = $encuesta->id_glo;
+                if($pregunta->update()){
+                    if($request->get('tipo') == 2){
+                        while($request->get('correspondencia'.$o) == $a){
+                            $opcion = OpcionMultipleGlobal::findOrfail($request->id);
+                            $opcion->respuestas = $request->get('respuesta'.$o);
+                            $opcion->id_pglo = $pregunta->id_pglo;
+                            if(!$opcion->update()){
+                                $bandera = 2;
+                                break;
+                            }
+                        }
+                    }
+                }
+                else{
+                    $bandera = 1;
+                    break;
+                }
+
+            }
+        }
+        else{
+            $bandera = 3;
         }
 
         if($bandera == 0){
