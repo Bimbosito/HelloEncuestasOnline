@@ -73,14 +73,14 @@ class EncuestaGlobalController extends Controller
                     $pregunta = new PreguntasGlobal;
                     $pregunta->pregunta = $request->get('pregunta'.$p);
                     $pregunta->tipo = $request->get('tip'.$p);
-                    $pregunta->id_pglo = $encuesta->id_glo;
+                    $pregunta->id_glo = $encuesta->id_glo;
                     if($pregunta->save()){
                         if($request->get('tip'.$p) == 3 || $request->get('tip'.$p) == 4 || $request->get('tip'.$p) == 6 || $request->get('tipo'.$p) == 7){
                             while ($o <= $cuantosO) {
                                 if($request->get('opcion'.$p.$o) != ""){
                                     $opcion = new OpcionMultipleGlobal;
                                     $opcion->respuestas = $request->get('opcion'.$p.$o);
-                                    $opcion->id_rgl = $pregunta->id_pglo;
+                                    $opcion->id_pglo = $pregunta->id_pglo;
                                     if(!$opcion->save()){
                                         $bandera = 2;
                                         break;
@@ -177,7 +177,7 @@ class EncuestaGlobalController extends Controller
     					while($request->get('correspondencia'.$o) == $a){
     						$opcion = new OpcionMultipleGlobal;
     						$opcion->respuestas = $request->get('respuesta'.$o);
-    						$opcion->id_rgl = $pregunta->id_rgl;
+    						$opcion->id_pglo = $pregunta->id_pglo;
     						if(!$opcion->save()){
     							$bandera = 2;
     							break;

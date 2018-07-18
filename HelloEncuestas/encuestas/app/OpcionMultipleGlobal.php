@@ -8,7 +8,7 @@ class OpcionMultipleGlobal extends Model
 {
     protected $table = 'opcion_multiple_global';
 
-    protected $primaryKey = 'id_rglo';
+    protected $primaryKey = 'id_rgl';
 
     protected $fillable = [
     	'respuestas',
