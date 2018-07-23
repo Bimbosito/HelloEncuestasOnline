@@ -278,4 +278,5 @@ public function loginuser(Request $request)
              return view('error');
         }
     }
+
 }

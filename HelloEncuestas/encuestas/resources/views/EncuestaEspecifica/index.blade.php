@@ -12,6 +12,7 @@
 
 					</div>
 					<div class="col-xs-12 col-md-10 col-lg-10">
+
 						<table class="table table-bordered" id="encuestas" cellspacing="0" width="100%">
 							<thead>
 								<tr>

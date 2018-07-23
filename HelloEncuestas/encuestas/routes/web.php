@@ -28,6 +28,8 @@ Route::post('actualizarGlobal','EncuestaGlobalController@actualizar')->name('act
 Route::post('guardarContestada', 'EncuestaEspecificaContestadaController@guardar')->name('guardarContestada');
 Route::post('guardarContestada', 'EncuestaGlobalContestadaController@guardar')->name('guardarContestada');
 
+Route::post('agregarcorreo', 'CorreoController@agregarcorreo');
+
 Route::resource('encuestaEspecifica', 'EncuestaEspecificaController');
 Route::resource('encuestaEspecificaContestada', 'EncuestaEspecificaContestadaController');
 Route::resource('encuestaGlobal', 'EncuestaGlobalController');
@@ -37,6 +39,9 @@ Route::resource('marca', 'MarcaController');
 Route::resource('paquete', 'PaqueteController');
 Route::resource('usuarios', 'UsuariosController');
 Route::resource('mail', 'MailController');
+Route::resource('correo','CorreoController');
+Route::resource('Corros','CorreoController');
+
 
 
 
@@ -171,8 +176,11 @@ Route::get('Usuarios/recuperar', [
     'as'=>'Usuarios.recuperar'
 ]);
 
+Route::get('Correos/enviarcorreos',[
+    'uses'=>'CorreoController@correos',
+    'as'=>'Correos.enviarcorreos']);
 
 
-Route::post('Usuarios/Enviarcorreos','CorreoController@correos');
+Route::post('Correos/enviarcorreos','CorreoController@correos');
 
 Route::post('Usuarios/Listacorreos','CorreoController@listasend');

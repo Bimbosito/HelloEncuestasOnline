@@ -13,7 +13,7 @@ class RespuestasGlobal extends Model
     protected $fillable = [
     	'respuesta',
     	'id_pglo',
-    	'id_econ'
+    	'id_gcon'
     ];
 
     public function preguntasGlobal()

@@ -3,13 +3,28 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\RedirectResponse;
 use App\Usuarios;
 use App\ListaCorreos;
 use App\Correos;
+use App\CorreoRegistro;
 
 class CorreoController extends Controller
 {
-    //
+  public function index()
+  {
+    $regcorreo = DB::table('regcorreo')
+    ->get();
+
+    $listacorreo = DB::table('lista_correos as lcorreo')
+    -> where('lcorreo.nombre', '=', Session::get('usu'))
+    ->get();
+
+
+    return view('CorreoController.administrador', ['regcorreo'=>$regcorreo, 'listacorreo'=>$lcorreo]);
+  }
 
 public function listasend(Request $request){
 
@@ -32,11 +47,11 @@ else
       //   dd($listas->nombre);
          return view('Correos.lista')->with('listas', $listas);
 
-}
+      }
 
 
 
-}
+    }
     
 
 
@@ -62,8 +77,6 @@ $usuario = Session::get('usuario');
 
     public function enviarlista(Request $request){
 
- 
-
 
     }
 
@@ -88,7 +101,7 @@ $usuario = Session::get('usuario');
 
         });
 
-}
+      }
 
 
 public function correos(Request $request){
@@ -96,7 +109,7 @@ public function correos(Request $request){
 
         $usuario = Session::get('usuario');
       //dd($usuario);
-        if($usuario == null)
+        if($usuario == 2)
         {
      
         return view('Usuarios.login'); 
@@ -110,16 +123,8 @@ public function correos(Request $request){
                        }
         return view('Correos.administrador'); 
        
-}
-}
-
-
-
-
-
-
-
-
+    }
+  }
     public function administrador(){
 
          $usuario = Session::get('usuario');
@@ -136,9 +141,19 @@ public function correos(Request $request){
 
         //return view('')
     }
+public function agregarcorreo(Request $request)
+  {
+  $correo = new agregarcorreo;
+  $correo->nombre=$request->get('nombre');
+  $correo->correo=$request->get('correo');
+  $correo->telefono=$request->get('telefono');
+  $correo->direccion=$request->get('direccion');
+  $correo->empresa=$request->get('empresa');
+  $correo->lcorreo=$request->get('lcorreo');
+  $correo->save();
 
-
-
-
+  return '$request';
+  
+  }
  
 }

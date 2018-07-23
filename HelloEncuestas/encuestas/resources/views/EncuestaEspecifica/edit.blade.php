@@ -542,7 +542,7 @@
 			var form = new FormData(document.getElementById('formularioedit'));
 			$.ajax({
 				url: '/actualizarEspecifica',
-				type: 'post',
+				type: 'POST',
 				data: form,
 				processData: false,
 				contentType: false,
