@@ -44,7 +44,7 @@
 					<div class="row">
 						<div class="col-lg-7 col-md-7 col-xs-12"></div>
 						<div class="col-lg-2 col-md-2 col-xs-12" align="right">
-								<a href="#"><button type="button" class="btn btn-info"><span class="glyphicon glyphicon-tasks glyphicon " pull-xs-right></span> Agregar lista de Correo</button></a>
+							<a href="#" data-toggle="modal" data-target="#agregarlista"><button type="button" class="btn btn-info"><span class="glyphicon glyphicon-tasks glyphicon "></span> Agregar Lista</button></a>
 							</div><br><br><br>
 					</div>
 					
@@ -59,26 +59,29 @@
 									<th>Fecha de creación</th>
 									<th>Ultima Fecha de Modificacion</th>
 									<th> </th>
-									<th> </th>
+									
 								</tr>
 							</thead>
 							<tbody>
 								<!--	Foreach para correo-->
-								@foreach($listacorreo as $lcorreo)
+								@foreach($listacorreo as $lc)
 								<tr>
-								<td>{{$lcorreo->id_lis}}</td>
-								<td>{{$lcorreo->nombre}}</td>
-								<td>{{$lcorreo->nombre}}</td>
-								<td>{{$lcorreo->nombre}}</td>
+								<td>{{$lc->id_lis}}</td>
+								<td>{{$lc->nombre}}</td>
+								<td>{{$lc->created_at}}</td>
+								<td>{{$lc->updated_at}}</td>
+
 								<td>
-									<!-- endforeach-->
-								<a href="#" title="Editar Lista"><span class="glyphicon  glyphicon-pencil"></span></a>&nbsp;&nbsp;
+									
+									
+								<a href="" title="Editar Lista"><span class="glyphicon  glyphicon-pencil"></span></a>&nbsp;&nbsp;
 							</td>
 							<td>
-							<a href="#" title="Eliminar Lista"><span class="glyphicon glyphicon-remove"></span></a>&nbsp;&nbsp;
+							<a href="{{URL::action('CorreoController@destroy', $lc->id_lis)}}" title="Eliminar Lista"><span class="glyphicon glyphicon-remove"></span></a>&nbsp;&nbsp;
 								</td>
 								</tr>
 								@endforeach
+								<!-- endforeach-->
 							</tbody>
 						</table>
 					</div>
@@ -131,6 +134,7 @@
 		</div>
 	</div>
 </div>
+<!-------------------------------Modal De Correo------------------------------------------------->
 <div class="modal fade " id="agregarcorreo" role="dialog" tabindex="-1">
 	<div class="modal-dialog">
 		<!-- Modal Content-->
@@ -141,6 +145,7 @@
 		<!-- Formulario para agregar correos dentro del modal-->
 		<div class="modal-body">
 		<form method="POST" action="{{URL::action('CorreoController@agregarcorreo')}}">
+			<input type="hidden" name="_token" value="{{ csrf_token() }}">
 			<div class="form-group">
 				<label for="nombre" class="col-sm-2 col-form-label">Nombre:</label>
 				<input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre">
@@ -164,7 +169,9 @@
 			<div class="">
 				<label for="lcorreo" class="col-sm-6 col-form-label">Agregar a Lista</label>
 				<select class="form-control" id="lcorreo" name="lcorreo">
-					<option value="">--Seleccionar Lista--</option>
+			
+					<option value="">Lista</option>
+				
 				</select>
 			</div>
 			<div class="modal-footer text-center">
@@ -177,6 +184,63 @@
 	
 	</div>
 </div>
+<!-------------------------------Fin Modal De Correo------------------------------------------------->
+
+<!-------------------------------Modal De Lista------------------------------------------------->
+<div class="modal fade " id="agregarlista" role="dialog" tabindex="-1">
+	<div class="modal-dialog">
+		<!-- Modal Content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Agregar Lista</h4>
+			</div>
+		<!-- Formulario para agregar correos dentro del modal-->
+		<div class="modal-body">
+		<form method="POST" action="{{URL::action('CorreoController@agregarlista')}}">
+			<input type="hidden" name="_token" value="{{ csrf_token() }}">
+			<div class="form-group">
+				<label for="alista" class="col-sm-2 col-form-label">Titulo de la Lista:</label>
+				<input type="text" class="form-control" id="alista" name="alista" placeholder="Ingresa el Titulo de la Lista">
+			</div>
+			<div class="modal-footer text-center">
+				<button type="submit" class="btn btn-succes">Guardar</button>
+				<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+			</div>
+		</form>
+	</div>
+		</div>
+	
+	</div>
+</div>
+<!-------------------------------Fin Modal De Lista------------------------------------------------->
+<!-------------------------------Modal De Editar De Lista Correo---------------------------------------------->
+<div class="modal fade " id="editarlista" role="dialog" tabindex="-1">
+	<div class="modal-dialog">
+		<!-- Modal Content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Editar Lista</h4>
+			</div>
+		<!-- Formulario para editar lista dentro del modal-->
+		<div class="modal-body">
+		<form method="POST" action="{{URL::action('CorreoController@editarlista')}}">
+			<input type="hidden" name="_token" value="{{ csrf_token() }}">
+			<input type="hidden" id="id" name="id" value="{{ $id }}">
+			<div class="form-group">
+				<label for="alista" class="col-sm-2 col-form-label">Titulo de la Lista:</label>
+				<input type="text" class="form-control" id="alista" name="alista" placeholder="{{$listacorreo->nombre}}">
+			</div>
+			<div class="modal-footer text-center">
+				<button type="submit" class="btn btn-succes">Guardar</button>
+				<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+			</div>
+		</form>
+	</div>
+		</div>
+	
+	</div>
+</div>
+<!-------------------------------in Modal De Editar De Lista Correo------------------------------------------->
 <script type="text/javascript">
 		$('.fecha').datepicker({
 		    format: 'yyyy-mm-dd',

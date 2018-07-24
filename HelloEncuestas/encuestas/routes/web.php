@@ -30,6 +30,9 @@ Route::post('guardarContestada', 'EncuestaGlobalContestadaController@guardar')->
 
 Route::post('agregarcorreo', 'CorreoController@agregarcorreo');
 
+
+Route::post('agregarlista','CorreoController@agregarlista');
+Route::post('editarlista','CorreoController@editarlista');
 Route::resource('encuestaEspecifica', 'EncuestaEspecificaController');
 Route::resource('encuestaEspecificaContestada', 'EncuestaEspecificaContestadaController');
 Route::resource('encuestaGlobal', 'EncuestaGlobalController');
@@ -40,10 +43,12 @@ Route::resource('paquete', 'PaqueteController');
 Route::resource('usuarios', 'UsuariosController');
 Route::resource('mail', 'MailController');
 Route::resource('correo','CorreoController');
-Route::resource('Corros','CorreoController');
+Route::resource('Correos','CorreoController');
 
-
-
+Route::get('agregarcorreo', 'CorreoController@agregarcorreo');
+Route::get('agregarlista','CorreoController@agregarlista');
+Route::get('editarlista','CorreoController@editarlista');
+Route::get('/destroy/{id}','CorreoController@destroy');
 
 Route::get('sendmail', function(){
     $data = array(
@@ -179,8 +184,3 @@ Route::get('Usuarios/recuperar', [
 Route::get('Correos/enviarcorreos',[
     'uses'=>'CorreoController@correos',
     'as'=>'Correos.enviarcorreos']);
-
-
-Route::post('Correos/enviarcorreos','CorreoController@correos');
-
-Route::post('Usuarios/Listacorreos','CorreoController@listasend');

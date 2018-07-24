@@ -165,7 +165,7 @@ class EncuestaEspecificaController extends Controller
         $encuesta->marca = $request->marca;
         $encuesta->evento = $request->evento;
         $encuesta->abierto = $request->abierto;
-        $encuesta->save();
+        $encuesta->update();
 
         $encuesta->id_usu = Session::get('usu');
         if($encuesta->update()){
@@ -177,13 +177,13 @@ class EncuestaEspecificaController extends Controller
                 $pregunta->pregunta = $request->get('pregunta'.$a);
                 $pregunta->tipo = $request->get('tipo');
                 $pregunta->id_esp = $encuesta->id_esp;
-                if($pregunta->save()){
+                if($pregunta->update()){
                     if($request->get('tipo') == 2){
                         while($request->get('correspondencia'.$o) == $a){
                             $opcion = new OpcionMultipleEspecifica;
                             $opcion->respuestas = $request->get('respuesta'.$o);
                             $opcion->id_pesp = $pregunta->id_pesp;
-                            if(!$opcion->save()){
+                            if(!$opcion->update()){
                                 $bandera = 2;
                                 break;
                             }

@@ -104,7 +104,7 @@
 			                </li>
 			                <li role="separator" class="divider"></li>
 			                <li>
-			                    <a href="{{URL::action('CorreoController@correos')}}">Administación de Correos</a>
+			                    <a href="{{URL::action('CorreoController@index')}}">Administación de Correos</a>
 			                </li>
 			                <li role="separator" class="divider"></li>
 			                <li>
