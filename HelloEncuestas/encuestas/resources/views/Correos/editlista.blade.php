@@ -10,20 +10,16 @@
 				<div class="row">
 					<div class="col-xs-12">
 						<div class="row">
-							<form enctype="multipart/form-data" action="" method="POST">
-								<input type="hidden" name="_token" value="{{ csrf_token() }}">
-								<input type="hidden" id="id" name="id" value="{{ $id }}">
-								<div class="row">
-									<div class="col-xs-12">
-										<div class="form-group">
-											<label for=alista> Editar Lista de Correo</label>
-											<input type="text" name="alista" id="alista" placeholder="Agrega un nombre..." required value="{{$listacorreo->nombre}}">
-										</div>
+							<form action="/editarlista/{{id}}" method="POST">
+								{{ csrf_field() }}
+								<div class="form-group">
+									<label for="lcorreo">Asigna un Nuevo Nombre a tu Encuesta</label>
+									<input type="text" name="lcorreo" class="form-control" value="{{ $listacorreo->nombre }}">
 									</div>
+									<button type="submit" class="btn btn-succes">Modificar</button>
+									<div>
+
 								</div>
-								
-							</form>
-							</div>
 						</div>
 					</div>
 				</div>

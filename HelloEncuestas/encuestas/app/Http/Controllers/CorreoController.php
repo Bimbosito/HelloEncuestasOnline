@@ -152,7 +152,7 @@ public function agregarcorreo(Request $request)
   $correo->lcorreo=$request->get('lcorreo');
   $correo->save();
 
-  return '$request';
+  return "succes";
   
   }
 
@@ -171,23 +171,21 @@ public function agregarcorreo(Request $request)
 
     public function editlista($id)
     {
-      $listacorreo = ListaCorreos::findOrfail($id)
-      $listacorreo = DB::table('lista_correos')
-      ->where ('id_lis','=', $id )
-      ->get();
+      $listacorreo = lista_correos::where('id_lis', $id)->first();
+      return view('Correos.editlista',['listacorreo'=>$listacorreo]);
 
-      return view('Correos.editlista',['listacorreo'=>$listacorreo,'id'=>$id]);
+     //return view('Correos.editarlista', ['listacorreo'=>$listacorreo,'id'=>$id]);
     }
 
-    public function editarlista(Request $request)
+    public function editarlista(Request $request, $id)
     {
-      $listacorreo = ListaCorreos::findOrfail($request->id);
-      $listacorreo->nombre=$request->get('alista');
-      $listacorreo->id_usu = Session::get('usu');
+
+      $nlista = $request->input('lcorreo'); 
+      $listacorreo = lista_correo::find($id);
+
+      $listacorreo = $nlista;
       $listacorreo->save();
-      return view('Correo.index');
-      
-    
+      return view(Correos.index);    
     }
 
   public function destroy($id){

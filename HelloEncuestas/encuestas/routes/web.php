@@ -33,6 +33,7 @@ Route::post('agregarcorreo', 'CorreoController@agregarcorreo');
 
 Route::post('agregarlista','CorreoController@agregarlista');
 Route::post('editarlista','CorreoController@editarlista');
+Route::post('/editarlista/{id}','CorreoController@editarlista');
 
 Route::resource('encuestaEspecifica', 'EncuestaEspecificaController');
 Route::resource('encuestaEspecificaContestada', 'EncuestaEspecificaContestadaController');
@@ -50,6 +51,7 @@ Route::get('agregarcorreo', 'CorreoController@agregarcorreo');
 Route::get('agregarlista','CorreoController@agregarlista');
 Route::get('editarlista','CorreoController@editarlista');
 Route::get('/destroy/{id}','CorreoController@destroy');
+Route::get('/editlista/{id}','CorreoController@editlista');
 
 Route::get('sendmail', function(){
     $data = array(

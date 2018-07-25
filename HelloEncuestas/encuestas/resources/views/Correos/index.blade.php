@@ -74,7 +74,7 @@
 								<td>
 									
 									
-								<a href="{{URL::action('CorreoController@editlista, $lc->id_lis')" title="Editar Lista"><span class="glyphicon  glyphicon-pencil"></span></a>&nbsp;&nbsp;
+								<a href="/editlista/{{$lc->id_lis}}" title="Editar Lista"><span class="glyphicon  glyphicon-pencil"></span></a>&nbsp;&nbsp;
 							</td>
 							<td>
 							<a href="{{URL::action('CorreoController@destroy', $lc->id_lis)}}" title="Eliminar Lista"><span class="glyphicon glyphicon-remove"></span></a>&nbsp;&nbsp;
