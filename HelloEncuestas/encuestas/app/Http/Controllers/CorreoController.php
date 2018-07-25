@@ -15,6 +15,7 @@ class CorreoController extends Controller
 {
   public function index()
   {
+  
     $regcorreo = DB::table('regcorreo')
     ->get();
 
@@ -169,11 +170,8 @@ public function agregarcorreo(Request $request)
       $lista = ListaCorreos::findOrfail($request->id);
       $lista->nombre=$request->get('alista');
       $lista->id_usu = Session::get('usu');
-      if($lista->save()){
-    return redirect()->action('CorreoController@index');
-  }else{
-    return "Error al editar Lista";
-  }
+    
+    
     }
 
   public function destroy($id){

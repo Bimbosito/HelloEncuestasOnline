@@ -214,32 +214,7 @@
 </div>
 <!-------------------------------Fin Modal De Lista------------------------------------------------->
 <!-------------------------------Modal De Editar De Lista Correo---------------------------------------------->
-<div class="modal fade " id="editarlista" role="dialog" tabindex="-1">
-	<div class="modal-dialog">
-		<!-- Modal Content-->
-		<div class="modal-content">
-			<div class="modal-header">
-				<h4 class="modal-title">Editar Lista</h4>
-			</div>
-		<!-- Formulario para editar lista dentro del modal-->
-		<div class="modal-body">
-		<form method="POST" action="{{URL::action('CorreoController@editarlista')}}">
-			<input type="hidden" name="_token" value="{{ csrf_token() }}">
-			<input type="hidden" id="id" name="id" value="{{ $id }}">
-			<div class="form-group">
-				<label for="alista" class="col-sm-2 col-form-label">Titulo de la Lista:</label>
-				<input type="text" class="form-control" id="alista" name="alista" placeholder="{{$listacorreo->nombre}}">
-			</div>
-			<div class="modal-footer text-center">
-				<button type="submit" class="btn btn-succes">Guardar</button>
-				<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-			</div>
-		</form>
-	</div>
-		</div>
-	
-	</div>
-</div>
+
 <!-------------------------------in Modal De Editar De Lista Correo------------------------------------------->
 <script type="text/javascript">
 		$('.fecha').datepicker({
