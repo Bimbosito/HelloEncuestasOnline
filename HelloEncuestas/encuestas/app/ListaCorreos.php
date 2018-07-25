@@ -17,11 +17,11 @@ class ListaCorreos extends Model
 
     public function usuarios()
     {
-    	return $this->belongsTo('App\Usuarios');
+    	return $this->belongsTo('App\Usuarios');// 1 a 1--- 
     }
 
     public function correos()
     {
-    	return $this->hasMany('App\Correos');
+    	return $this->hasMany('App\Correos');//1 a muchos
     }
 }

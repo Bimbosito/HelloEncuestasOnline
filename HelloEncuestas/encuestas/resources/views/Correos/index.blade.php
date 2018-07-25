@@ -74,7 +74,7 @@
 								<td>
 									
 									
-								<a href="" title="Editar Lista"><span class="glyphicon  glyphicon-pencil"></span></a>&nbsp;&nbsp;
+								<a href="{{URL::action('CorreoController@editlista, $lc->id_lis')" title="Editar Lista"><span class="glyphicon  glyphicon-pencil"></span></a>&nbsp;&nbsp;
 							</td>
 							<td>
 							<a href="{{URL::action('CorreoController@destroy', $lc->id_lis)}}" title="Eliminar Lista"><span class="glyphicon glyphicon-remove"></span></a>&nbsp;&nbsp;
@@ -215,7 +215,7 @@
 <!-------------------------------Fin Modal De Lista------------------------------------------------->
 <!-------------------------------Modal De Editar De Lista Correo---------------------------------------------->
 
-<!-------------------------------in Modal De Editar De Lista Correo------------------------------------------->
+<!-------------------------------fin Modal De Editar De Lista Correo------------------------------------------->
 <script type="text/javascript">
 		$('.fecha').datepicker({
 		    format: 'yyyy-mm-dd',

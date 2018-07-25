@@ -19,7 +19,7 @@ Route::get('descargar-productos', 'ProductController@pdf')->name('products.pdf')
 
 Route::post('eliminarEspecifica', 'EncuestaEspecificaController@eliminar')->name('eliminarEspecifica');
 Route::post('guardarEspecifica', 'EncuestaEspecificaController@guardar')->name('guardarEspecifica');
-Route::post('actualizarEspecifica', 'EncuestaEspecificaController@actualizar')->name('actualizarEspecifica');
+Route::post('actualizarEspecifica', 'EncuestaEspecificaContrloller@actualizar')->name('actualizarEspecifica');
 
 Route::post('eliminarGlobal','EncuestaGlobalController@eliminar')->name('eliminarGlobal');
 Route::post('guardarGlobal','EncuestaGlobalController@guardar')->name('guardarGlobal');
@@ -33,6 +33,7 @@ Route::post('agregarcorreo', 'CorreoController@agregarcorreo');
 
 Route::post('agregarlista','CorreoController@agregarlista');
 Route::post('editarlista','CorreoController@editarlista');
+
 Route::resource('encuestaEspecifica', 'EncuestaEspecificaController');
 Route::resource('encuestaEspecificaContestada', 'EncuestaEspecificaContestadaController');
 Route::resource('encuestaGlobal', 'EncuestaGlobalController');

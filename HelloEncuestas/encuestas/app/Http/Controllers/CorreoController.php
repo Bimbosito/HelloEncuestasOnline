@@ -10,12 +10,15 @@ use App\Usuarios;
 use App\ListaCorreos;
 use App\Correos;
 use App\CorreoRegistro;
+use App\ListaClientes;
 
 class CorreoController extends Controller
 {
   public function index()
   {
-  
+    $listacliente = DB::table('correos')
+    ->get();
+
     $regcorreo = DB::table('regcorreo')
     ->get();
 
@@ -23,7 +26,7 @@ class CorreoController extends Controller
     ->get();
 
 
-    return view('Correos.index', ['regcorreo'=>$regcorreo, 'listacorreo'=>$listacorreo]);
+    return view('Correos.index', ['listacliente'=>$listacliente ,'regcorreo'=>$regcorreo, 'listacorreo'=>$listacorreo]);
   }
 
 public function listasend(Request $request){
@@ -155,29 +158,42 @@ public function agregarcorreo(Request $request)
 
   public function agregarlista(Request $request)
   {
-    $lista = new ListaCorreos;
-    $lista->nombre=$request->get('alista');
-    $lista->id_usu = Session::get('usu');
-    $lista->save();
-    if($lista->save()){
+    $listacorreo = new ListaCorreos;
+    $listacorreo->nombre=$request->get('alista');
+    $listacorreo->id_usu = Session::get('usu');
+    $listacorreo->save();
+    if($listacorreo->save()){
     return redirect()->action('CorreoController@index');
   }else{
     return "Error al agregar Lista";
   }
   }
+
+    public function editlista($id)
+    {
+      $listacorreo = ListaCorreos::findOrfail($id)
+      $listacorreo = DB::table('lista_correos')
+      ->where ('id_lis','=', $id )
+      ->get();
+
+      return view('Correos.editlista',['listacorreo'=>$listacorreo,'id'=>$id]);
+    }
+
     public function editarlista(Request $request)
     {
-      $lista = ListaCorreos::findOrfail($request->id);
-      $lista->nombre=$request->get('alista');
-      $lista->id_usu = Session::get('usu');
-    
+      $listacorreo = ListaCorreos::findOrfail($request->id);
+      $listacorreo->nombre=$request->get('alista');
+      $listacorreo->id_usu = Session::get('usu');
+      $listacorreo->save();
+      return view('Correo.index');
+      
     
     }
 
   public function destroy($id){
-    $lista = ListaCorreos::findOrfail($id);
-    $lista->delete();
-    if($lista->delete())
+    $listacorreo = ListaCorreos::findOrfail($id);
+    $listacorreo->delete();
+    if($listacorreo->delete())
     {
        return redirect()->action('CorreoController@index');
     }else{
