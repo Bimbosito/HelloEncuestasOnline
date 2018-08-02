@@ -171,7 +171,8 @@ public function agregarcorreo(Request $request)
 
     public function editlista($id)
     {
-      $listacorreo = lista_correos::where('id_lis', $id)->first();
+      $listacorreo = ListaCorreos::firstOrfail($id);
+      $listacorreo = ListaCorreos::where('id_lis', $id)->first();
       return view('Correos.editlista',['listacorreo'=>$listacorreo]);
 
      //return view('Correos.editarlista', ['listacorreo'=>$listacorreo,'id'=>$id]);
@@ -179,11 +180,11 @@ public function agregarcorreo(Request $request)
 
     public function editarlista(Request $request, $id)
     {
-
+      $listacorreo = ListaCorreos::findOrfail($id);
       $nlista = $request->input('lcorreo'); 
-      $listacorreo = lista_correo::find($id);
+      
 
-      $listacorreo = $nlista;
+      //$listacorreo = $nlista;
       $listacorreo->save();
       return view(Correos.index);    
     }

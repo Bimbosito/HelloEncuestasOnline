@@ -10,7 +10,7 @@
 				<div class="row">
 					<div class="col-xs-12">
 						<div class="row">
-							<form action="/editarlista/{{id}}" method="POST">
+							<form action="" method="POST">
 								{{ csrf_field() }}
 								<div class="form-group">
 									<label for="lcorreo">Asigna un Nuevo Nombre a tu Encuesta</label>

@@ -33,7 +33,8 @@ Route::post('agregarcorreo', 'CorreoController@agregarcorreo');
 
 Route::post('agregarlista','CorreoController@agregarlista');
 Route::post('editarlista','CorreoController@editarlista');
-Route::post('/editarlista/{id}','CorreoController@editarlista');
+Route::get('/editarlista/{id}','CorreoController@editlista');
+Route::post('/editarlista/{id}','CorreosController@editarlista');
 
 Route::resource('encuestaEspecifica', 'EncuestaEspecificaController');
 Route::resource('encuestaEspecificaContestada', 'EncuestaEspecificaContestadaController');

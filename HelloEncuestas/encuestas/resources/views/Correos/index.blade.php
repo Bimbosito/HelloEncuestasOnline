@@ -40,11 +40,12 @@
 			<div class="row">
 				<center><h2> Administrador de Correos</h2></center>	
 				<br><br><br>
+				<div class="col-xs-10 col-md-10 col-lg-10">
 				<div class="col-xs-12 col-md-1 col-lg-1">
 					<div class="row">
 						<div class="col-lg-7 col-md-7 col-xs-12"></div>
 						<div class="col-lg-2 col-md-2 col-xs-12" align="right">
-							<a href="#" data-toggle="modal" data-target="#agregarlista"><button type="button" class="btn btn-info"><span class="glyphicon glyphicon-tasks glyphicon "></span> Agregar Lista</button></a>
+							<a href="#" data-toggle="modal" data-target="#agregarlista"><button type="button" class="btn btn-info"><span style="align-content: right;" class="glyphicon glyphicon-tasks glyphicon "></span> Agregar Lista</button></a>
 							</div><br><br><br>
 					</div>
 					
@@ -74,7 +75,7 @@
 								<td>
 									
 									
-								<a href="/editlista/{{$lc->id_lis}}" title="Editar Lista"><span class="glyphicon  glyphicon-pencil"></span></a>&nbsp;&nbsp;
+								<a href="{{ URL::action('CorreoController@editlista', $lc->id_lis) }}" title="Editar Lista"><span class="glyphicon  glyphicon-pencil"></span></a>&nbsp;&nbsp;
 							</td>
 							<td>
 							<a href="{{URL::action('CorreoController@destroy', $lc->id_lis)}}" title="Eliminar Lista"><span class="glyphicon glyphicon-remove"></span></a>&nbsp;&nbsp;
@@ -84,6 +85,7 @@
 								<!-- endforeach-->
 							</tbody>
 						</table>
+					</div>
 					</div>
 					<div class="col-xs-10 col-md-10 col-lg-10">
 					<div class="col-lg-9 col-md-9 col-xs-9">
